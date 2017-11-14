@@ -1,5 +1,6 @@
 package br.com.caelum.vraptor.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -91,26 +92,28 @@ public class PessoaController {
 	}
 	
 	@Get("/novo")
-	public void novo(Integer logado, Integer menu, Integer var) {
+	public void novo() {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		result.include("logado", logado);
-		result.include("menu", menu);
-		result.include("var", var);
+		List<String> array = new ArrayList<String>();
 		
-		List<Pessoa> pessoas = pdao.listar(Pessoa.class, "TODAS_PESSOAS");
-		result.include("pessoas", pessoas);
+		array.add("codigo");
+		array.add("tipo");
+		System.out.println("Array: " + array);
+		result.include("pessoa", array);
+		
 	}
 	
 	@Post("/salvar")
-	public void salvar(String nome, Boolean ativo, Long codigo) throws DAOException {
+	public void salvar(ArrayList<String> pessoa) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		Pessoa pessoa = new Pessoa();
+		System.out.println("Pessoa: " + pessoa);
+		/*Pessoa pessoa = new Pessoa();
 		
 		pessoa.setCodigo(codigo);
 		pessoa.setNome_razao(nome);
@@ -122,7 +125,7 @@ public class PessoaController {
 		}
 		else {
 			result.redirectTo(this).index(pdao.salvar(pessoa),1,1);
-		}
+		}*/
 	}
 	
 	@Get("/{cod}/editar")

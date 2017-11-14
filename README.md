@@ -1,3 +1,5 @@
+Teste commit!
+
 # VRaptor blank project
 
 This is a blank project to help you to use VRaptor. You can easily import in you IDE as Maven project.

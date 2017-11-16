@@ -115,10 +115,11 @@ public class PessoaController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		//System.out.println("Pessoa: " + pessoa);
+		System.out.println("Pessoa: " + pessoa);
 		
-		if(pessoa.getCodigo() == null) {
+		 if(pessoa.getCodigo() == null) {
 			pessoa.setCriacao(new Date());
+			pessoa.setAlteracao(new Date());
 			
 			List<Endereco> endlist = new ArrayList<Endereco>();
 			endlist = pessoa.getEndereco();
@@ -139,13 +140,30 @@ public class PessoaController {
 			pessoa.setEndereco(endlist);
 			pessoa.setContato(contlist);
 			
-			
-		
 			result.redirectTo(this).index(pdao.salvar(pessoa),0,1);
 		}
 		else {
-			result.redirectTo(this).index(pdao.salvar(pessoa),1,1);
-		}
+			pessoa.setAlteracao(new Date());
+			
+			List<Endereco> endlist = new ArrayList<Endereco>();
+			endlist = pessoa.getEndereco();
+			for(Endereco end : endlist) {
+				end.setAlteracao(new Date());
+				edao.salvar(end);
+			}
+			
+			List<Contato> contlist = new ArrayList<Contato>();
+			contlist = pessoa.getContato();
+			for(Contato cont : contlist) {
+				cont.setAlteracao(new Date());
+				ctdao.salvar(cont);
+			}
+			
+			pessoa.setEndereco(endlist);
+			pessoa.setContato(contlist);
+			
+			result.redirectTo(this).index(pdao.salvar(pessoa),1,1); 
+		} 
 	}
 	
 	@Get("/{cod}/editar")
@@ -153,8 +171,29 @@ public class PessoaController {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
+		Pessoa pessoa = pdao.buscar(Pessoa.class, cod);
 		
-		result.include("pessoa", pdao.buscar(Pessoa.class, cod));
+		List<Endereco> ends = pessoa.getEndereco();
+		int conta = 0;
+		int contb = 0;
+		int flag = 0;
+		for(Endereco enda : ends) {
+			for(Endereco endb : ends) {
+				if(conta != contb) {
+					if(enda.getCodigo() == endb.getCodigo()) {
+						ends.set(contb, null);
+						flag = 1;
+						break;
+					}
+				}
+				contb++;
+			}
+			conta++;
+			if(flag == 1) break;
+		}
+		
+		
+		result.include("pessoa", pessoa);
 	}
 	
 	@Get("/excluir")

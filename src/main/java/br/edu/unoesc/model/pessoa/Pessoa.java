@@ -5,9 +5,12 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -51,11 +54,13 @@ public class Pessoa implements MinhaEntidade{
 	
 	private String data_nascimento;
 	
-	private String estado_civil;
+	private Character sexo;
+	
+	private Character estado_civil;
 	
 	private String data_fundacao;
 	
-	private String finalidade;
+	private Character finalidade;
 	
 	private Boolean cliente;
 	
@@ -63,10 +68,20 @@ public class Pessoa implements MinhaEntidade{
 	
 	private Boolean ativo;
 	
-	@OneToMany(targetEntity = Endereco.class)
+	@OneToMany(targetEntity = Endereco.class, fetch = FetchType.EAGER)
+	@JoinTable(name="pessoa_endereco",  
+    	joinColumns={@JoinColumn(name="pessoa_codigo", 
+    	referencedColumnName="codigo")},  
+    	inverseJoinColumns={@JoinColumn(name="endereco_codigo", 
+    	referencedColumnName="codigo")})  
 	private List<Endereco> endereco = new ArrayList<Endereco>();
 	
-	@OneToMany(targetEntity = Contato.class)
+	@OneToMany(targetEntity = Contato.class, fetch = FetchType.EAGER)
+	@JoinTable(name="pessoa_contato",  
+		joinColumns={@JoinColumn(name="pessoa_codigo", 
+		referencedColumnName="codigo")},  
+		inverseJoinColumns={@JoinColumn(name="contato_codigo", 
+		referencedColumnName="codigo")})  
 	private List<Contato> contato = new ArrayList<Contato>();
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -166,12 +181,21 @@ public class Pessoa implements MinhaEntidade{
 	public void setData_nascimento(String data_nascimento) {
 		this.data_nascimento = data_nascimento;
 	}
+	
+	public Character getSexo() {
+		return sexo;
+	}
 
-	public String getEstado_civil() {
+	public void setSexo(Character sexo) {
+		this.sexo = sexo;
+	}
+
+
+	public Character getEstado_civil() {
 		return estado_civil;
 	}
 
-	public void setEstado_civil(String estado_civil) {
+	public void setEstado_civil(Character estado_civil) {
 		this.estado_civil = estado_civil;
 	}
 
@@ -183,11 +207,11 @@ public class Pessoa implements MinhaEntidade{
 		this.data_fundacao = data_fundacao;
 	}
 
-	public String getFinalidade() {
+	public Character getFinalidade() {
 		return finalidade;
 	}
 
-	public void setFinalidade(String finalidade) {
+	public void setFinalidade(Character finalidade) {
 		this.finalidade = finalidade;
 	}
 
@@ -252,8 +276,10 @@ public class Pessoa implements MinhaEntidade{
 		return "Pessoa [codigo=" + codigo + ", tipo=" + tipo + ", cpf=" + cpf + ", cnpj=" + cnpj + ", nome=" + nome
 				+ ", razao=" + razao + ", fantasia=" + fantasia + ", identidade=" + identidade + ", data_emissao="
 				+ data_emissao + ", inscricao_estadual=" + inscricao_estadual + ", data_nascimento=" + data_nascimento
-				+ ", estado_civil=" + estado_civil + ", data_fundacao=" + data_fundacao + ", finalidade=" + finalidade
-				+ ", cliente=" + cliente + ", fornecedor=" + fornecedor + ", ativo=" + ativo + ", endereco=" + endereco
-				+ ", contato=" + contato + ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
+				+ ", sexo=" + sexo + ", estado_civil=" + estado_civil + ", data_fundacao=" + data_fundacao
+				+ ", finalidade=" + finalidade + ", cliente=" + cliente + ", fornecedor=" + fornecedor + ", ativo="
+				+ ativo + ", endereco=" + endereco + ", contato=" + contato + ", criacao=" + criacao + ", alteracao="
+				+ alteracao + "]";
 	}
+
 }

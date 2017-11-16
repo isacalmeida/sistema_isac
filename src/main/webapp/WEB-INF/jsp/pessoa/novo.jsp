@@ -280,8 +280,8 @@ $(window).load(function(){
 										<div class="form-group col-lg-12">
 											<label for="campoFinalidade">Finalidade</label>
 											<select id="campoFinalidade" name="pessoa.finalidade" class="form-control">
-												<option value="R" selected="selected">Revendedor</option>
-												<option value="C">Consumidor</option>
+												<option value="C" selected="selected">Consumidor</option>
+												<option value="R">Revendedor</option>
 											</select>
 										</div>
 									</div>

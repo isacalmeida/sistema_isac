@@ -110,7 +110,8 @@ $(window).load(function(){
 					<div class="col-lg-2"></div>
 					<div class="form-group col-lg-8">
 						<label for="campoCodigo">Codigo</label>
-						<input type="text" id="campoCodigo" class="form-control" name="pessoa.codigo" value="${pessoa.codigo}" disabled>
+						<input type="text" id="campoCodigo" class="form-control" value="${pessoa.codigo}" disabled>
+						<input type="hidden" name="pessoa.codigo" value="${pessoa.codigo}">
 					</div>
 					<div class="col-lg-2"></div>
 				</div>
@@ -130,13 +131,14 @@ $(window).load(function(){
 									<div class="row">
 										<div class="form-group col-lg-12">
 											<label for="campoTipo">Tipo de Pessoa</label>
-											<select id="campoTipo" class="form-control" name="pessoa.tipo" onchange="fisicaJuridica('fisica','juridica','fisica1','juridica1');" disabled>
+											<input type="hidden" name="pessoa.tipo" value="${pessoa.tipo.toString() }">
+											<select id="campoTipo" class="form-control" onchange="fisicaJuridica('fisica','juridica','fisica1','juridica1');" disabled>
 												<c:choose>
-													<c:when test='${pessoa.tipo == "F"}'>
+													<c:when test="${pessoa.tipo.toString() eq 'F'}">
 														<option value="F" selected="selected">Física</option>
 														<option value="J">Jurídica</option>
 													</c:when>
-													<c:when test='${pessoa.tipo == "J"}'>
+													<c:when test="${pessoa.tipo.toString() eq 'J'}">
 														<option value="F">Física</option>
 														<option value="J" selected="selected">Jurídica</option>
 													</c:when>
@@ -148,25 +150,25 @@ $(window).load(function(){
 										<div class="row" >
 											<div class="form-group col-lg-12">
 												<label for="campoNome">Nome Completo</label>
-												<input type="text" id="campoNome" class="form-control" name="pessoa.nome" placeholder="Informe o nome">
+												<input value="${pessoa.nome }" type="text" id="campoNome" class="form-control" name="pessoa.nome" placeholder="Informe o nome">
 											</div>
 										</div>
 										<div class="row">
 											<div class="form-group col-lg-12">
 												<label for="campoCpf">CPF</label>
-												<input type="text" id="campoNome" class="form-control" name="pessoa.cpf" placeholder="Informe o cpf">
+												<input value="${pessoa.cpf }"type="text" id="campoNome" class="form-control" name="pessoa.cpf" placeholder="Informe o cpf">
 											</div>
 										</div>
 										<div class="row">
 											<div class="form-group col-lg-12">
 												<label for="campoIdentidade">Identidade</label>
-												<input type="text" id="campoIdentidade" class="form-control" name="pessoa.identidade" placeholder="Informe a identidade">
+												<input value="${pessoa.identidade }" type="text" id="campoIdentidade" class="form-control" name="pessoa.identidade" placeholder="Informe a identidade">
 											</div>
 										</div>
 										<div class="row">
 											<div class="form-group col-lg-12">
 												<label for="campoEmisIden">Data Emissão Identidade</label>
-												<input type="date" id="campoEmisIden" class="form-control" name="pessoa.data_emissao" placeholder="Informe a data de emissão">
+												<input value="${pessoa.data_emissao }" type="date" id="campoEmisIden" class="form-control" name="pessoa.data_emissao" placeholder="Informe a data de emissão">
 											</div>
 										</div>
 									</div>
@@ -174,25 +176,25 @@ $(window).load(function(){
 										<div class="row">
 											<div class="form-group col-lg-12">
 												<label for="campoRazao">Razão Social</label>
-												<input type="text" id="campoRazao" class="form-control" name="pessoa.razao" placeholder="Informe a razão social">
+												<input value="${pessoa.razao }" type="text" id="campoRazao" class="form-control" name="pessoa.razao" placeholder="Informe a razão social">
 											</div>
 										</div>
 										<div class="row">
 											<div class="form-group col-lg-12">
 												<label for="campoFantasia">Nome Fantasia</label>
-												<input type="text" id="campoFantasia" class="form-control" name="pessoa.fantasia" placeholder="Informe o nome fantasia">
+												<input value="${pessoa.fantasia }" type="text" id="campoFantasia" class="form-control" name="pessoa.fantasia" placeholder="Informe o nome fantasia">
 											</div>
 										</div>
 										<div class="row">
 											<div class="form-group col-lg-12">
 												<label for="campoCnpj">CNPJ</label>
-												<input type="text" id="campoCnpj" class="form-control" name="pessoa.cnpj" placeholder="Informe o cnpj">
+												<input value="${pessoa.cnpj }" type="text" id="campoCnpj" class="form-control" name="pessoa.cnpj" placeholder="Informe o cnpj">
 											</div>
 										</div>
 										<div class="row">
 											<div class="form-group col-lg-12">
 												<label for="campoIe">Inscrição Estadual</label>
-												<input type="text" id="campoIe" class="form-control" name="pessoa.inscricao_estadual" placeholder="Informe a inscrição estadual">
+												<input value="${pessoa.inscricao_estadual }" type="text" id="campoIe" class="form-control" name="pessoa.inscricao_estadual" placeholder="Informe a inscrição estadual">
 											</div>
 										</div>
 									</div>
@@ -203,22 +205,46 @@ $(window).load(function(){
 								<div class="form-group col-lg-4">
 									<label for="campoCliente">Cliente</label>
 									<select id="campoCliente" name="pessoa.cliente" class="form-control" >
-										<option value="true" selected="selected">Sim</option>
-										<option value="false">Não</option>
+										<c:choose>
+											<c:when test="${pessoa.cliente == true}">
+												<option value="true" selected="selected">Sim</option>
+												<option value="false">Não</option>
+											</c:when>
+											<c:when test="${pessoa.cliente == false}">
+												<option value="true">Sim</option>
+												<option value="false" selected="selected">Não</option>
+											</c:when>
+										</c:choose>
 									</select>
 								</div>
 								<div class="form-group col-lg-4">
 									<label for="campoFornecedor">Fornecedor</label>
 									<select id="campoFornecedor" name="pessoa.fornecedor" class="form-control" >
-										<option value="true">Sim</option>
-										<option value="false" selected="selected">Não</option>
+										<c:choose>
+											<c:when test="${pessoa.fornecedor == true}">
+												<option value="true" selected="selected">Sim</option>
+												<option value="false">Não</option>
+											</c:when>
+											<c:when test="${pessoa.fornecedor == false}">
+												<option value="true">Sim</option>
+												<option value="false" selected="selected">Não</option>
+											</c:when>
+										</c:choose>
 									</select>
 								</div>
 								<div class="form-group col-lg-4">
 									<label for="campoAtivo">Ativo</label>
 									<select id="campoAtivo" name="pessoa.ativo" class="form-control" >
-										<option value="true" selected="selected">Sim</option>
-										<option value="false">Não</option>
+										<c:choose>
+											<c:when test="${pessoa.ativo == true}">
+												<option value="true" selected="selected">Sim</option>
+												<option value="false">Não</option>
+											</c:when>
+											<c:when test="${pessoa.ativo == false}">
+												<option value="true">Sim</option>
+												<option value="false" selected="selected">Não</option>
+											</c:when>
+										</c:choose>
 									</select>
 								</div>
 							</div>
@@ -230,16 +256,30 @@ $(window).load(function(){
 									<div class="row">
 										<div class="form-group col-lg-12">
 											<label for="campoDataNascimento">Data de Nascimento</label>
-											<input type="date" id="campoDataNascimento" class="form-control" name="pessoa.data_nascimento" placeholder="Informe a data de nascimento">
+											<input value="${pessoa.data_nascimento }" type="date" id="campoDataNascimento" class="form-control" name="pessoa.data_nascimento" placeholder="Informe a data de nascimento">
 										</div>
 									</div>
 									<div class="row" >
 										<div class="form-group col-lg-12">
 											<label for="campoSexo">Sexo</label>
 											<select id="campoSexo" name="pessoa.sexo" class="form-control">
-												<option value="null" selected="selected">Selecione</option>
-												<option value="M">Masculino</option>
-												<option value="F">Feminino</option>
+												<c:choose>
+													<c:when test="${pessoa.sexo.toString() == 'M'}">
+														<option value="null">Selecione</option>
+														<option value="M" selected="selected">Masculino</option>
+														<option value="F">Feminino</option>
+													</c:when>
+													<c:when test="${pessoa.sexo.toString() == 'F'}">
+														<option value="null">Selecione</option>
+														<option value="M">Masculino</option>
+														<option value="F" selected="selected">Feminino</option>
+													</c:when>
+													<c:otherwise>
+														<option value="null" selected="selected">Selecione</option>
+														<option value="M">Masculino</option>
+														<option value="F">Feminino</option>
+													</c:otherwise>
+												</c:choose>
 											</select>
 										</div>
 									</div>
@@ -247,13 +287,71 @@ $(window).load(function(){
 										<div class="form-group col-lg-12">
 											<label for="campoEstCivil">Estado Civil</label>
 											<select id="campoEstCivil" name="pessoa.estado_civil" class="form-control">
-												<option value="null" selected="selected">Selecione</option>
-												<option value="S">Solteiro(a)</option>
-												<option value="C">Casado(a)</option>
-												<option value="D">Divorciado(a)</option>
-												<option value="V">Viúvo(a)</option>
-												<option value="U">União Estável</option>
-												<option value="O">Outros</option>
+												<c:choose>
+													<c:when test="${pessoa.estado_civil.toString() == 'S'}">
+														<option value="null">Selecione</option>
+														<option value="S" selected="selected">Solteiro(a)</option>
+														<option value="C">Casado(a)</option>
+														<option value="D">Divorciado(a)</option>
+														<option value="V">Viúvo(a)</option>
+														<option value="U">União Estável</option>
+														<option value="O">Outros</option>
+													</c:when>
+													<c:when test="${pessoa.estado_civil.toString() == 'C'}">
+														<option value="null">Selecione</option>
+														<option value="S">Solteiro(a)</option>
+														<option value="C" selected="selected">Casado(a)</option>
+														<option value="D">Divorciado(a)</option>
+														<option value="V">Viúvo(a)</option>
+														<option value="U">União Estável</option>
+														<option value="O">Outros</option>
+													</c:when>
+													<c:when test="${pessoa.estado_civil.toString() == 'D'}">
+														<option value="null">Selecione</option>
+														<option value="S">Solteiro(a)</option>
+														<option value="C">Casado(a)</option>
+														<option value="D" selected="selected">Divorciado(a)</option>
+														<option value="V">Viúvo(a)</option>
+														<option value="U">União Estável</option>
+														<option value="O">Outros</option>
+													</c:when>
+													<c:when test="${pessoa.estado_civil.toString() == 'V'}">
+														<option value="null">Selecione</option>
+														<option value="S">Solteiro(a)</option>
+														<option value="C">Casado(a)</option>
+														<option value="D">Divorciado(a)</option>
+														<option value="V" selected="selected">Viúvo(a)</option>
+														<option value="U">União Estável</option>
+														<option value="O">Outros</option>
+													</c:when>
+													<c:when test="${pessoa.estado_civil.toString() == 'U'}">
+														<option value="null">Selecione</option>
+														<option value="S">Solteiro(a)</option>
+														<option value="C">Casado(a)</option>
+														<option value="D">Divorciado(a)</option>
+														<option value="V">Viúvo(a)</option>
+														<option value="U" selected="selected">União Estável</option>
+														<option value="O">Outros</option>
+													</c:when>
+													<c:when test="${pessoa.estado_civil.toString() == 'O'}">
+														<option value="null">Selecione</option>
+														<option value="S">Solteiro(a)</option>
+														<option value="C">Casado(a)</option>
+														<option value="D">Divorciado(a)</option>
+														<option value="V">Viúvo(a)</option>
+														<option value="U">União Estável</option>
+														<option value="O" selected="selected">Outros</option>
+													</c:when>
+													<c:otherwise>
+														<option value="null" selected="selected">Selecione</option>
+														<option value="S">Solteiro(a)</option>
+														<option value="C">Casado(a)</option>
+														<option value="D">Divorciado(a)</option>
+														<option value="V">Viúvo(a)</option>
+														<option value="U">União Estável</option>
+														<option value="O">Outros</option>
+													</c:otherwise>
+												</c:choose>
 											</select>
 										</div>
 									</div>
@@ -262,15 +360,23 @@ $(window).load(function(){
 									<div class="row">
 										<div class="form-group col-lg-12">
 											<label for="campoDataFundacao">Data de Fundação</label>
-											<input type="date" id="campoDataFundacao" class="form-control" name="pessoa.data_fundacao" placeholder="Informe a data de fundação">
+											<input value="${pessoa.data_fundacao }" type="date" id="campoDataFundacao" class="form-control" name="pessoa.data_fundacao" placeholder="Informe a data de fundação">
 										</div>
 									</div>
 									<div class="row">
 										<div class="form-group col-lg-12">
 											<label for="campoFinalidade">Finalidade</label>
 											<select id="campoFinalidade" name="pessoa.finalidade" class="form-control">
-												<option value="R" selected="selected">Revendedor</option>
-												<option value="C">Consumidor</option>
+												<c:choose>
+													<c:when test="${pessoa.finalidade.toString() == 'C'}">
+														<option value="C" selected="selected">Consumidor</option>
+														<option value="R">Revendedor</option>
+													</c:when>
+													<c:when test="${pessoa.finalidade.toString() == 'R'}">
+														<option value="C">Consumidor</option>
+														<option value="R" selected="selected">Revendedor</option>
+													</c:when>
+												</c:choose>
 											</select>
 										</div>
 									</div>
@@ -287,76 +393,137 @@ $(window).load(function(){
 							</div>
 							<div class="col-sm-10">
 								<div id="formendereco">
-									<div class="enderecoIndividual row">
-										<div class="row">
-											<div class="form-group col-lg-4" style="margin-top: 5px;">
-												<br>
-												<a data-toggle="tab" href="#endereco" class="removerEndereco" ><button class="btn btn-warning" type="button">Remover Endereço</button></a>
+									<c:set var="var" value="-1" />
+									<c:forEach var="end" items="${pessoa.endereco }">
+										<c:if test="${end.codigo != null}">
+											<c:set var="var" value="${var=var+1 }" />
+											<div class="enderecoIndividual row">
+												<input type="hidden" name="pessoa.endereco[${var }].codigo" value="${end.codigo}">
+												<div class="row">
+													<div class="form-group col-lg-4" style="margin-top: 5px;">
+														<br>
+														<a data-toggle="tab" href="#endereco" class="removerEndereco" ><button class="btn btn-warning" type="button">Remover Endereço</button></a>
+													</div>
+													<div class="form-group col-lg-4"></div>
+													<div class="form-group col-lg-4">
+														<label for="campoPrincipal">Principal</label>
+														<select id="campoPrincipal" name="pessoa.endereco[${var }].principal" class="form-control" >
+															<c:choose>
+																<c:when test="${end.principal == true}">
+																	<option value="true" selected="selected">Sim</option>
+																	<option value="false">Não</option>
+																</c:when>
+																<c:when test="${end.principal == false}">
+																	<option value="true">Sim</option>
+																	<option value="false" selected="selected">Não</option>
+																</c:when>
+															</c:choose>
+														</select>
+													</div>
+												</div>
+												<div class="row">
+													<div class="form-group col-lg-4">
+														<label for="campoTipoEndereco">Tipo</label>
+														<select id="campoTipoEndereco" name="pessoa.endereco[${var }].tipo_endereco" class="form-control" >
+															<c:choose>
+																<c:when test="${end.tipo_endereco.toString() eq 'C' }" >
+																	<option value="null">Selecione</option>
+																	<option value="C" selected="selected">Comercial</option>
+																	<option value="R">Residencial</option>
+																</c:when>
+																<c:when test="${end.tipo_endereco.toString() eq 'R' }" >
+																	<option value="null">Selecione</option>
+																	<option value="C">Comercial</option>
+																	<option value="R" selected="selected">Residencial</option>
+																</c:when>
+																<c:otherwise>
+																	<option value="null" selected="selected">Selecione</option>
+																	<option value="C">Comercial</option>
+																	<option value="R">Residencial</option>
+																</c:otherwise>
+															</c:choose>
+														</select>
+													</div>
+													<div class="form-group col-lg-4">
+														<label for="campoTipoMoradia">Tipo Moradia</label>
+														<select id="campoTipoMoradia" name="pessoa.endereco[${var }].tipo_moradia" class="form-control" >
+															<c:choose>
+																<c:when test="${end.tipo_moradia.toString() eq 'P' }">
+																	<option value="null">Selecione</option>
+																	<option value="P" selected="selected">Própria</option>
+																	<option value="A">Alugada</option>
+																	<option value="F">Financiada</option>
+																	<option value="O">Outros</option>
+																</c:when>
+																<c:when test="${end.tipo_moradia.toString() eq 'A' }">
+																	<option value="null">Selecione</option>
+																	<option value="P">Própria</option>
+																	<option value="A" selected="selected">Alugada</option>
+																	<option value="F">Financiada</option>
+																	<option value="O">Outros</option>
+																</c:when>
+																<c:when test="${end.tipo_moradia.toString() eq 'F' }">
+																	<option value="null">Selecione</option>
+																	<option value="P">Própria</option>
+																	<option value="A">Alugada</option>
+																	<option value="F" selected="selected">Financiada</option>
+																	<option value="O">Outros</option>
+																</c:when>
+																<c:when test="${end.tipo_moradia.toString() eq 'O' }">
+																	<option value="null">Selecione</option>
+																	<option value="P">Própria</option>
+																	<option value="A">Alugada</option>
+																	<option value="F">Financiada</option>
+																	<option value="O" selected="selected">Outros</option>
+																</c:when>
+																<c:otherwise>
+																	<option value="null" selected="selected">Selecione</option>
+																	<option value="P">Própria</option>
+																	<option value="A">Alugada</option>
+																	<option value="F">Financiada</option>
+																	<option value="O">Outros</option>
+																</c:otherwise>
+															</c:choose>
+														</select>
+													</div>
+													<div class="form-group col-lg-4">
+														<label for="campoCep">CEP</label>
+														<input value="${end.cep}" type="text" id="campoCep" class="form-control" name="pessoa.endereco[${var }].cep" placeholder="Informe o cep">
+													</div>
+												</div>
+												<div class="row">
+													<div class="form-group col-lg-4">
+														<label for="campoCidade">Cidade</label>
+														<input value="${end.cidade}" type="text" id="campoCidade" class="form-control" name="pessoa.endereco[${var }].cidade" placeholder="Informe a cidade">
+													</div>
+													<div class="form-group col-lg-4">
+														<label for="campoBairro">Bairro</label>
+														<input value="${end.bairro}" type="text" id="campoBairro" class="form-control" name="pessoa.endereco[${var }].bairro" placeholder="Informe o bairro">
+													</div>
+													<div class="form-group col-lg-4">
+														<label for="campoUf">UF</label>
+														<input value="${end.uf}" type="text" id="campoUf" class="form-control" name="pessoa.endereco[${var }].uf" placeholder="Informe a uf">
+													</div>
+												</div>
+												<div class="row">
+													<div class="form-group col-lg-8">
+														<label for="campoLogradouro">Logradouro</label>
+														<input value="${end.logradouro}" type="text" id="campoLogradouro" class="form-control" name="pessoa.endereco[${var }].logradouro" placeholder="Informe o logradouro">
+													</div>
+													<div class="form-group col-lg-4">
+														<label for="campoNumero">Número</label>
+														<input value="${end.numero}" type="text" id="campoNumero" class="form-control" name="pessoa.endereco[${var }].numero" placeholder="Informe o número">
+													</div>
+												</div>
+												<div class="row">
+													<div class="form-group col-lg-12">
+														<label for="campoComplemento">Complemento</label>
+														<input value="${end.complemento}" type="text" id="campoComplemento" class="form-control" name="pessoa.endereco[${var }].complemento" placeholder="Informe o complemento">
+													</div>
+												</div>
 											</div>
-											<div class="form-group col-lg-4"></div>
-											<div class="form-group col-lg-4">
-												<label for="campoPrincipal">Principal</label>
-												<select id="campoPrincipal" name="pessoa.endereco[0].principal" class="form-control" >
-													<option value="true" selected="selected">Sim</option>
-													<option value="false">Não</option>
-												</select>
-											</div>
-										</div>
-										<div class="row">
-											<div class="form-group col-lg-4">
-												<label for="campoTipoEndereco">Tipo</label>
-												<select id="campoTipoEndereco" name="pessoa.endereco[0].tipo_endereco" class="form-control" >
-													<option value="null" selected="selected">Selecione</option>
-													<option value="C">Comercial</option>
-													<option value="R">Residencial</option>
-												</select>
-											</div>
-											<div class="form-group col-lg-4">
-												<label for="campoTipoMoradia">Tipo Moradia</label>
-												<select id="campoTipoMoradia" name="pessoa.endereco[0].tipo_moradia" class="form-control" >
-													<option value="null" selected="selected">Selecione</option>
-													<option value="P">Própria</option>
-													<option value="A">Alugada</option>
-													<option value="F">Financiada</option>
-													<option value="O">Outros</option>
-												</select>
-											</div>
-											<div class="form-group col-lg-4">
-												<label for="campoCep">CEP</label>
-												<input type="text" id="campoCep" class="form-control" name="pessoa.endereco[0].cep" placeholder="Informe o cep">
-											</div>
-										</div>
-										<div class="row">
-											<div class="form-group col-lg-4">
-												<label for="campoCidade">Cidade</label>
-												<input type="text" id="campoCidade" class="form-control" name="pessoa.endereco[0].cidade" placeholder="Informe a cidade">
-											</div>
-											<div class="form-group col-lg-4">
-												<label for="campoBairro">Bairro</label>
-												<input type="text" id="campoBairro" class="form-control" name="pessoa.endereco[0].bairro" placeholder="Informe o bairro">
-											</div>
-											<div class="form-group col-lg-4">
-												<label for="campoUf">UF</label>
-												<input type="text" id="campoUf" class="form-control" name="pessoa.endereco[0].uf" placeholder="Informe a uf">
-											</div>
-										</div>
-										<div class="row">
-											<div class="form-group col-lg-8">
-												<label for="campoLogradouro">Logradouro</label>
-												<input type="text" id="campoLogradouro" class="form-control" name="pessoa.endereco[0].logradouro" placeholder="Informe o logradouro">
-											</div>
-											<div class="form-group col-lg-4">
-												<label for="campoNumero">Número</label>
-												<input type="text" id="campoNumero" class="form-control" name="pessoa.endereco[0].numero" placeholder="Informe o número">
-											</div>
-										</div>
-										<div class="row">
-											<div class="form-group col-lg-12">
-												<label for="campoComplemento">Complemento</label>
-												<input type="text" id="campoComplemento" class="form-control" name="pessoa.endereco[0].complemento" placeholder="Informe o complemento">
-											</div>
-										</div>
-									</div>
+										</c:if>
+									</c:forEach>
 								</div>
 							</div>
 							<div class="col-sm-1"></div>
@@ -370,26 +537,63 @@ $(window).load(function(){
 							</div>
 							<div class="col-sm-10">
 								<div id="formcontato">
-									<div class="contatoIndividual row">
-										<div class="form-group col-lg-4">
-											<label for="campoTipoContato">Tipo Contato</label>
-											<select id="campoTipoContato" name="pessoa.contato[0].tipo_contato" class="form-control" >
-												<option value="null" selected="selected">Selecione</option>
-												<option value="R">Telefone Residencial</option>
-												<option value="C">Telefone Comercial</option>
-												<option value="F">Celular</option>
-												<option value="E">Email</option>
-											</select>
+									<c:set var="var" value="-1" />
+									<c:forEach var="cont" items="${pessoa.contato }">
+										<c:set var="var" value="${var=var+1}" />
+										<div class="contatoIndividual row">
+											<input type="hidden" name="pessoa.contato[${var }].codigo" value="${cont.codigo}">
+											<div class="form-group col-lg-4">
+												<label for="campoTipoContato">Tipo Contato</label>
+												<select id="campoTipoContato" name="pessoa.contato[${var }].tipo_contato" class="form-control" >
+													<c:choose>
+														<c:when test="${cont.tipo_contato.toString() == 'R' }">
+															<option value="null">Selecione</option>
+															<option value="R" selected="selected">Telefone Residencial</option>
+															<option value="C">Telefone Comercial</option>
+															<option value="F">Celular</option>
+															<option value="E">Email</option>
+														</c:when>
+														<c:when test="${cont.tipo_contato.toString() == 'C' }">
+															<option value="null">Selecione</option>
+															<option value="R">Telefone Residencial</option>
+															<option value="C" selected="selected">Telefone Comercial</option>
+															<option value="F">Celular</option>
+															<option value="E">Email</option>
+														</c:when>
+														<c:when test="${cont.tipo_contato.toString() == 'F' }">
+															<option value="null">Selecione</option>
+															<option value="R">Telefone Residencial</option>
+															<option value="C">Telefone Comercial</option>
+															<option value="F" selected="selected">Celular</option>
+															<option value="E">Email</option>
+														</c:when>
+														<c:when test="${cont.tipo_contato.toString() == 'E' }">
+															<option value="null">Selecione</option>
+															<option value="R">Telefone Residencial</option>
+															<option value="C">Telefone Comercial</option>
+															<option value="F">Celular</option>
+															<option value="E" selected="selected">Email</option>
+														</c:when>
+														<c:otherwise>
+															<option value="null" selected="selected">Selecione</option>
+															<option value="R">Telefone Residencial</option>
+															<option value="C">Telefone Comercial</option>
+															<option value="F">Celular</option>
+															<option value="E">Email</option>
+														</c:otherwise>
+													</c:choose>
+												</select>
+											</div>
+											<div class="form-group col-lg-6">
+												<label for="campoContato">Contato</label>
+												<input value="${cont.valor_contato }" type="text" id="campoContato" name="pessoa.contato[${var }].valor_contato" class="form-control" placeholder="Informe o contato">
+											</div>
+											<div class="form-group col-lg-2" style="margin-top: 5px;">
+												<br>
+												<a data-toggle="tab" href="#contato" class="removerContato" ><button class="btn btn-warning" type="button">Remover</button></a>
+											</div>
 										</div>
-										<div class="form-group col-lg-6">
-											<label for="campoContato">Contato</label>
-											<input type="text" id="campoContato" name="pessoa.contato[0].valor_contato" class="form-control" placeholder="Informe o contato">
-										</div>
-										<div class="form-group col-lg-2" style="margin-top: 5px;">
-											<br>
-											<a data-toggle="tab" href="#contato" class="removerContato" ><button class="btn btn-warning" type="button">Remover</button></a>
-										</div>
-									</div>
+									</c:forEach>
 								</div>
 								<div class="col-sm-1"></div>
 							</div>

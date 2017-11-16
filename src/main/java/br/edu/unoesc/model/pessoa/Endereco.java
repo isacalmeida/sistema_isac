@@ -37,6 +37,8 @@ public class Endereco implements MinhaEntidade{
 	
 	private String bairro;
 	
+	private String uf;
+	
 	private String logradouro;
 	
 	private String numero;
@@ -94,7 +96,7 @@ public class Endereco implements MinhaEntidade{
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
 	}
-
+	
 	public String getBairro() {
 		return bairro;
 	}
@@ -103,6 +105,14 @@ public class Endereco implements MinhaEntidade{
 		this.bairro = bairro;
 	}
 
+	public String getUf() {
+		return uf;
+	}
+
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
+	
 	public String getLogradouro() {
 		return logradouro;
 	}
@@ -155,7 +165,7 @@ public class Endereco implements MinhaEntidade{
 	public String toString() {
 		return "Endereco [codigo=" + codigo + ", tipo_endereco=" + tipo_endereco
 				+ ", tipo_moradia=" + tipo_moradia + ", cep=" + cep + ", cidade=" + cidade + ", bairro=" + bairro
-				+ ", logradouro=" + logradouro + ", numero=" + numero + ", complemento=" + complemento + ", principal="
+				+ ", uf="+ uf +", logradouro=" + logradouro + ", numero=" + numero + ", complemento=" + complemento + ", principal="
 				+ principal + ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
 	}
 }

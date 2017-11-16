@@ -13,10 +13,14 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
+import br.edu.unoesc.dao.ContatoDAO;
+import br.edu.unoesc.dao.EnderecoDAO;
 import br.edu.unoesc.dao.PessoaDAO;
 import br.edu.unoesc.dao.UsuarioDAO;
 import br.edu.unoesc.exception.DAOException;
 import br.edu.unoesc.model.outros.Configuracoes;
+import br.edu.unoesc.model.pessoa.Contato;
+import br.edu.unoesc.model.pessoa.Endereco;
 import br.edu.unoesc.model.pessoa.Pessoa;
 import br.edu.unoesc.model.usuario.Usuario;
 
@@ -32,6 +36,12 @@ public class PessoaController {
 	
 	@Inject 
 	private UsuarioDAO udao;
+	
+	@Inject
+	private EnderecoDAO edao;
+	
+	@Inject
+	private ContatoDAO ctdao;
 	
 	@Inject
 	private ConfiguracoesDAO cdao;
@@ -97,35 +107,45 @@ public class PessoaController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		List<String> array = new ArrayList<String>();
-		
-		array.add("codigo");
-		array.add("tipo");
-		System.out.println("Array: " + array);
-		result.include("pessoa", array);
-		
 	}
 	
 	@Post("/salvar")
-	public void salvar(ArrayList<String> pessoa) throws DAOException {
+	public void salvar(Pessoa pessoa) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		System.out.println("Pessoa: " + pessoa);
-		/*Pessoa pessoa = new Pessoa();
+		//System.out.println("Pessoa: " + pessoa);
 		
-		pessoa.setCodigo(codigo);
-		pessoa.setNome_razao(nome);
-		pessoa.setAtivo(ativo);
-		pessoa.setCriacao(new Date());
+		if(pessoa.getCodigo() == null) {
+			pessoa.setCriacao(new Date());
+			
+			List<Endereco> endlist = new ArrayList<Endereco>();
+			endlist = pessoa.getEndereco();
+			for(Endereco end : endlist) {
+				end.setCriacao(new Date());
+				end.setAlteracao(new Date());
+				edao.salvar(end);
+			}
+			
+			List<Contato> contlist = new ArrayList<Contato>();
+			contlist = pessoa.getContato();
+			for(Contato cont : contlist) {
+				cont.setCriacao(new Date());
+				cont.setAlteracao(new Date());
+				ctdao.salvar(cont);
+			}
+			
+			pessoa.setEndereco(endlist);
+			pessoa.setContato(contlist);
+			
+			
 		
-		if(codigo == null) {
 			result.redirectTo(this).index(pdao.salvar(pessoa),0,1);
 		}
 		else {
 			result.redirectTo(this).index(pdao.salvar(pessoa),1,1);
-		}*/
+		}
 	}
 	
 	@Get("/{cod}/editar")

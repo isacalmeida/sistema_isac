@@ -25,7 +25,7 @@ public class UsuarioBean implements Serializable {
 			return null;
 		}
 		else {
-			return logado.getPessoa().getNome_razao();
+			return logado.getPessoa().getNome();
 		}
 	}
 	

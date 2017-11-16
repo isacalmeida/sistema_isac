@@ -122,7 +122,7 @@
 									<td>
 										<a href="<c:url value='/pessoa/${p.codigo }/editar' />" >${p.nome }</a>
 									</td>
-									<td>${p.data }</td>
+									<td>${p.criacao }</td>
 								</tr>
 							</c:if>
 						</c:forEach>

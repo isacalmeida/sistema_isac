@@ -2,19 +2,14 @@ package br.edu.unoesc.model.pessoa;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 
 import br.edu.unoesc.model.MinhaEntidade;
 
@@ -23,22 +18,20 @@ import br.edu.unoesc.model.MinhaEntidade;
 	@NamedQuery(name="TODOS_CONTATOS", 
 			query="select c from Contato c order by c.codigo")
 })
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "cod_pessoa", name = "FK_contato_pessoa"))
+//@Table(uniqueConstraints = @UniqueConstraint(columnNames = "cod_pessoa", name = "FK_contato_pessoa"))
 public class Contato implements MinhaEntidade{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@ManyToOne(targetEntity = Pessoa.class)
+	/*@OneToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name = "cod_pessoa")
-	private Pessoa pessoa;
+	private Pessoa pessoa;*/
 	
-	@Column(nullable=false)
-	private Character tipo;
+	private Character tipo_contato;
 	
-	@Column(nullable=false)
-	private String contato;
+	private String valor_contato;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date criacao;
@@ -58,28 +51,20 @@ public class Contato implements MinhaEntidade{
 		this.codigo = codigo;
 	}
 
-	public Pessoa getPessoa() {
-		return pessoa;
+	public Character getTipo_contato() {
+		return tipo_contato;
 	}
 
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
+	public void setTipo_contato(Character tipo_contato) {
+		this.tipo_contato = tipo_contato;
 	}
 
-	public Character getTipo() {
-		return tipo;
+	public String getValor_contato() {
+		return valor_contato;
 	}
 
-	public void setTipo(Character tipo) {
-		this.tipo = tipo;
-	}
-
-	public String getContato() {
-		return contato;
-	}
-
-	public void setContato(String contato) {
-		this.contato = contato;
+	public void setValor_contato(String valor_contato) {
+		this.valor_contato = valor_contato;
 	}
 
 	public Date getCriacao() {
@@ -100,7 +85,7 @@ public class Contato implements MinhaEntidade{
 
 	@Override
 	public String toString() {
-		return "Contato [codigo=" + codigo + ", pessoa=" + pessoa + ", tipo=" + tipo + ", contato=" + contato
-				+ ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
+		return "Contato [codigo=" + codigo + ", tipo_contato=" + tipo_contato
+				+ ", valor_contato=" + valor_contato + ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
 	}
 }

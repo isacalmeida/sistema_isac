@@ -2,19 +2,14 @@ package br.edu.unoesc.model.pessoa;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 
 import br.edu.unoesc.model.MinhaEntidade;
 
@@ -22,33 +17,28 @@ import br.edu.unoesc.model.MinhaEntidade;
 @NamedQueries(
 	@NamedQuery(name="TODOS_ENDERECOS", 
 				query="select e from Endereco e order by e.codigo"))
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "cod_pessoa", name = "FK_endereco_pessoa"))
 public class Endereco implements MinhaEntidade{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@ManyToOne(targetEntity = Pessoa.class)
+	/*@OneToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name = "cod_pessoa")
-	private Pessoa pessoa;
+	private Pessoa pessoa;*/
 	
-	@Column(nullable=false)
-	private Character tipo;
+	private Character tipo_endereco;
 	
-	@Column(nullable=false)
+	private Character tipo_moradia;
+	
 	private String cep;
 	
-	@Column(nullable=false)
 	private String cidade;
 	
-	@Column(nullable=false)
 	private String bairro;
 	
-	@Column(nullable=false)
-	private String rua;
+	private String logradouro;
 	
-	@Column(nullable=false)
 	private String numero;
 	
 	private String complemento;
@@ -73,20 +63,20 @@ public class Endereco implements MinhaEntidade{
 		this.codigo = codigo;
 	}
 
-	public Pessoa getPessoa() {
-		return pessoa;
+	public Character getTipo_endereco() {
+		return tipo_endereco;
 	}
 
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
+	public void setTipo_endereco(Character tipo_endereco) {
+		this.tipo_endereco = tipo_endereco;
+	}
+	
+	public Character getTipo_moradia() {
+		return tipo_moradia;
 	}
 
-	public Character getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(Character tipo) {
-		this.tipo = tipo;
+	public void setTipo_moradia(Character tipo_moradia) {
+		this.tipo_moradia = tipo_moradia;
 	}
 
 	public String getCep() {
@@ -113,12 +103,12 @@ public class Endereco implements MinhaEntidade{
 		this.bairro = bairro;
 	}
 
-	public String getRua() {
-		return rua;
+	public String getLogradouro() {
+		return logradouro;
 	}
 
-	public void setRua(String rua) {
-		this.rua = rua;
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
 	}
 
 	public String getNumero() {
@@ -163,8 +153,9 @@ public class Endereco implements MinhaEntidade{
 
 	@Override
 	public String toString() {
-		return "Endereco [codigo=" + codigo + ", pessoa=" + pessoa + ", tipo=" + tipo + ", cep=" + cep + ", cidade="
-				+ cidade + ", bairro=" + bairro + ", rua=" + rua + ", numero=" + numero + ", complemento=" + complemento
-				+ ", principal=" + principal + ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
+		return "Endereco [codigo=" + codigo + ", tipo_endereco=" + tipo_endereco
+				+ ", tipo_moradia=" + tipo_moradia + ", cep=" + cep + ", cidade=" + cidade + ", bairro=" + bairro
+				+ ", logradouro=" + logradouro + ", numero=" + numero + ", complemento=" + complemento + ", principal="
+				+ principal + ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
 	}
 }

@@ -36,8 +36,8 @@ public class ConfiguracoesBean implements Serializable {
 		Pessoa pess = new Pessoa();
 		pess.setCodigo(1L);
 		pess.setTipo('F');
-		pess.setCpf_cnpj("031.094.190-33");
-		pess.setNome_razao("Administrador");
+		pess.setCpf("031.094.190-33");
+		pess.setNome("Administrador");
 		pess.setCliente(true);
 		pess.setFornecedor(false);
 		pess.setAtivo(true);

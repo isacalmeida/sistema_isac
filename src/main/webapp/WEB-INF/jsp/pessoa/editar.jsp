@@ -13,6 +13,53 @@
 <link rel="stylesheet" type="text/css" 	href="<c:url value='/bootstrap/styles/navbar-fixed-top.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/dashboard.css' />" />
 
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="<c:url value='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js' />"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="<c:url value='/bootstrap/js/bootstrap.min.js'/>"></script>
+
+<script type="text/javascript">
+$(window).load(function(){
+	$(function () {
+		var divContent = $('#formendereco');
+		var botaoAdicionar = $('a[data-id="2"]');
+		var i = 1;
+		
+		$(botaoAdicionar).click(function () {
+			$('<div class="enderecoIndividual row"><div class="row"><div class="form-group col-lg-4" style="margin-top: 5px;"><br><a data-toggle="tab" href="#endereco" class="removerEndereco" ><button class="btn btn-warning" type="button">Remover Endereço</button></a></div><div class="form-group col-lg-4"></div><div class="form-group col-lg-4"><label for="campoPrincipal">Principal</label><select id="campoPrincipal" name="pessoa.endereco['+i+'].principal" class="form-control" ><option value="true">Sim</option><option value="false" selected="selected">Não</option></select></div></div><div class="row"><div class="form-group col-lg-4"><label for="campoTipoEndereco">Tipo</label><select id="campoTipoEndereco" name="pessoa.endereco['+i+'].tipo_endereco" class="form-control" ><option value="null" selected="selected">Selecione</option><option value="C">Comercial</option><option value="R">Residencial</option></select></div><div class="form-group col-lg-4"><label for="campoTipoMoradia">Tipo Moradia</label><select id="campoTipoMoradia" name="pessoa.endereco['+i+'].tipo_moradia" class="form-control" ><option value="null" selected="selected">Selecione</option><option value="P">Própria</option><option value="A">Alugada</option><option value="F">Financiada</option><option value="O">Outros</option></select></div><div class="form-group col-lg-4"><label for="campoCep">CEP</label><input type="text" id="campoCep" class="form-control" name="pessoa.endereco['+i+'].cep" placeholder="Informe o cep"></div></div><div class="row"><div class="form-group col-lg-4"><label for="campoCidade">Cidade</label><input type="text" id="campoCidade" class="form-control" name="pessoa.endereco['+i+'].cidade" placeholder="Informe a cidade"></div><div class="form-group col-lg-4"><label for="campoBairro">Bairro</label><input type="text" id="campoBairro" class="form-control" name="pessoa.endereco['+i+'].bairro" placeholder="Informe o bairro"></div><div class="form-group col-lg-4"><label for="campoUf">UF</label><input type="text" id="campoUf" class="form-control" name="pessoa.endereco['+i+'].uf" placeholder="Informe a uf"></div></div><div class="row"><div class="form-group col-lg-8"><label for="campoLogradouro">Logradouro</label><input type="text" id="campoLogradouro" class="form-control" name="pessoa.endereco['+i+'].logradouro" placeholder="Informe o logradouro"></div><div class="form-group col-lg-4"><label for="campoNumero">Número</label><input type="text" id="campoNumero" class="form-control" name="pessoa.endereco['+i+'].numero" placeholder="Informe o número"></div></div><div class="row"><div class="form-group col-lg-12"><label for="campoComplemento">Complemento</label><input type="text" id="campoComplemento" class="form-control" name="pessoa.endereco['+i+'].complemento" placeholder="Informe o complemento"></div></div></div>').appendTo(divContent);    	
+			$('#removehidden').remove();
+			i++;
+		});
+		
+		$('#formendereco').on('click', '.removerEndereco', function () {
+			$(this).parents('.enderecoIndividual').remove();
+			i--;
+		});
+	});
+});
+</script>
+
+<script type="text/javascript">
+$(window).load(function(){
+	$(function () {
+		var divContent = $('#formcontato');
+		var botaoAdicionar = $('a[data-id="1"]');
+		var i = 1;
+		
+		$(botaoAdicionar).click(function () {
+			$('<div class="contatoIndividual row"><div class="form-group col-lg-4"><label for="campoTipoContato">Tipo Contato</label><select id="campoTipoContato" name="pessoa.contato['+i+'].tipo_contato" class="form-control" ><option value="null" selected="selected">Selecione</option><option value="R">Telefone Residencial</option><option value="C">Telefone Comercial</option><option value="F">Celular</option><option value="E">Email</option></select></div><div class="form-group col-lg-6"><label for="campoContato">Contato</label><input type="text" id="campoContato" name="pessoa.contato['+i+'].valor_contato" class="form-control" placeholder="Informe o contato"></div><div class="form-group col-lg-2" style="margin-top: 5px;"><br><a data-toggle="tab" href="#contato" class="removerContato"><button class="btn btn-warning" type="button">Remover</button></a></div></div>').appendTo(divContent);
+			$('#removehidden').remove();
+			i++;
+		});
+
+		$('#formcontato').on('click', '.removerContato', function () {
+			$(this).parents('.contatoIndividual').remove();
+			i--;
+		});
+	});
+});
+</script>
+
 </head>
 <body>
 
@@ -58,64 +105,308 @@
 				<li><a href="<c:url value='/pessoa'/>"> Pessoas </a></li>
 				<li class="active"> Editar </li>
 			</ol>
-			<div class="row">
-				<div class="tab-pane">
-					<form role="form" method="post" action='<c:url value="/pessoa/salvar"/>'>
-						<fieldset>
+			<form role="form" method="post" action='<c:url value="/pessoa/salvar"/>'>
+				<div class="row">
+					<div class="col-lg-2"></div>
+					<div class="form-group col-lg-8">
+						<label for="campoCodigo">Codigo</label>
+						<input type="text" id="campoCodigo" class="form-control" name="pessoa.codigo" value="${pessoa.codigo}" disabled>
+					</div>
+					<div class="col-lg-2"></div>
+				</div>
+				<fieldset>
+					<ul class="nav nav-tabs responsive">
+						<li class="active"><a data-toggle="tab" href="#basico">Basico</a></li>
+						<li><a data-toggle="tab" href="#adicional">Adicional</a></li>
+						<li><a data-toggle="tab" href="#endereco">Endereco</a></li>
+						<li><a data-toggle="tab" href="#contato">Contato</a></li>
+					</ul>
+					<div class="tab-content responsive">
+						<br>
+						<div id="basico" class="tab-pane active">
 							<div class="row">
-								<div class="form-group col-lg-12">
-									<input type="hidden" name="codigo" value="${pessoa.codigo }">
-									<label for="campoNome">Nome</label>
-									<input value="${pessoa.nome }" type="text" class="form-control" id="campoNome" name="nome">
+								<div class="col-sm-1"></div>
+								<div class="col-sm-10">
+									<div class="row">
+										<div class="form-group col-lg-12">
+											<label for="campoTipo">Tipo de Pessoa</label>
+											<select id="campoTipo" class="form-control" name="pessoa.tipo" onchange="fisicaJuridica('fisica','juridica','fisica1','juridica1');" disabled>
+												<c:choose>
+													<c:when test='${pessoa.tipo == "F"}'>
+														<option value="F" selected="selected">Física</option>
+														<option value="J">Jurídica</option>
+													</c:when>
+													<c:when test='${pessoa.tipo == "J"}'>
+														<option value="F">Física</option>
+														<option value="J" selected="selected">Jurídica</option>
+													</c:when>
+												</c:choose>
+											</select>
+										</div>
+									</div>
+									<div id="fisica" style="display: block">
+										<div class="row" >
+											<div class="form-group col-lg-12">
+												<label for="campoNome">Nome Completo</label>
+												<input type="text" id="campoNome" class="form-control" name="pessoa.nome" placeholder="Informe o nome">
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group col-lg-12">
+												<label for="campoCpf">CPF</label>
+												<input type="text" id="campoNome" class="form-control" name="pessoa.cpf" placeholder="Informe o cpf">
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group col-lg-12">
+												<label for="campoIdentidade">Identidade</label>
+												<input type="text" id="campoIdentidade" class="form-control" name="pessoa.identidade" placeholder="Informe a identidade">
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group col-lg-12">
+												<label for="campoEmisIden">Data Emissão Identidade</label>
+												<input type="date" id="campoEmisIden" class="form-control" name="pessoa.data_emissao" placeholder="Informe a data de emissão">
+											</div>
+										</div>
+									</div>
+									<div id="juridica" style="display: none">
+										<div class="row">
+											<div class="form-group col-lg-12">
+												<label for="campoRazao">Razão Social</label>
+												<input type="text" id="campoRazao" class="form-control" name="pessoa.razao" placeholder="Informe a razão social">
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group col-lg-12">
+												<label for="campoFantasia">Nome Fantasia</label>
+												<input type="text" id="campoFantasia" class="form-control" name="pessoa.fantasia" placeholder="Informe o nome fantasia">
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group col-lg-12">
+												<label for="campoCnpj">CNPJ</label>
+												<input type="text" id="campoCnpj" class="form-control" name="pessoa.cnpj" placeholder="Informe o cnpj">
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group col-lg-12">
+												<label for="campoIe">Inscrição Estadual</label>
+												<input type="text" id="campoIe" class="form-control" name="pessoa.inscricao_estadual" placeholder="Informe a inscrição estadual">
+											</div>
+										</div>
+									</div>
 								</div>
+								<div class="col-sm-1"></div>
 							</div>
 							<div class="row">
-								<div class="form-group col-lg-2">
+								<div class="form-group col-lg-4">
+									<label for="campoCliente">Cliente</label>
+									<select id="campoCliente" name="pessoa.cliente" class="form-control" >
+										<option value="true" selected="selected">Sim</option>
+										<option value="false">Não</option>
+									</select>
+								</div>
+								<div class="form-group col-lg-4">
+									<label for="campoFornecedor">Fornecedor</label>
+									<select id="campoFornecedor" name="pessoa.fornecedor" class="form-control" >
+										<option value="true">Sim</option>
+										<option value="false" selected="selected">Não</option>
+									</select>
+								</div>
+								<div class="form-group col-lg-4">
 									<label for="campoAtivo">Ativo</label>
-									<select id="campoAtivo" name="ativo" class="form-control" >
-										<c:choose>
-											<c:when test="${pessoa.ativo == true }">
-												<option value="true" selected="selected">Sim</option>
-												<option value="false">Não</option>
-											</c:when>
-											<c:when test="${pessoa.ativo == false }">
-												<option value="true">Sim</option>
-												<option value="false" selected="selected">Não</option>
-											</c:when>
-										</c:choose>
+									<select id="campoAtivo" name="pessoa.ativo" class="form-control" >
+										<option value="true" selected="selected">Sim</option>
+										<option value="false">Não</option>
 									</select>
 								</div>
 							</div>
-							<div class="box-actions">
-								<button type="submit" class="btn btn-success">Salvar</button>
-								<a href="<c:url value='/pessoa'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm"> Excluir </button>
-							</div>
-							<div class="modal fade" id="confirm" role="dialog">
-								<div class="modal-dialog modal-md">
-									<div class="modal-content">
-										<div class="modal-body">
-											<p> Tem certeza que deseja excluir? </p>
+						</div>
+						<div id="adicional" class="tab-pane">
+							<div class="col-sm-1"></div>
+							<div class="col-sm-10">
+								<div id="fisica1" style="display: block">
+									<div class="row">
+										<div class="form-group col-lg-12">
+											<label for="campoDataNascimento">Data de Nascimento</label>
+											<input type="date" id="campoDataNascimento" class="form-control" name="pessoa.data_nascimento" placeholder="Informe a data de nascimento">
 										</div>
-										<div class="modal-footer">
-											<button type="button" data-dismiss="modal" class="btn btn-default"> Voltar </button>
-											<a href="<c:url value='/pessoa/excluir?cod=${pessoa.codigo }'/>" ><button type="button" class="btn btn-primary" id="delete"> Confirmar </button></a>
+									</div>
+									<div class="row" >
+										<div class="form-group col-lg-12">
+											<label for="campoSexo">Sexo</label>
+											<select id="campoSexo" name="pessoa.sexo" class="form-control">
+												<option value="null" selected="selected">Selecione</option>
+												<option value="M">Masculino</option>
+												<option value="F">Feminino</option>
+											</select>
 										</div>
-									</div>							
+									</div>
+									<div class="row">
+										<div class="form-group col-lg-12">
+											<label for="campoEstCivil">Estado Civil</label>
+											<select id="campoEstCivil" name="pessoa.estado_civil" class="form-control">
+												<option value="null" selected="selected">Selecione</option>
+												<option value="S">Solteiro(a)</option>
+												<option value="C">Casado(a)</option>
+												<option value="D">Divorciado(a)</option>
+												<option value="V">Viúvo(a)</option>
+												<option value="U">União Estável</option>
+												<option value="O">Outros</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div id="juridica1" style="display: none">
+									<div class="row">
+										<div class="form-group col-lg-12">
+											<label for="campoDataFundacao">Data de Fundação</label>
+											<input type="date" id="campoDataFundacao" class="form-control" name="pessoa.data_fundacao" placeholder="Informe a data de fundação">
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-lg-12">
+											<label for="campoFinalidade">Finalidade</label>
+											<select id="campoFinalidade" name="pessoa.finalidade" class="form-control">
+												<option value="R" selected="selected">Revendedor</option>
+												<option value="C">Consumidor</option>
+											</select>
+										</div>
+									</div>
 								</div>
 							</div>
-						</fieldset>
-					</form>
-				</div>
-			</div>
+							<div class="col-sm-1"></div>
+						</div>
+						<div id="endereco" class="tab-pane">
+							<div class="col-sm-1">
+								<div class="form-group col-lg-12" style="margin-top: 5px;">
+									<br>
+									<a data-toggle="tab" href="#endereco" data-id="2" id="adicionarEndereco" ><button class="btn btn-default" type="button">Novo</button></a>
+								</div>
+							</div>
+							<div class="col-sm-10">
+								<div id="formendereco">
+									<div class="enderecoIndividual row">
+										<div class="row">
+											<div class="form-group col-lg-4" style="margin-top: 5px;">
+												<br>
+												<a data-toggle="tab" href="#endereco" class="removerEndereco" ><button class="btn btn-warning" type="button">Remover Endereço</button></a>
+											</div>
+											<div class="form-group col-lg-4"></div>
+											<div class="form-group col-lg-4">
+												<label for="campoPrincipal">Principal</label>
+												<select id="campoPrincipal" name="pessoa.endereco[0].principal" class="form-control" >
+													<option value="true" selected="selected">Sim</option>
+													<option value="false">Não</option>
+												</select>
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group col-lg-4">
+												<label for="campoTipoEndereco">Tipo</label>
+												<select id="campoTipoEndereco" name="pessoa.endereco[0].tipo_endereco" class="form-control" >
+													<option value="null" selected="selected">Selecione</option>
+													<option value="C">Comercial</option>
+													<option value="R">Residencial</option>
+												</select>
+											</div>
+											<div class="form-group col-lg-4">
+												<label for="campoTipoMoradia">Tipo Moradia</label>
+												<select id="campoTipoMoradia" name="pessoa.endereco[0].tipo_moradia" class="form-control" >
+													<option value="null" selected="selected">Selecione</option>
+													<option value="P">Própria</option>
+													<option value="A">Alugada</option>
+													<option value="F">Financiada</option>
+													<option value="O">Outros</option>
+												</select>
+											</div>
+											<div class="form-group col-lg-4">
+												<label for="campoCep">CEP</label>
+												<input type="text" id="campoCep" class="form-control" name="pessoa.endereco[0].cep" placeholder="Informe o cep">
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group col-lg-4">
+												<label for="campoCidade">Cidade</label>
+												<input type="text" id="campoCidade" class="form-control" name="pessoa.endereco[0].cidade" placeholder="Informe a cidade">
+											</div>
+											<div class="form-group col-lg-4">
+												<label for="campoBairro">Bairro</label>
+												<input type="text" id="campoBairro" class="form-control" name="pessoa.endereco[0].bairro" placeholder="Informe o bairro">
+											</div>
+											<div class="form-group col-lg-4">
+												<label for="campoUf">UF</label>
+												<input type="text" id="campoUf" class="form-control" name="pessoa.endereco[0].uf" placeholder="Informe a uf">
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group col-lg-8">
+												<label for="campoLogradouro">Logradouro</label>
+												<input type="text" id="campoLogradouro" class="form-control" name="pessoa.endereco[0].logradouro" placeholder="Informe o logradouro">
+											</div>
+											<div class="form-group col-lg-4">
+												<label for="campoNumero">Número</label>
+												<input type="text" id="campoNumero" class="form-control" name="pessoa.endereco[0].numero" placeholder="Informe o número">
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group col-lg-12">
+												<label for="campoComplemento">Complemento</label>
+												<input type="text" id="campoComplemento" class="form-control" name="pessoa.endereco[0].complemento" placeholder="Informe o complemento">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-1"></div>
+						</div>
+						<div id="contato" class="tab-pane">	
+							<div class="col-sm-1">
+								<div class="form-group col-lg-12" style="margin-top: 5px;">
+									<br>
+									<a data-toggle="tab" href="#contato" data-id="1" id="adicionarContato"><button class="btn btn-default" type="button">Novo</button></a>
+								</div>
+							</div>
+							<div class="col-sm-10">
+								<div id="formcontato">
+									<div class="contatoIndividual row">
+										<div class="form-group col-lg-4">
+											<label for="campoTipoContato">Tipo Contato</label>
+											<select id="campoTipoContato" name="pessoa.contato[0].tipo_contato" class="form-control" >
+												<option value="null" selected="selected">Selecione</option>
+												<option value="R">Telefone Residencial</option>
+												<option value="C">Telefone Comercial</option>
+												<option value="F">Celular</option>
+												<option value="E">Email</option>
+											</select>
+										</div>
+										<div class="form-group col-lg-6">
+											<label for="campoContato">Contato</label>
+											<input type="text" id="campoContato" name="pessoa.contato[0].valor_contato" class="form-control" placeholder="Informe o contato">
+										</div>
+										<div class="form-group col-lg-2" style="margin-top: 5px;">
+											<br>
+											<a data-toggle="tab" href="#contato" class="removerContato" ><button class="btn btn-warning" type="button">Remover</button></a>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-1"></div>
+							</div>
+						</div>
+						<div class="row">
+							<br>
+							<div class="box-actions col-lg-12">
+								<button type="submit" class="btn btn-success">Salvar</button>
+								<a href="<c:url value='/pessoa'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
+							</div>
+						</div>
+					</div>
+				</fieldset>
+			</form>
 		</div>
 	</div>
 </div>
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="<c:url value='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js' />"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="<c:url value='/bootstrap/js/bootstrap.min.js'/>"></script>
 
 </body>
 </html>

@@ -1,14 +1,16 @@
 package br.edu.unoesc.model.pessoa;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -29,22 +31,43 @@ public class Pessoa implements MinhaEntidade{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@Column(nullable=false)
 	private Character tipo;
 	
-	@Column(nullable=false)
-	private String cpf_cnpj;
+	private String cpf;
 	
-	@Column(nullable=false)
-	private String nome_razao;
+	private String cnpj;
+	
+	private String nome;
+
+	private String razao;
 	
 	private String fantasia;
+	
+	private String identidade;
+	
+	private String data_emissao;
+	
+	private String inscricao_estadual;
+	
+	private String data_nascimento;
+	
+	private String estado_civil;
+	
+	private String data_fundacao;
+	
+	private String finalidade;
 	
 	private Boolean cliente;
 	
 	private Boolean fornecedor;
 	
 	private Boolean ativo;
+	
+	@OneToMany(targetEntity = Endereco.class)
+	private List<Endereco> endereco = new ArrayList<Endereco>();
+	
+	@OneToMany(targetEntity = Contato.class)
+	private List<Contato> contato = new ArrayList<Contato>();
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date criacao;
@@ -55,7 +78,7 @@ public class Pessoa implements MinhaEntidade{
 	public Pessoa() {
 		super();
 	}
-	
+
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -72,20 +95,36 @@ public class Pessoa implements MinhaEntidade{
 		this.tipo = tipo;
 	}
 
-	public String getCpf_cnpj() {
-		return cpf_cnpj;
+	public String getCpf() {
+		return cpf;
 	}
 
-	public void setCpf_cnpj(String cpf_cnpj) {
-		this.cpf_cnpj = cpf_cnpj;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
-	public String getNome_razao() {
-		return nome_razao;
+	public String getCnpj() {
+		return cnpj;
 	}
 
-	public void setNome_razao(String nome_razao) {
-		this.nome_razao = nome_razao;
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getRazao() {
+		return razao;
+	}
+
+	public void setRazao(String razao) {
+		this.razao = razao;
 	}
 
 	public String getFantasia() {
@@ -94,6 +133,62 @@ public class Pessoa implements MinhaEntidade{
 
 	public void setFantasia(String fantasia) {
 		this.fantasia = fantasia;
+	}
+
+	public String getIdentidade() {
+		return identidade;
+	}
+
+	public void setIdentidade(String identidade) {
+		this.identidade = identidade;
+	}
+
+	public String getData_emissao() {
+		return data_emissao;
+	}
+
+	public void setData_emissao(String data_emissao) {
+		this.data_emissao = data_emissao;
+	}
+
+	public String getInscricao_estadual() {
+		return inscricao_estadual;
+	}
+
+	public void setInscricao_estadual(String inscricao_estadual) {
+		this.inscricao_estadual = inscricao_estadual;
+	}
+
+	public String getData_nascimento() {
+		return data_nascimento;
+	}
+
+	public void setData_nascimento(String data_nascimento) {
+		this.data_nascimento = data_nascimento;
+	}
+
+	public String getEstado_civil() {
+		return estado_civil;
+	}
+
+	public void setEstado_civil(String estado_civil) {
+		this.estado_civil = estado_civil;
+	}
+
+	public String getData_fundacao() {
+		return data_fundacao;
+	}
+
+	public void setData_fundacao(String data_fundacao) {
+		this.data_fundacao = data_fundacao;
+	}
+
+	public String getFinalidade() {
+		return finalidade;
+	}
+
+	public void setFinalidade(String finalidade) {
+		this.finalidade = finalidade;
 	}
 
 	public Boolean getCliente() {
@@ -120,12 +215,20 @@ public class Pessoa implements MinhaEntidade{
 		this.ativo = ativo;
 	}
 
-	public Date getAlteracao() {
-		return alteracao;
+	public List<Endereco> getEndereco() {
+		return endereco;
 	}
 
-	public void setAlteracao(Date alteracao) {
-		this.alteracao = alteracao;
+	public void setEndereco(List<Endereco> endereco) {
+		this.endereco = endereco;
+	}
+
+	public List<Contato> getContato() {
+		return contato;
+	}
+
+	public void setContato(List<Contato> contato) {
+		this.contato = contato;
 	}
 
 	public Date getCriacao() {
@@ -136,10 +239,21 @@ public class Pessoa implements MinhaEntidade{
 		this.criacao = criacao;
 	}
 
+	public Date getAlteracao() {
+		return alteracao;
+	}
+
+	public void setAlteracao(Date alteracao) {
+		this.alteracao = alteracao;
+	}
+
 	@Override
 	public String toString() {
-		return "Pessoa [codigo=" + codigo + ", tipo=" + tipo + ", cpf_cnpj=" + cpf_cnpj + ", nome_razao=" + nome_razao
-				+ ", fantasia=" + fantasia + ", cliente=" + cliente + ", fornecedor=" + fornecedor + ", ativo=" + ativo
-				+ ", alteracao=" + alteracao + ", criacao=" + criacao + "]";
+		return "Pessoa [codigo=" + codigo + ", tipo=" + tipo + ", cpf=" + cpf + ", cnpj=" + cnpj + ", nome=" + nome
+				+ ", razao=" + razao + ", fantasia=" + fantasia + ", identidade=" + identidade + ", data_emissao="
+				+ data_emissao + ", inscricao_estadual=" + inscricao_estadual + ", data_nascimento=" + data_nascimento
+				+ ", estado_civil=" + estado_civil + ", data_fundacao=" + data_fundacao + ", finalidade=" + finalidade
+				+ ", cliente=" + cliente + ", fornecedor=" + fornecedor + ", ativo=" + ativo + ", endereco=" + endereco
+				+ ", contato=" + contato + ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
 	}
 }

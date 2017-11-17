@@ -16,11 +16,30 @@
 <%-- jQuery (necessary for Bootstrap's JavaScript plugins) --%>
 <script src="<c:url value='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js' />"></script>
 <script src="<c:url value='/bootstrap/js/jquery.maskedinput.min.js' />"></script>
+<script src="<c:url value='/bootstrap/js/validator.min.js' />"></script>
+
 
 <script type="text/javascript">
+$(document).ready(function() {
+	$('#campoTipo').on('change', function() {
+		var tipo = this.value;
+		
+		$('#campoNome, #campoCpf').each(function() {
+			if(tipo == 'F') this.required = true;
+			else this.required = false;
+		});
+		$('#campoRazao, #campoCnpj').each(function() {
+			if(tipo == 'J') this.required = true;
+			else this.required = false;
+		});
+    	//$('#campoCnpj').attr('required', tipo == 'J');
+	});
+});
+
 function fisicaJuridica(fisica, juridica, fisica1, juridica1) {
 	var display1 = document.getElementById(fisica).style.display;
 	var display2 = document.getElementById(juridica).style.display;
+	
 	if(display1 == "none"){
 		document.getElementById(fisica).style.display = 'block';
 		document.getElementById(juridica).style.display = 'none';
@@ -44,7 +63,7 @@ $(window).load(function(){
 		var i = 1;
 		
 		$(botaoAdicionar).click(function () {
-			$('<div class="enderecoIndividual row"><div class="row"><div class="form-group col-lg-4" style="margin-top: 5px;"><br><a data-toggle="tab" href="#endereco" class="removerEndereco" ><button class="btn btn-warning" type="button">Remover Endereço</button></a></div><div class="form-group col-lg-4"></div><div class="form-group col-lg-4"><label for="campoPrincipal">Principal</label><select id="campoPrincipal" name="pessoa.endereco['+i+'].principal" class="form-control" ><option value="true">Sim</option><option value="false" selected="selected">Não</option></select></div></div><div class="row"><div class="form-group col-lg-4"><label for="campoTipoEndereco">Tipo</label><select id="campoTipoEndereco" name="pessoa.endereco['+i+'].tipo_endereco" class="form-control" ><option value="null" selected="selected">Selecione</option><option value="C">Comercial</option><option value="R">Residencial</option></select></div><div class="form-group col-lg-4"><label for="campoTipoMoradia">Tipo Moradia</label><select id="campoTipoMoradia" name="pessoa.endereco['+i+'].tipo_moradia" class="form-control" ><option value="null" selected="selected">Selecione</option><option value="P">Própria</option><option value="A">Alugada</option><option value="F">Financiada</option><option value="O">Outros</option></select></div><div class="form-group col-lg-4"><label for="campoCep">CEP</label><input type="text" id="campoCep" class="form-control" name="pessoa.endereco['+i+'].cep"></div></div><div class="row"><div class="form-group col-lg-4"><label for="campoCidade">Cidade</label><input type="text" id="campoCidade" class="form-control" name="pessoa.endereco['+i+'].cidade"></div><div class="form-group col-lg-4"><label for="campoBairro">Bairro</label><input type="text" id="campoBairro" class="form-control" name="pessoa.endereco['+i+'].bairro"></div><div class="form-group col-lg-4"><label for="campoUf">UF</label><input type="text" id="campoUf" class="form-control" name="pessoa.endereco['+i+'].uf"></div></div><div class="row"><div class="form-group col-lg-8"><label for="campoLogradouro">Logradouro</label><input type="text" id="campoLogradouro" class="form-control" name="pessoa.endereco['+i+'].logradouro"></div><div class="form-group col-lg-4"><label for="campoNumero">Número</label><input type="text" id="campoNumero" class="form-control" name="pessoa.endereco['+i+'].numero"></div></div><div class="row"><div class="form-group col-lg-12"><label for="campoComplemento">Complemento</label><textarea id="campoComplemento" class="form-control" name="pessoa.endereco['+i+'].complemento"></textarea></div></div></div>').appendTo(divContent);    	
+			$('<div class="enderecoIndividual row"><div class="row"><div class="form-group col-lg-4" style="margin-top: 5px;"><br><a data-toggle="tab" href="#endereco" class="removerEndereco" ><button class="btn btn-warning" type="button">Remover Endereço</button></a></div><div class="form-group col-lg-4"></div><div class="form-group col-lg-4"><label for="campoPrincipal">Principal</label><select id="campoPrincipal" name="pessoa.endereco['+i+'].principal" class="form-control" ><option value="true">Sim</option><option value="false" selected="selected">Não</option></select></div></div><div class="row"><div class="form-group col-lg-4"><label for="campoTipoEndereco">Tipo</label><select id="campoTipoEndereco" name="pessoa.endereco['+i+'].tipo_endereco" class="form-control" ><option value="" selected="selected">Selecione</option><option value="C">Comercial</option><option value="R">Residencial</option></select></div><div class="form-group col-lg-4"><label for="campoTipoMoradia">Tipo Moradia</label><select id="campoTipoMoradia" name="pessoa.endereco['+i+'].tipo_moradia" class="form-control" ><option value="" selected="selected">Selecione</option><option value="P">Própria</option><option value="A">Alugada</option><option value="F">Financiada</option><option value="O">Outros</option></select></div><div class="form-group col-lg-4"><label for="campoCep">CEP</label><input type="text" id="campoCep" class="form-control" name="pessoa.endereco['+i+'].cep"></div></div><div class="row"><div class="form-group col-lg-4"><label for="campoCidade">Cidade</label><input type="text" id="campoCidade" class="form-control" name="pessoa.endereco['+i+'].cidade"></div><div class="form-group col-lg-4"><label for="campoBairro">Bairro</label><input type="text" id="campoBairro" class="form-control" name="pessoa.endereco['+i+'].bairro"></div><div class="form-group col-lg-4"><label for="campoUf">UF</label><input type="text" id="campoUf" class="form-control" name="pessoa.endereco['+i+'].uf"></div></div><div class="row"><div class="form-group col-lg-8"><label for="campoLogradouro">Logradouro</label><input type="text" id="campoLogradouro" class="form-control" name="pessoa.endereco['+i+'].logradouro"></div><div class="form-group col-lg-4"><label for="campoNumero">Número</label><input type="text" id="campoNumero" class="form-control" name="pessoa.endereco['+i+'].numero"></div></div><div class="row"><div class="form-group col-lg-12"><label for="campoComplemento">Complemento</label><textarea id="campoComplemento" class="form-control" name="pessoa.endereco['+i+'].complemento"></textarea></div></div></div>').appendTo(divContent);    	
 			$('#removehidden').remove();
 			i++;
 		});
@@ -65,7 +84,7 @@ $(window).load(function(){
 		var i = 1;
 		
 		$(botaoAdicionar).click(function () {
-			$('<div class="contatoIndividual row"><div class="form-group col-lg-4"><label for="campoTipoContato">Tipo Contato</label><select id="campoTipoContato" name="pessoa.contato['+i+'].tipo_contato" class="form-control" ><option value="null" selected="selected">Selecione</option><option value="R">Telefone Residencial</option><option value="C">Telefone Comercial</option><option value="F">Celular</option><option value="E">Email</option></select></div><div class="form-group col-lg-6"><label for="campoContato">Contato</label><input type="text" id="campoContato" name="pessoa.contato['+i+'].valor_contato" class="form-control"></div><div class="form-group col-lg-2" style="margin-top: 5px;"><br><a data-toggle="tab" href="#contato" class="removerContato"><button class="btn btn-warning" type="button">Remover</button></a></div></div>').appendTo(divContent);
+			$('<div class="contatoIndividual row"><div class="form-group col-lg-4"><label for="campoTipoContato">Tipo Contato</label><select id="campoTipoContato" name="pessoa.contato['+i+'].tipo_contato" class="form-control" ><option value="" selected="selected">Selecione</option><option value="R">Telefone Residencial</option><option value="C">Telefone Comercial</option><option value="F">Celular</option><option value="E">Email</option></select></div><div class="form-group col-lg-6"><label for="campoContato">Contato</label><input type="text" id="campoContato" name="pessoa.contato['+i+'].valor_contato" class="form-control"></div><div class="form-group col-lg-2" style="margin-top: 5px;"><br><a data-toggle="tab" href="#contato" class="removerContato"><button class="btn btn-warning" type="button">Remover</button></a></div></div>').appendTo(divContent);
 			$('#removehidden').remove();
 			i++;
 		});
@@ -118,12 +137,12 @@ $(window).load(function(){
 			</ul>
 		</div>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-			<h3 class="page-header"><span class="glyphicon glyphicon-chevron-right"></span> Pessoas </h3>
+			<h3><span class="glyphicon glyphicon-chevron-right"></span> Pessoas </h3><hr>
 			<ol class="breadcrumb">
 				<li><a href="<c:url value='/pessoa'/>"> Pessoas </a></li>
 				<li class="active"> Novo </li>
 			</ol>
-			<form role="form" method="post" action='<c:url value="/pessoa/salvar"/>'>
+			<form id="formPessoa" role="form" data-toggle="validator" method="post" action='<c:url value="/pessoa/salvar"/>'>
 				<div class="row">
 					<div class="col-lg-2"></div>
 					<div class="form-group col-lg-8">
@@ -157,14 +176,14 @@ $(window).load(function(){
 									<div id="fisica" style="display: block">
 										<div class="row" >
 											<div class="form-group col-lg-12">
-												<label for="campoNome">Nome Completo</label>
-												<input type="text" id="campoNome" class="form-control" name="pessoa.nome">
+												<label for="campoNome">Nome Completo*</label>
+												<input type="text" id="campoNome" class="form-control" name="pessoa.nome" required>
 											</div>
 										</div>
 										<div class="row">
 											<div class="form-group col-lg-12">
-												<label for="campoCpf">CPF</label>
-												<input type="text" id="campoCpf" class="form-control cpf-mask" name="pessoa.cpf">
+												<label for="campoCpf">CPF*</label>
+												<input type="text" id="campoCpf" class="form-control cpf-mask" name="pessoa.cpf" required>
 											</div>
 										</div>
 										<div class="row">
@@ -183,7 +202,7 @@ $(window).load(function(){
 									<div id="juridica" style="display: none">
 										<div class="row">
 											<div class="form-group col-lg-12">
-												<label for="campoRazao">Razão Social</label>
+												<label for="campoRazao">Razão Social*</label>
 												<input type="text" id="campoRazao" class="form-control" name="pessoa.razao">
 											</div>
 										</div>
@@ -195,7 +214,7 @@ $(window).load(function(){
 										</div>
 										<div class="row">
 											<div class="form-group col-lg-12">
-												<label for="campoCnpj">CNPJ</label>
+												<label for="campoCnpj">CNPJ*</label>
 												<input type="text" id="campoCnpj" class="form-control" name="pessoa.cnpj">
 											</div>
 										</div>
@@ -240,14 +259,14 @@ $(window).load(function(){
 									<div class="row">
 										<div class="form-group col-lg-12">
 											<label for="campoDataNascimento">Data de Nascimento</label>
-											<input type="date" id="campoDataNascimento" class="form-control" name="pessoa.data_nascimento">
+											<input type="text" id="campoDataNascimento" class="form-control" name="pessoa.data_nascimento">
 										</div>
 									</div>
 									<div class="row" >
 										<div class="form-group col-lg-12">
 											<label for="campoSexo">Sexo</label>
 											<select id="campoSexo" name="pessoa.sexo" class="form-control">
-												<option value="null" selected="selected">Selecione</option>
+												<option value="" selected="selected">Selecione</option>
 												<option value="M">Masculino</option>
 												<option value="F">Feminino</option>
 											</select>
@@ -257,7 +276,7 @@ $(window).load(function(){
 										<div class="form-group col-lg-12">
 											<label for="campoEstCivil">Estado Civil</label>
 											<select id="campoEstCivil" name="pessoa.estado_civil" class="form-control">
-												<option value="null" selected="selected">Selecione</option>
+												<option value="" selected="selected">Selecione</option>
 												<option value="S">Solteiro(a)</option>
 												<option value="C">Casado(a)</option>
 												<option value="D">Divorciado(a)</option>
@@ -314,9 +333,9 @@ $(window).load(function(){
 										</div>
 										<div class="row">
 											<div class="form-group col-lg-4">
-												<label for="campoTipoEndereco">Tipo</label>
-												<select id="campoTipoEndereco" name="pessoa.endereco[0].tipo_endereco" class="form-control" >
-													<option value="null" selected="selected">Selecione</option>
+												<label for="campoTipoEndereco">Tipo*</label>
+												<select id="campoTipoEndereco" name="pessoa.endereco[0].tipo_endereco" class="form-control">
+													<option value="" selected="selected">Selecione</option>
 													<option value="C">Comercial</option>
 													<option value="R">Residencial</option>
 												</select>
@@ -324,7 +343,7 @@ $(window).load(function(){
 											<div class="form-group col-lg-4">
 												<label for="campoTipoMoradia">Tipo Moradia</label>
 												<select id="campoTipoMoradia" name="pessoa.endereco[0].tipo_moradia" class="form-control" >
-													<option value="null" selected="selected">Selecione</option>
+													<option value="" selected="selected">Selecione</option>
 													<option value="P">Própria</option>
 													<option value="A">Alugada</option>
 													<option value="F">Financiada</option>
@@ -384,7 +403,7 @@ $(window).load(function(){
 										<div class="form-group col-lg-4">
 											<label for="campoTipoContato">Tipo Contato</label>
 											<select id="campoTipoContato" name="pessoa.contato[0].tipo_contato" class="form-control" >
-												<option value="null" selected="selected">Selecione</option>
+												<option value="" selected="selected">Selecione</option>
 												<option value="R">Telefone Residencial</option>
 												<option value="C">Telefone Comercial</option>
 												<option value="F">Celular</option>

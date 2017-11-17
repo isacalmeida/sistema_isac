@@ -29,6 +29,7 @@ public class ConfiguracoesBean implements Serializable {
 	void setDefinicoes() {
 		Configuracoes confs = new Configuracoes();
 		confs.setCodigo(1L);
+		confs.setCriacao(new Date());
 		confs.setAlteracao(new Date());
 		confs.setAtivo(true);
 		confs.setTabela_linhas(10);
@@ -41,13 +42,16 @@ public class ConfiguracoesBean implements Serializable {
 		pess.setCliente(true);
 		pess.setFornecedor(false);
 		pess.setAtivo(true);
+		pess.setFinalidade('C');
 		pess.setCriacao(new Date());
+		pess.setAlteracao(new Date());
 		
 		Usuario user = new Usuario();
 		user.setCodigo(1L);
 		user.setUsuario("admin");
 		user.setSenha("admin");
 		user.setCriacao(new Date());
+		user.setAlteracao(new Date());
 		user.setPessoa(pess);
 		user.setAtivo(true);
 

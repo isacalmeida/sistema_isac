@@ -114,54 +114,103 @@ public class PessoaController {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
-		
-		System.out.println("Pessoa: " + pessoa);
-		
-		 if(pessoa.getCodigo() == null) {
+			
+		if(pessoa.getCodigo() == null) {
 			pessoa.setCriacao(new Date());
 			pessoa.setAlteracao(new Date());
 			
-			List<Endereco> endlist = new ArrayList<Endereco>();
-			endlist = pessoa.getEndereco();
-			for(Endereco end : endlist) {
-				end.setCriacao(new Date());
-				end.setAlteracao(new Date());
-				edao.salvar(end);
+			if(pessoa.getEndereco().size() > 0) {
+				List<Endereco> endlist = new ArrayList<Endereco>();
+				endlist = pessoa.getEndereco();
+				for(Endereco end : endlist) {
+					end.setCriacao(new Date());
+					end.setAlteracao(new Date());
+					edao.salvar(end);
+				}
+				pessoa.setEndereco(endlist);
 			}
 			
-			List<Contato> contlist = new ArrayList<Contato>();
-			contlist = pessoa.getContato();
-			for(Contato cont : contlist) {
-				cont.setCriacao(new Date());
-				cont.setAlteracao(new Date());
-				ctdao.salvar(cont);
+			if(pessoa.getContato().size() > 0) {
+				List<Contato> contlist = new ArrayList<Contato>();
+				contlist = pessoa.getContato();
+				for(Contato cont : contlist) {
+					cont.setCriacao(new Date());
+					cont.setAlteracao(new Date());
+					ctdao.salvar(cont);
+				}
+				pessoa.setContato(contlist);
 			}
-			
-			pessoa.setEndereco(endlist);
-			pessoa.setContato(contlist);
-			
+
 			result.redirectTo(this).index(pdao.salvar(pessoa),0,1);
 		}
 		else {
-			pessoa.setAlteracao(new Date());
+			Pessoa pess = pdao.buscar(Pessoa.class, pessoa.getCodigo());
 			
-			List<Endereco> endlist = new ArrayList<Endereco>();
-			endlist = pessoa.getEndereco();
-			for(Endereco end : endlist) {
-				end.setAlteracao(new Date());
-				edao.salvar(end);
+			int tamanho, metade;
+			
+			if(pessoa.getEndereco().size() % 2 == 0) {
+				List<Endereco> ends = pess.getEndereco();
+				List<Endereco> end = new ArrayList<Endereco>();
+				
+				tamanho = ends.size();
+				metade = tamanho/2;
+				for(int i = 0; i<metade; i++) {
+					end.add(ends.get(i));
+				}
+				pess.setEndereco(end);
+			}
+			if(pessoa.getContato().size() % 2 == 0) {
+				List<Contato> conts = pess.getContato();
+				List<Contato> cont = new ArrayList<Contato>();
+			
+				tamanho = conts.size();
+				metade = tamanho/2;
+				for(int i = 0; i<metade; i++) {
+					cont.add(conts.get(i));
+				}
+				pess.setContato(cont);
 			}
 			
-			List<Contato> contlist = new ArrayList<Contato>();
-			contlist = pessoa.getContato();
-			for(Contato cont : contlist) {
-				cont.setAlteracao(new Date());
-				ctdao.salvar(cont);
+			System.out.println("Pessoa1: "+pess);
+			System.out.println("Pessoa2: "+pessoa);
+			List<Endereco> endremov = new ArrayList<Endereco>();
+			
+			endremov = pess.getEndereco();
+			if(endremov.size() > 0) {
+				for(Endereco end : endremov) {
+					edao.excluir(end);
+				}
 			}
 			
-			pessoa.setEndereco(endlist);
-			pessoa.setContato(contlist);
+			List<Contato> contremov = new ArrayList<Contato>();
 			
+			contremov = pess.getContato();
+			if(contremov.size() > 0) {
+				for(Contato cont : contremov) {
+					ctdao.excluir(cont);
+				}
+			}
+			
+			if(pessoa.getEndereco().size() > 0) {
+				List<Endereco> endlist = new ArrayList<Endereco>();
+				endlist = pessoa.getEndereco();
+				for(Endereco end : endlist) {
+					end.setAlteracao(new Date());
+					edao.salvar(end);
+				}
+				pessoa.setEndereco(endlist);
+			}
+			
+			if(pessoa.getContato().size() > 0) {
+				List<Contato> contlist = new ArrayList<Contato>();
+				contlist = pessoa.getContato();
+				for(Contato cont : contlist) {
+					cont.setAlteracao(new Date());
+					ctdao.salvar(cont);
+				}
+				pessoa.setContato(contlist);
+			}
+
 			result.redirectTo(this).index(pdao.salvar(pessoa),1,1); 
 		} 
 	}
@@ -173,26 +222,33 @@ public class PessoaController {
 		result.include("usuario_nome", usuarioSessao.getNome());
 		Pessoa pessoa = pdao.buscar(Pessoa.class, cod);
 		
-		List<Endereco> ends = pessoa.getEndereco();
-		int conta = 0;
-		int contb = 0;
-		int flag = 0;
-		for(Endereco enda : ends) {
-			for(Endereco endb : ends) {
-				if(conta != contb) {
-					if(enda.getCodigo() == endb.getCodigo()) {
-						ends.set(contb, null);
-						flag = 1;
-						break;
-					}
-				}
-				contb++;
+		int tamanho, metade;
+		
+		if(pessoa.getEndereco().size() % 2 == 0) {
+			List<Endereco> ends = pessoa.getEndereco();
+			List<Endereco> end = new ArrayList<Endereco>();
+			
+			tamanho = ends.size();
+			metade = tamanho/2;
+			for(int i = 0; i<metade; i++) {
+				end.add(ends.get(i));
 			}
-			conta++;
-			if(flag == 1) break;
+			pessoa.setEndereco(end);
+		}
+		if(pessoa.getContato().size() % 2 == 0) {
+			List<Contato> conts = pessoa.getContato();
+			List<Contato> cont = new ArrayList<Contato>();
+		
+			tamanho = conts.size();
+			metade = tamanho/2;
+			for(int i = 0; i<metade; i++) {
+				cont.add(conts.get(i));
+			}
+			pessoa.setContato(cont);
 		}
 		
-		
+		result.include("qtdendereco", pessoa.getEndereco().size());
+		result.include("qtdcontato", pessoa.getContato().size());
 		result.include("pessoa", pessoa);
 	}
 	

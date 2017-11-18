@@ -144,14 +144,28 @@ $(window).load(function(){
 			</ol>
 			<form id="formPessoa" role="form" data-toggle="validator" method="post" action='<c:url value="/pessoa/salvar"/>'>
 				<div class="row">
-					<div class="col-lg-2"></div>
-					<div class="form-group col-lg-8">
-						<label for="campoCodigo">Codigo</label>
-						<input type="text" id="campoCodigo" class="form-control" name="pessoa.codigo" disabled>
+					<div class="col-lg-3">
+						<div class="col-lg-1"></div>
+						<div class="col-lg-9">
+							<img class="img-thumbnail" id="imagemPessoa" src="<c:url value="/bootstrap/img/avatarpadrao.png" />">
+						</div>
+						<div class="col-lg-2"></div>
 					</div>
-					<div class="col-lg-2"></div>
+					<div class="form-group col-lg-6">
+						<div class="row">
+							<label for="campoImagem">Imagem</label>
+							<input id="campoImagem" class="form-control" type="file" data-max-size="10485760" name="imagem">
+						</div>
+						<br>
+						<div class="row">
+							<label for="campoCodigo">Codigo</label>
+							<input type="text" id="campoCodigo" class="form-control" name="pessoa.codigo" disabled>
+						</div>
+					</div>
+					<div class="col-lg-3"></div>
 				</div>
 				<fieldset>
+					<br>
 					<ul class="nav nav-tabs responsive">
 						<li class="active"><a data-toggle="tab" href="#basico">Basico</a></li>
 						<li><a data-toggle="tab" href="#adicional">Adicional</a></li>

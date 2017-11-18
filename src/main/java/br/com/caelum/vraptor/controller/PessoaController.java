@@ -1,10 +1,13 @@
 package br.com.caelum.vraptor.controller;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
+import javax.imageio.stream.ImageInputStream;
 import javax.inject.Inject;
 
+import org.apache.tomcat.util.http.fileupload.MultipartStream;
 import org.joda.time.DateTime;
 
 import br.com.caelum.vraptor.Controller;
@@ -12,6 +15,8 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.observer.upload.MultipartConfig;
+import br.com.caelum.vraptor.observer.upload.UploadedFile;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
 import br.edu.unoesc.dao.ContatoDAO;
@@ -111,11 +116,14 @@ public class PessoaController {
 	}
 	
 	@Post("/salvar")
-	public void salvar(Pessoa pessoa) throws DAOException {
+	public void salvar(Pessoa pessoa, File imagem) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
+		
 		System.out.println("Pessoa: "+ pessoa);
+		System.out.println("Imagem: "+ imagem);
+		
 		
 		
 		if(pessoa.getCodigo() == null) {
@@ -123,59 +131,25 @@ public class PessoaController {
 			pessoa.setAlteracao(new DateTime());
 			
 			if(pessoa.getEndereco().size() > 0) {
-				/*List<Endereco> endlist = new ArrayList<Endereco>();
-				endlist = pessoa.getEndereco();*/
 				for(Endereco end : pessoa.getEndereco()) {
-					end.setCriacao(new Date());
-					end.setAlteracao(new Date());
 					end.setPessoa(pessoa);
-					//edao.salvar(end);
 				}
-				//pessoa.setEndereco(endlist);
 			}
 			
 			if(pessoa.getContato().size() > 0) {
-				/*List<Contato> contlist = new ArrayList<Contato>();
-				contlist = pessoa.getContato();*/
 				for(Contato cont : pessoa.getContato()) {
-					cont.setCriacao(new Date());
-					cont.setAlteracao(new Date());
 					cont.setPessoa(pessoa);
-					//ctdao.salvar(cont);
 				}
-				//pessoa.setContato(contlist);
 			}
 
 			result.redirectTo(this).index(pdao.salvar(pessoa),0,1);
 		}
 		else {
-			//Pessoa pess = pdao.buscar(Pessoa.class, pessoa.getCodigo());
+			Pessoa pess = pdao.buscar(Pessoa.class, pessoa.getCodigo());
 			
-			/*
-			int tamanho, metade;
+			pessoa.setCriacao(pess.getCriacao());
+			pessoa.setAlteracao(new DateTime());
 			
-			if(pessoa.getEndereco().size() % 2 == 0) {
-				List<Endereco> ends = pess.getEndereco();
-				List<Endereco> end = new ArrayList<Endereco>();
-				
-				tamanho = ends.size();
-				metade = tamanho/2;
-				for(int i = 0; i<metade; i++) {
-					end.add(ends.get(i));
-				}
-				pess.setEndereco(end);
-			}
-			if(pessoa.getContato().size() % 2 == 0) {
-				List<Contato> conts = pess.getContato();
-				List<Contato> cont = new ArrayList<Contato>();
-			
-				tamanho = conts.size();
-				metade = tamanho/2;
-				for(int i = 0; i<metade; i++) {
-					cont.add(conts.get(i));
-				}
-				pess.setContato(cont);
-			}*/
 			/*
 			System.out.println("Pessoa1: "+pess);
 			System.out.println("Pessoa2: "+pessoa);
@@ -216,8 +190,6 @@ public class PessoaController {
 				}
 				pessoa.setContato(contlist);
 			}*/
-			//pessoa.setCriacao(new Date());
-			//pessoa.setAlteracao(new Date());
 			result.redirectTo(this).index(pdao.salvar(pessoa),1,1); 
 		} 
 	}
@@ -229,7 +201,7 @@ public class PessoaController {
 		result.include("usuario_nome", usuarioSessao.getNome());
 		Pessoa pessoa = pdao.buscar(Pessoa.class, cod);
 		
-		//System.out.println("Pessoa: "+ pessoa);
+		System.out.println("Pessoa: "+ pessoa);
 		/*int tamanho, metade;
 		
 		if(pessoa.getEndereco().size() % 2 == 0) {

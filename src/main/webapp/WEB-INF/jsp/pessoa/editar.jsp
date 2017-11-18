@@ -116,32 +116,55 @@ $(window).load(function (){
 				<li><a href="<c:url value='/pessoa'/>"> Pessoas </a></li>
 				<li class="active"> Editar </li>
 			</ol>
-			<form name="formPessoa" role="form" method="post" action='<c:url value="/pessoa/salvar"/>'>
+			<form name="formPessoa" data-toggle="validator" role="form" method="post" action='<c:url value="/pessoa/salvar"/>'>
 				<div class="row">
-					<div class="col-lg-1"></div>
-					<div class="form-group col-lg-7">
+					<div class="col-lg-3">
+						<div class="col-lg-1"></div>
+						<div class="col-lg-9">
+							<c:choose>
+								<c:when test="${pessoa.imagem == null }">
+									<img class="img-thumbnail" id="imagemPessoa" src="<c:url value="/bootstrap/img/avatarpadrao.png" />">
+								</c:when>
+								<c:otherwise>
+									<c:set var="imagem" value="data:image;base64,${pessoa.imagem }" />
+									<img class="img-thumbnail" id="imagemPessoa" src="${imagem }">
+								</c:otherwise>
+							</c:choose>
+						</div>
+						<div class="col-lg-2"></div>
+					</div>
+					<div class="form-group col-lg-6">
+						<div class="row">
+							<label for="campoImagem">Imagem</label>
+							<input id="campoImagem" class="form-control" type="file" data-max-size="10485760" name="imagem" >
+						</div>
 						<br>
-						<br>
-						<label for="campoCodigo">Codigo</label>
-						<input type="text" id="campoCodigo" class="form-control" value="${pessoa.codigo}" disabled>
-						<input type="hidden" name="pessoa.codigo" value="${pessoa.codigo}">
+						<div class="row">
+							<label for="campoCodigo">Codigo</label>
+							<input type="text" id="campoCodigo" class="form-control" value="${pessoa.codigo}" disabled>
+							<input type="hidden" name="pessoa.codigo" value="${pessoa.codigo}">
+						</div>
 					</div>
 					<div class="col-lg-3">
-						<div class="row">
-							<label for="campoCriacao">Criado em:</label>
-							<input type="datetime" name="pessoa.criacao" id="campoCriacao" class="form-control" value="${pessoa.criacao }">
-							<%-- <input type="text" name="pessoa.criacao" value="${pessoa.criacao }"> --%>
+						<div class="col-lg-11">
+							<div class="row">
+								<label for="campoCriacao">Criado em:</label>
+								<input type="datetime" id="campoCriacao" class="form-control" value="${pessoa.criacao }" disabled>
+								<%-- <input type="hidden" name="pessoa.criacao" value="${pessoa.criacao }"> --%>
+							</div>
+							<br>
+							<div class="row">
+								<label for="campoAlteracao">Última alteração em:</label>
+								<input type="datetime" id="campoAlteracao" class="form-control" value="${pessoa.alteracao }" disabled>
+								<%-- <input type="hidden" name="pessoa.alteracao" value="${pessoa.alteracao }"> --%>
+							</div>
 						</div>
-						<br>
-						<div class="row">
-							<label for="campoAlteracao">Última alteração em:</label>
-							<input type="datetime" id="campoAlteracao" class="form-control" value="${pessoa.alteracao }" disabled>
-							<%-- <input type="hidden" name="pessoa.alteracao" value="${pessoa.alteracao }"> --%>
-						</div>
+						<div class="col-lg-1"></div>
 					</div>
 					<div class="col-lg-1"></div>
 				</div>
 				<fieldset>
+					<br>
 					<ul class="nav nav-tabs responsive">
 						<li class="active"><a data-toggle="tab" href="#basico">Basico</a></li>
 						<li><a data-toggle="tab" href="#adicional">Adicional</a></li>

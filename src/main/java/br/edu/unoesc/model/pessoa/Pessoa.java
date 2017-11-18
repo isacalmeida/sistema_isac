@@ -1,14 +1,18 @@
 package br.edu.unoesc.model.pessoa;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -32,6 +36,11 @@ public class Pessoa implements MinhaEntidade{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
+	
+	@Lob
+	//@Column(columnDefinition="blob")
+	@Basic(fetch = FetchType.EAGER)
+	private byte[] imagem;
 	
 	private Character tipo;
 	
@@ -84,13 +93,13 @@ public class Pessoa implements MinhaEntidade{
 	private List<Contato> contato = new ArrayList<Contato>();
 	
 	//@Temporal(TemporalType.TIMESTAMP)
-	//@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	//@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
 	private DateTime criacao;
 	
 	//@Temporal(TemporalType.TIMESTAMP)
-	//@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	//@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
 	private DateTime alteracao;
 	
 	public Pessoa() {
@@ -103,6 +112,14 @@ public class Pessoa implements MinhaEntidade{
 
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
+	}
+
+	public byte[] getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(byte[] imagem) {
+		this.imagem = imagem;
 	}
 
 	public Character getTipo() {
@@ -276,13 +293,13 @@ public class Pessoa implements MinhaEntidade{
 
 	@Override
 	public String toString() {
-		return "Pessoa [codigo=" + codigo + ", tipo=" + tipo + ", cpf=" + cpf + ", cnpj=" + cnpj + ", nome=" + nome
-				+ ", razao=" + razao + ", fantasia=" + fantasia + ", identidade=" + identidade + ", data_emissao="
-				+ data_emissao + ", inscricao_estadual=" + inscricao_estadual + ", data_nascimento=" + data_nascimento
-				+ ", sexo=" + sexo + ", estado_civil=" + estado_civil + ", data_fundacao=" + data_fundacao
-				+ ", finalidade=" + finalidade + ", cliente=" + cliente + ", fornecedor=" + fornecedor + ", ativo="
-				+ ativo + ", endereco=" + endereco + ", contato=" + contato + ", criacao=" + criacao + ", alteracao="
-				+ alteracao + "]";
+		return "Pessoa [codigo=" + codigo + ", imagem=" + Arrays.toString(imagem) + ", tipo=" + tipo + ", cpf=" + cpf
+				+ ", cnpj=" + cnpj + ", nome=" + nome + ", razao=" + razao + ", fantasia=" + fantasia + ", identidade="
+				+ identidade + ", data_emissao=" + data_emissao + ", inscricao_estadual=" + inscricao_estadual
+				+ ", data_nascimento=" + data_nascimento + ", sexo=" + sexo + ", estado_civil=" + estado_civil
+				+ ", data_fundacao=" + data_fundacao + ", finalidade=" + finalidade + ", cliente=" + cliente
+				+ ", fornecedor=" + fornecedor + ", ativo=" + ativo + ", endereco=" + endereco + ", contato=" + contato
+				+ ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
 	}
 
 }

@@ -127,7 +127,7 @@
 										</form>
 									</td>
 									<td>${u.pessoa.nome }</td>
-									<td>${u.data }</td>
+									<td>${u.criacao }</td>
 								</tr>
 							</c:if>
 						</c:forEach>

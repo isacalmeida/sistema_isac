@@ -66,7 +66,7 @@
 								<div class="form-group col-lg-12">
 									<input type="hidden" name="codigo" value="${confs.codigo }">
 									<label for="campoLinhasMatriz">Linhas Matriz</label>
-									<input value="${confs.tabelaLinhas }" type="text" class="form-control" id="campoLinhasMatriz" name="linhasMatriz">
+									<input value="${confs.tabela_linhas }" type="text" class="form-control" id="campoLinhasMatriz" name="linhasMatriz">
 								</div>
 							</div>
 							<div class="row">

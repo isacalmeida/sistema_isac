@@ -118,13 +118,28 @@ $(window).load(function (){
 			</ol>
 			<form name="formPessoa" role="form" method="post" action='<c:url value="/pessoa/salvar"/>'>
 				<div class="row">
-					<div class="col-lg-2"></div>
-					<div class="form-group col-lg-8">
+					<div class="col-lg-1"></div>
+					<div class="form-group col-lg-7">
+						<br>
+						<br>
 						<label for="campoCodigo">Codigo</label>
 						<input type="text" id="campoCodigo" class="form-control" value="${pessoa.codigo}" disabled>
 						<input type="hidden" name="pessoa.codigo" value="${pessoa.codigo}">
 					</div>
-					<div class="col-lg-2"></div>
+					<div class="col-lg-3">
+						<div class="row">
+							<label for="campoCriacao">Criado em:</label>
+							<input type="datetime" name="pessoa.criacao" id="campoCriacao" class="form-control" value="${pessoa.criacao }">
+							<%-- <input type="text" name="pessoa.criacao" value="${pessoa.criacao }"> --%>
+						</div>
+						<br>
+						<div class="row">
+							<label for="campoAlteracao">Última alteração em:</label>
+							<input type="datetime" id="campoAlteracao" class="form-control" value="${pessoa.alteracao }" disabled>
+							<%-- <input type="hidden" name="pessoa.alteracao" value="${pessoa.alteracao }"> --%>
+						</div>
+					</div>
+					<div class="col-lg-1"></div>
 				</div>
 				<fieldset>
 					<ul class="nav nav-tabs responsive">

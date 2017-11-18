@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
@@ -23,9 +24,9 @@ public class Endereco implements MinhaEntidade{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	/*@OneToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name = "cod_pessoa")
-	private Pessoa pessoa;*/
+	@ManyToOne(targetEntity = Pessoa.class)
+	/*@JoinColumn(name = "cod_pessoa")*/
+	private Pessoa pessoa;
 	
 	private Character tipo_endereco;
 	
@@ -65,6 +66,14 @@ public class Endereco implements MinhaEntidade{
 		this.codigo = codigo;
 	}
 
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
+	}
+
 	public Character getTipo_endereco() {
 		return tipo_endereco;
 	}
@@ -72,7 +81,7 @@ public class Endereco implements MinhaEntidade{
 	public void setTipo_endereco(Character tipo_endereco) {
 		this.tipo_endereco = tipo_endereco;
 	}
-	
+
 	public Character getTipo_moradia() {
 		return tipo_moradia;
 	}
@@ -96,7 +105,7 @@ public class Endereco implements MinhaEntidade{
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
 	}
-	
+
 	public String getBairro() {
 		return bairro;
 	}
@@ -112,7 +121,7 @@ public class Endereco implements MinhaEntidade{
 	public void setUf(String uf) {
 		this.uf = uf;
 	}
-	
+
 	public String getLogradouro() {
 		return logradouro;
 	}
@@ -163,9 +172,10 @@ public class Endereco implements MinhaEntidade{
 
 	@Override
 	public String toString() {
-		return "Endereco [codigo=" + codigo + ", tipo_endereco=" + tipo_endereco
+		return "Endereco [codigo=" + codigo + ", pessoa=" + pessoa + ", tipo_endereco=" + tipo_endereco
 				+ ", tipo_moradia=" + tipo_moradia + ", cep=" + cep + ", cidade=" + cidade + ", bairro=" + bairro
-				+ ", uf="+ uf +", logradouro=" + logradouro + ", numero=" + numero + ", complemento=" + complemento + ", principal="
-				+ principal + ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
+				+ ", uf=" + uf + ", logradouro=" + logradouro + ", numero=" + numero + ", complemento=" + complemento
+				+ ", principal=" + principal + ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
 	}
+	
 }

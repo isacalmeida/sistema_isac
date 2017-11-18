@@ -1,21 +1,20 @@
 package br.edu.unoesc.model.pessoa;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 
 import br.edu.unoesc.model.MinhaEntidade;
 
@@ -68,27 +67,31 @@ public class Pessoa implements MinhaEntidade{
 	
 	private Boolean ativo;
 	
-	@OneToMany(targetEntity = Endereco.class, fetch = FetchType.EAGER)
-	@JoinTable(name="pessoa_endereco",  
+	@OneToMany(mappedBy="pessoa", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	/*@JoinTable(name="pessoa_endereco",  
     	joinColumns={@JoinColumn(name="pessoa_codigo", 
     	referencedColumnName="codigo")},  
     	inverseJoinColumns={@JoinColumn(name="endereco_codigo", 
-    	referencedColumnName="codigo")})  
+    	referencedColumnName="codigo")})  */
 	private List<Endereco> endereco = new ArrayList<Endereco>();
 	
-	@OneToMany(targetEntity = Contato.class, fetch = FetchType.EAGER)
-	@JoinTable(name="pessoa_contato",  
+	@OneToMany(mappedBy="pessoa", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	/*@JoinTable(name="pessoa_contato",  
 		joinColumns={@JoinColumn(name="pessoa_codigo", 
 		referencedColumnName="codigo")},  
 		inverseJoinColumns={@JoinColumn(name="contato_codigo", 
-		referencedColumnName="codigo")})  
+		referencedColumnName="codigo")})  */
 	private List<Contato> contato = new ArrayList<Contato>();
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date criacao;
+	//@Temporal(TemporalType.TIMESTAMP)
+	//@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
+	private DateTime criacao;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date alteracao;
+	//@Temporal(TemporalType.TIMESTAMP)
+	//@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
+	private DateTime alteracao;
 	
 	public Pessoa() {
 		super();
@@ -255,19 +258,19 @@ public class Pessoa implements MinhaEntidade{
 		this.contato = contato;
 	}
 
-	public Date getCriacao() {
+	public DateTime getCriacao() {
 		return criacao;
 	}
 
-	public void setCriacao(Date criacao) {
+	public void setCriacao(DateTime criacao) {
 		this.criacao = criacao;
 	}
 
-	public Date getAlteracao() {
+	public DateTime getAlteracao() {
 		return alteracao;
 	}
 
-	public void setAlteracao(Date alteracao) {
+	public void setAlteracao(DateTime alteracao) {
 		this.alteracao = alteracao;
 	}
 

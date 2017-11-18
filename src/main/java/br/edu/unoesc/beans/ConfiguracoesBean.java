@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import org.joda.time.DateTime;
+
 import br.edu.unoesc.model.outros.Configuracoes;
 import br.edu.unoesc.model.pessoa.Pessoa;
 import br.edu.unoesc.model.usuario.Usuario;
@@ -43,8 +45,8 @@ public class ConfiguracoesBean implements Serializable {
 		pess.setFornecedor(false);
 		pess.setAtivo(true);
 		pess.setFinalidade('C');
-		pess.setCriacao(new Date());
-		pess.setAlteracao(new Date());
+		pess.setCriacao(new DateTime());
+		pess.setAlteracao(new DateTime());
 		
 		Usuario user = new Usuario();
 		user.setCodigo(1L);

@@ -127,7 +127,7 @@
 										</form>
 									</td>
 									<td>${p.endereco }</td>
-									<td>${p.data }</td>
+									<td>${p.criacao }</td>
 								</tr>
 							</c:if>
 						</c:forEach>

@@ -124,7 +124,7 @@
 											<a href="" onclick="this.parentNode.submit(); return false;">${c.codigo }</a>
 										</form>
 									</td>
-									<td>${c.tabelaLinhas }</td>
+									<td>${c.tabela_linhas }</td>
 									<td>${c.alteracao }</td>
 								</tr>
 							</c:if>

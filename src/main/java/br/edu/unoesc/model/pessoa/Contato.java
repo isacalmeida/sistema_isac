@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
@@ -25,9 +26,9 @@ public class Contato implements MinhaEntidade{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	/*@OneToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name = "cod_pessoa")
-	private Pessoa pessoa;*/
+	@ManyToOne(targetEntity = Pessoa.class)
+	/*@JoinColumn(name = "cod_pessoa")*/
+	private Pessoa pessoa;
 	
 	private Character tipo_contato;
 	
@@ -49,6 +50,14 @@ public class Contato implements MinhaEntidade{
 
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
+	}
+
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
 	}
 
 	public Character getTipo_contato() {
@@ -85,7 +94,7 @@ public class Contato implements MinhaEntidade{
 
 	@Override
 	public String toString() {
-		return "Contato [codigo=" + codigo + ", tipo_contato=" + tipo_contato
+		return "Contato [codigo=" + codigo + ", pessoa=" + pessoa + ", tipo_contato=" + tipo_contato
 				+ ", valor_contato=" + valor_contato + ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
 	}
 }

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1" %>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 <!DOCTYPE html>
 <html>
@@ -154,7 +154,7 @@ $(window).load(function(){
 					<div class="form-group col-lg-6">
 						<div class="row">
 							<label for="campoImagem">Imagem</label>
-							<input id="campoImagem" class="form-control" type="file" data-max-size="10485760" name="imagem">
+							<input id="campoImagem" class="form-control" type="file" data-max-size="10485760" name="pessoa.imagem">
 						</div>
 						<br>
 						<div class="row">

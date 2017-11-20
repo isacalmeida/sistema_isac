@@ -89,7 +89,7 @@ public abstract class HibernateDAO<T extends MinhaEntidade>  {
 		}
 	}
 
-	public List<T> buscar(Class<T> classe, String descricao, String named) {
+	public List<T> buscar(Class<T> classe, Long cod, String named) {
 		this.conectar();
 		try {
 			// String hql = "from "+classe.getName()+" a where upper(a.nome)
@@ -98,7 +98,7 @@ public abstract class HibernateDAO<T extends MinhaEntidade>  {
 			// TypedQuery<T> query = em.createNativeQuery("SELECT * FROM ALUNO",
 			// classe);
 			TypedQuery<T> query = em.createNamedQuery(named, classe);
-			query.setParameter(1, "%" + descricao.toUpperCase() + "%");
+			query.setParameter("codigo", cod);
 			return query.getResultList();
 		} finally {
 			this.finalizar();

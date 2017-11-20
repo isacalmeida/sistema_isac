@@ -9,6 +9,7 @@ import br.com.caelum.vraptor.Result;
 import br.edu.unoesc.beans.ConfiguracoesBean;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
+import br.edu.unoesc.dao.PerfilAcessoDAO;
 import br.edu.unoesc.dao.PessoaDAO;
 import br.edu.unoesc.dao.UsuarioDAO;
 import br.edu.unoesc.exception.DAOException;
@@ -28,6 +29,9 @@ public class IndexController {
 	private PessoaDAO pdao;
 	
 	@Inject
+	private PerfilAcessoDAO pfdao;
+	
+	@Inject
 	private UsuarioDAO udao;
 	
 	@Inject
@@ -40,6 +44,7 @@ public class IndexController {
 			
 			cdao.salvar(confs.getConfs());
 			pdao.salvar(confs.getPess());
+			pfdao.salvar(confs.getPerfil());
 			udao.salvar(confs.getUser());
 			
 		}

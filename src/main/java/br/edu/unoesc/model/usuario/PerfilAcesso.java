@@ -1,16 +1,14 @@
 package br.edu.unoesc.model.usuario;
 
-import java.util.Date;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 
 import br.edu.unoesc.model.MinhaEntidade;
 
@@ -25,35 +23,27 @@ public class PerfilAcesso implements MinhaEntidade{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@Column(nullable=false)
 	private String descricao;
 	
-	@Column(nullable=false)
 	private Character pessoa;
 	
-	@Column(nullable=false)
 	private Character usuario;
 	
-	@Column(nullable=false)
 	private Character perfis;
 	
-	@Column(nullable=false)
 	private Character produto;
 	
-	@Column(nullable=false)
 	private Character departamento;
 	
-	@Column(nullable=false)
 	private Character cor;
 	
-	@Column(nullable=false)
 	private Character configuracoes;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date criacao;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date alteracao;
+
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	private DateTime criacao;
+
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	private DateTime alteracao;
 	
 	public PerfilAcesso() {
 		super();
@@ -131,19 +121,19 @@ public class PerfilAcesso implements MinhaEntidade{
 		this.configuracoes = configuracoes;
 	}
 
-	public Date getCriacao() {
+	public DateTime getCriacao() {
 		return criacao;
 	}
 
-	public void setCriacao(Date criacao) {
+	public void setCriacao(DateTime criacao) {
 		this.criacao = criacao;
 	}
 
-	public Date getAlteracao() {
+	public DateTime getAlteracao() {
 		return alteracao;
 	}
 
-	public void setAlteracao(Date alteracao) {
+	public void setAlteracao(DateTime alteracao) {
 		this.alteracao = alteracao;
 	}
 

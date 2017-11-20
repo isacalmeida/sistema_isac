@@ -1,16 +1,12 @@
 package br.edu.unoesc.model.pessoa;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import br.edu.unoesc.model.MinhaEntidade;
 
@@ -21,11 +17,10 @@ import br.edu.unoesc.model.MinhaEntidade;
 public class Endereco implements MinhaEntidade{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
 	@ManyToOne(targetEntity = Pessoa.class)
-	/*@JoinColumn(name = "cod_pessoa")*/
+	@JoinColumn(name="codigo_pessoa", foreignKey=@ForeignKey(name="FK_endereco_pessoa"))
 	private Pessoa pessoa;
 	
 	private Character tipo_endereco;
@@ -47,12 +42,6 @@ public class Endereco implements MinhaEntidade{
 	private String complemento;
 	
 	private Boolean principal;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date criacao;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date alteracao;
 	
 	public Endereco() {
 		super();
@@ -154,28 +143,10 @@ public class Endereco implements MinhaEntidade{
 		this.principal = principal;
 	}
 
-	public Date getCriacao() {
-		return criacao;
-	}
-
-	public void setCriacao(Date criacao) {
-		this.criacao = criacao;
-	}
-
-	public Date getAlteracao() {
-		return alteracao;
-	}
-
-	public void setAlteracao(Date alteracao) {
-		this.alteracao = alteracao;
-	}
-
 	@Override
 	public String toString() {
-		return "Endereco [codigo=" + codigo + ", pessoa=" + pessoa + ", tipo_endereco=" + tipo_endereco
-				+ ", tipo_moradia=" + tipo_moradia + ", cep=" + cep + ", cidade=" + cidade + ", bairro=" + bairro
-				+ ", uf=" + uf + ", logradouro=" + logradouro + ", numero=" + numero + ", complemento=" + complemento
-				+ ", principal=" + principal + ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
+		return "Endereco [codigo=" + codigo + ", tipo_endereco=" + tipo_endereco + ", tipo_moradia=" + tipo_moradia
+				+ ", cep=" + cep + ", cidade=" + cidade + ", bairro=" + bairro + ", uf=" + uf + ", logradouro="
+				+ logradouro + ", numero=" + numero + ", complemento=" + complemento + ", principal=" + principal + "]";
 	}
-	
 }

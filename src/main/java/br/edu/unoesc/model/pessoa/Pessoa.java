@@ -1,12 +1,10 @@
 package br.edu.unoesc.model.pessoa;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,7 +27,13 @@ import br.edu.unoesc.model.MinhaEntidade;
 	@NamedQuery(name="TODAS_PESSOAS_ATIVAS", 
 				query="select p from Pessoa p where p.ativo = TRUE"),
 	@NamedQuery(name="TODAS_PESSOAS_INATIVAS",
-				query="select p from Pessoa p where p.ativo = FALSE")
+				query="select p from Pessoa p where p.ativo = FALSE"),
+	@NamedQuery(name="PESSOA_POR_CODIGO",
+				query="select p from Pessoa p where p.codigo = :codigo"),
+	@NamedQuery(name="PESSOA_ENDERECO_CONTATO",
+				query="SELECT p FROM Pessoa p "
+						+ "JOIN p.endereco e JOIN p.contato c "
+						+ "WHERE p.codigo = :codigo")
 })
 public class Pessoa implements MinhaEntidade{
 	
@@ -77,29 +81,15 @@ public class Pessoa implements MinhaEntidade{
 	private Boolean ativo;
 	
 	@OneToMany(mappedBy="pessoa", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	/*@JoinTable(name="pessoa_endereco",  
-    	joinColumns={@JoinColumn(name="pessoa_codigo", 
-    	referencedColumnName="codigo")},  
-    	inverseJoinColumns={@JoinColumn(name="endereco_codigo", 
-    	referencedColumnName="codigo")})  */
 	private List<Endereco> endereco = new ArrayList<Endereco>();
 	
 	@OneToMany(mappedBy="pessoa", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	/*@JoinTable(name="pessoa_contato",  
-		joinColumns={@JoinColumn(name="pessoa_codigo", 
-		referencedColumnName="codigo")},  
-		inverseJoinColumns={@JoinColumn(name="contato_codigo", 
-		referencedColumnName="codigo")})  */
 	private List<Contato> contato = new ArrayList<Contato>();
 	
-	//@Temporal(TemporalType.TIMESTAMP)
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	//@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
 	private DateTime criacao;
 	
-	//@Temporal(TemporalType.TIMESTAMP)
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	//@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
 	private DateTime alteracao;
 	
 	public Pessoa() {
@@ -293,13 +283,13 @@ public class Pessoa implements MinhaEntidade{
 
 	@Override
 	public String toString() {
-		return "Pessoa [codigo=" + codigo + ", imagem=" + Arrays.toString(imagem) + ", tipo=" + tipo + ", cpf=" + cpf
-				+ ", cnpj=" + cnpj + ", nome=" + nome + ", razao=" + razao + ", fantasia=" + fantasia + ", identidade="
-				+ identidade + ", data_emissao=" + data_emissao + ", inscricao_estadual=" + inscricao_estadual
-				+ ", data_nascimento=" + data_nascimento + ", sexo=" + sexo + ", estado_civil=" + estado_civil
-				+ ", data_fundacao=" + data_fundacao + ", finalidade=" + finalidade + ", cliente=" + cliente
-				+ ", fornecedor=" + fornecedor + ", ativo=" + ativo + ", endereco=" + endereco + ", contato=" + contato
-				+ ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
+		return "Pessoa [codigo=" + codigo + ", tipo=" + tipo + ", cpf=" + cpf + ", cnpj=" + cnpj + ", nome=" + nome
+				+ ", razao=" + razao + ", fantasia=" + fantasia + ", identidade=" + identidade + ", data_emissao="
+				+ data_emissao + ", inscricao_estadual=" + inscricao_estadual + ", data_nascimento=" + data_nascimento
+				+ ", sexo=" + sexo + ", estado_civil=" + estado_civil + ", data_fundacao=" + data_fundacao
+				+ ", finalidade=" + finalidade + ", cliente=" + cliente + ", fornecedor=" + fornecedor + ", ativo="
+				+ ativo + ", endereco=" + endereco + ", contato=" + contato + ", criacao=" + criacao + ", alteracao="
+				+ alteracao + "]";
 	}
 
 }

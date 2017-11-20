@@ -1,16 +1,13 @@
 package br.edu.unoesc.model.produto;
 
-import java.util.Date;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 
 import br.edu.unoesc.model.MinhaEntidade;
 
@@ -25,14 +22,13 @@ public class Cor implements MinhaEntidade{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@Column(nullable=false)
 	private String descricao;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date criacao;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date alteracao;
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	private DateTime criacao;
+
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	private DateTime alteracao;
 	
 	public Cor() {
 		super();
@@ -54,19 +50,19 @@ public class Cor implements MinhaEntidade{
 		this.descricao = descricao;
 	}
 
-	public Date getCriacao() {
+	public DateTime getCriacao() {
 		return criacao;
 	}
 
-	public void setCriacao(Date criacao) {
+	public void setCriacao(DateTime criacao) {
 		this.criacao = criacao;
 	}
 
-	public Date getAlteracao() {
+	public DateTime getAlteracao() {
 		return alteracao;
 	}
 
-	public void setAlteracao(Date alteracao) {
+	public void setAlteracao(DateTime alteracao) {
 		this.alteracao = alteracao;
 	}
 

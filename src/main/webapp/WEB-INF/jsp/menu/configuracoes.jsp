@@ -52,23 +52,42 @@
 				<li class="active"><a href="<c:url value='/menu/configuracoes'/>"> Configurações <span class="sr-only">(current)</span></a></li>
 			</ul>
 		</div>
-		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<h3 class="page-header"><span class="glyphicon glyphicon-chevron-right"></span> Cadastros </h3>
-     		<br>
-     		<div class="row">
-     			<div class="col-sm-1"></div>
-     			<a href="<c:url value='/configuracoes' />" ><button class="btn btn-success btn-lg col-sm-4"> <br>Geral<br><br> </button></a>
-				<div class="col-sm-2"></div>
-				<a href="<c:url value='/programas' />" ><button class="btn btn-success btn-lg col-sm-4"> <br>Programas<br><br> </button></a>
-				<div class="col-sm-1"></div>
-			</div>
-			<br>
-			<div class="row">
-				<div class="col-sm-1"></div>
-				<a href="<c:url value='/usuario' />" ><button class="btn btn-success btn-lg col-sm-4"> <br>Usuario<br><br> </button></a>
-				<div class="col-sm-2"></div>
-				<div class="col-sm-4"></div>
-				<div class="col-sm-1"></div>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+			<h3><span class="glyphicon glyphicon-chevron-right"></span> Configurações </h3><hr>
+     		<ul class="nav nav-tabs responsive">
+				<li class="active"><a data-toggle="tab" href="#pessoa">Pessoa</a></li>
+				<li><a data-toggle="tab" href="#produto">Produto</a></li>
+				<li><a data-toggle="tab" href="#outros">Outros</a></li>
+			</ul>
+			<div class="tab-content responsive">
+				<br>
+				<div id="pessoa" class="tab-pane active">
+		     		<div class="row">
+						<div class="col-sm-1"></div>
+						<a href="<c:url value='/usuario' />" ><button class="btn btn-success btn-lg col-sm-4"> <br>Usuario<br><br> </button></a>
+						<div class="col-sm-2"></div>
+						<div class="col-sm-4"></div>
+						<div class="col-sm-1"></div>
+					</div>
+				</div>
+				<div id="produto" class="tab-pane">
+		     		<div class="row">
+						<div class="col-sm-1"></div>
+						<a href="<c:url value='/cor' />" ><button class="btn btn-success btn-lg col-sm-4"> <br>Cor<br><br> </button></a>
+						<div class="col-sm-2"></div>
+						<a href="<c:url value='/departamento' />" ><button class="btn btn-success btn-lg col-sm-4"> <br>Departamento<br><br> </button></a>
+						<div class="col-sm-1"></div>
+					</div>
+		     	</div>
+		     	<div id="outros" class="tab-pane">
+		     		<div class="row">
+		     			<div class="col-sm-1"></div>
+		     			<a href="<c:url value='/configuracoes' />" ><button class="btn btn-success btn-lg col-sm-4"> <br>Geral<br><br> </button></a>
+						<div class="col-sm-2"></div>
+						<a href="<c:url value='/programas' />" ><button class="btn btn-success btn-lg col-sm-4"> <br>Programas<br><br> </button></a>
+						<div class="col-sm-1"></div>
+					</div>
+		     	</div>
 			</div>
 		</div>
 	</div>

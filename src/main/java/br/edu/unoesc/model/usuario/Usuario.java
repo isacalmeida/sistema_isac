@@ -1,7 +1,5 @@
 package br.edu.unoesc.model.usuario;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,9 +10,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 
 import br.edu.unoesc.model.MinhaEntidade;
 import br.edu.unoesc.model.pessoa.Pessoa;
@@ -32,8 +31,8 @@ import br.edu.unoesc.model.pessoa.Pessoa;
 				query="select u from Usuario u left join Pessoa p on u.pessoa.codigo = p.codigo")
 })*/
 @Table(uniqueConstraints = {
-		@UniqueConstraint(columnNames = "cod_pessoa", name = "FK_usuario_pessoa"),
-		@UniqueConstraint(columnNames = "cod_perfil", name = "FK_usuario_perfil")
+		@UniqueConstraint(columnNames = {"codigo","codigo_pessoa"}, name = "FK_usuario_pessoa"),
+		@UniqueConstraint(columnNames = {"codigo","codigo_perfil"}, name = "FK_usuario_perfil")
 })
 public class Usuario implements MinhaEntidade{
 
@@ -48,20 +47,20 @@ public class Usuario implements MinhaEntidade{
 	private String senha;
 	
 	@OneToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name = "cod_pessoa")
+	@JoinColumn(name = "codigo_pessoa")
 	private Pessoa pessoa;
 	
-	@OneToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name = "cod_perfil")
+	@OneToOne(targetEntity = PerfilAcesso.class)
+	@JoinColumn(name = "codigo_perfil")
 	private PerfilAcesso perfil;
 	
 	private Boolean ativo;
+
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	private DateTime criacao;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date criacao;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date alteracao;
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	private DateTime alteracao;
 	
 	public Usuario() {
 		super();
@@ -115,19 +114,19 @@ public class Usuario implements MinhaEntidade{
 		this.ativo = ativo;
 	}
 
-	public Date getCriacao() {
+	public DateTime getCriacao() {
 		return criacao;
 	}
 
-	public void setCriacao(Date criacao) {
+	public void setCriacao(DateTime criacao) {
 		this.criacao = criacao;
 	}
 
-	public Date getAlteracao() {
+	public DateTime getAlteracao() {
 		return alteracao;
 	}
 
-	public void setAlteracao(Date alteracao) {
+	public void setAlteracao(DateTime alteracao) {
 		this.alteracao = alteracao;
 	}
 

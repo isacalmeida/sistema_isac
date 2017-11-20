@@ -52,14 +52,14 @@
 				<li><a href="<c:url value='/menu/configuracoes'/>"> Configurações </a></li>
 			</ul>
 		</div>
-		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<h3 class="page-header"><span class="glyphicon glyphicon-chevron-right"></span> Cadastros </h3>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+			<h3><span class="glyphicon glyphicon-chevron-right"></span> Cadastros </h3><hr>
      		<br>
      		<div class="row">
      			<div class="col-sm-1"></div>
      			<a href="<c:url value='/pessoa' />" ><button class="btn btn-success btn-lg col-sm-4"> <br>Pessoa<br><br> </button></a>
 				<div class="col-sm-2"></div>
-				<div class="col-sm-4"></div>
+				<a href="<c:url value='/produto' />" ><button class="btn btn-success btn-lg col-sm-4"> <br>Produto<br><br> </button></a>
 				<div class="col-sm-1"></div>
 			</div>
 		</div>

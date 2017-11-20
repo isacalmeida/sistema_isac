@@ -1,7 +1,5 @@
 package br.edu.unoesc.model.outros;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,8 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 
 import br.edu.unoesc.model.MinhaEntidade;
 
@@ -27,13 +26,19 @@ public class Configuracoes implements MinhaEntidade {
 	@Column(nullable=false)
 	private Integer tabela_linhas;
 	
+	@Column(nullable=false)
+	private Long contador_endereco;
+	
+	@Column(nullable=false)
+	private Long contador_contato;
+	
 	private boolean ativo;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date criacao;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date alteracao;
+
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	private DateTime criacao;
+
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	private DateTime alteracao;
 
 	public Configuracoes() {
 		super();
@@ -46,13 +51,29 @@ public class Configuracoes implements MinhaEntidade {
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
 	}
-
+	
 	public Integer getTabela_linhas() {
 		return tabela_linhas;
 	}
 
 	public void setTabela_linhas(Integer tabela_linhas) {
 		this.tabela_linhas = tabela_linhas;
+	}
+
+	public Long getContador_endereco() {
+		return contador_endereco;
+	}
+
+	public void setContador_endereco(Long contador_endereco) {
+		this.contador_endereco = contador_endereco;
+	}
+	
+	public Long getContador_contato() {
+		return contador_contato;
+	}
+
+	public void setContador_contato(Long contador_contato) {
+		this.contador_contato = contador_contato;
 	}
 
 	public boolean isAtivo() {
@@ -63,25 +84,26 @@ public class Configuracoes implements MinhaEntidade {
 		this.ativo = ativo;
 	}
 
-	public Date getCriacao() {
+	public DateTime getCriacao() {
 		return criacao;
 	}
 
-	public void setCriacao(Date criacao) {
+	public void setCriacao(DateTime criacao) {
 		this.criacao = criacao;
 	}
 
-	public Date getAlteracao() {
+	public DateTime getAlteracao() {
 		return alteracao;
 	}
 
-	public void setAlteracao(Date alteracao) {
+	public void setAlteracao(DateTime alteracao) {
 		this.alteracao = alteracao;
 	}
 
 	@Override
 	public String toString() {
-		return "Configuracoes [codigo=" + codigo + ", tabela_linhas=" + tabela_linhas + ", ativo=" + ativo
-				+ ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
+		return "Configuracoes [codigo=" + codigo + ", tabela_linhas=" + tabela_linhas + ", contador_endereco="
+				+ contador_endereco + ", contador_contato=" + contador_contato + ", ativo=" + ativo + ", criacao="
+				+ criacao + ", alteracao=" + alteracao + "]";
 	}
 }

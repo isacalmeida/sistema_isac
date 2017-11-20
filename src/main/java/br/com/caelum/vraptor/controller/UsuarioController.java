@@ -1,9 +1,10 @@
 package br.com.caelum.vraptor.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import org.joda.time.DateTime;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
@@ -113,7 +114,7 @@ public class UsuarioController {
 		user.setUsuario(login);
 		user.setSenha(senha);
 		user.setPessoa(pdao.buscar(Pessoa.class, pessoa));
-		user.setCriacao(new Date());
+		user.setCriacao(new DateTime());
 		user.setAtivo(ativo);
 		
 		if(codigo == null) {

@@ -1,9 +1,10 @@
 package br.com.caelum.vraptor.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import org.joda.time.DateTime;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
@@ -92,7 +93,7 @@ public class ConfiguracoesController {
 		confs.setCodigo(codigo);
 		confs.setTabela_linhas(linhasMatriz);
 		confs.setAtivo(ativo);
-		confs.setAlteracao(new Date());
+		confs.setAlteracao(new DateTime());
 		
 		if(codigo == null) {
 			result.redirectTo(this).index(cdao.salvar(confs),0,1);

@@ -1,11 +1,12 @@
 package br.edu.unoesc.model.produto;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,10 +15,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 
 import br.edu.unoesc.model.MinhaEntidade;
 import br.edu.unoesc.model.pessoa.Pessoa;
@@ -27,40 +27,34 @@ import br.edu.unoesc.model.pessoa.Pessoa;
 	@NamedQuery(name="TODOS_PRODUTOS", 
 				query="select p from Produto p order by p.codigo")
 })
-@Table(uniqueConstraints = {
-		@UniqueConstraint(columnNames = "cod_pessoa", name = "FK_produto_pessoa"),
-		@UniqueConstraint(columnNames = "cod_departamento", name = "FK_produto_departamento")
-		/*@UniqueConstraint(columnNames = "cod_cor", name = "FK_produto_cor")*/
-})
 public class Produto implements MinhaEntidade{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@Column(nullable=false)
 	private String descricao;
 	
 	@OneToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name = "cod_pessoa")
+	@JoinColumn(name="codigo_pessoa", foreignKey=@ForeignKey(name="FK_produto_pessoa"))
 	private Pessoa fornecedor;
 	
 	@OneToOne(targetEntity = Departamento.class)
-	@JoinColumn(name = "cod_departamento")
+	@JoinColumn(name="codigo_departamento", foreignKey=@ForeignKey(name="FK_produto_departamento"))
 	private Departamento departamento;
 	
-	@OneToMany(targetEntity = Cor.class)
+	@OneToMany(targetEntity = Cor.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Cor> cor = new ArrayList<>();
 	
 	private String codigo_barras;
 	
 	private Boolean ativo;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date criacao;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date alteracao;
+
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	private DateTime criacao;
+
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	private DateTime alteracao;
 	
 	public Produto() {
 		super();
@@ -114,19 +108,19 @@ public class Produto implements MinhaEntidade{
 		this.ativo = ativo;
 	}
 
-	public Date getCriacao() {
+	public DateTime getCriacao() {
 		return criacao;
 	}
 
-	public void setCriacao(Date criacao) {
+	public void setCriacao(DateTime criacao) {
 		this.criacao = criacao;
 	}
 
-	public Date getAlteracao() {
+	public DateTime getAlteracao() {
 		return alteracao;
 	}
 
-	public void setAlteracao(Date alteracao) {
+	public void setAlteracao(DateTime alteracao) {
 		this.alteracao = alteracao;
 	}
 

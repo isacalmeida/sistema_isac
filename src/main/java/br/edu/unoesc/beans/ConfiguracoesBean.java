@@ -48,6 +48,7 @@ public class ConfiguracoesBean implements Serializable {
 		pess.setFornecedor(false);
 		pess.setAtivo(true);
 		pess.setFinalidade('C');
+		pess.setImagem("/imagem/pessoa/avatarpadrao.png");
 		pess.setCriacao(new DateTime());
 		pess.setAlteracao(new DateTime());
 		

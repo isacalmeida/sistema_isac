@@ -11,6 +11,7 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.observer.upload.UploadedFile;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
 import br.edu.unoesc.dao.ContatoDAO;
@@ -110,7 +111,7 @@ public class PessoaController {
 	}
 	
 	@Post("/salvar")
-	public void salvar(Pessoa pessoa) throws DAOException {
+	public void salvar(Pessoa pessoa, UploadedFile imagem) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
@@ -119,6 +120,14 @@ public class PessoaController {
 		if(pessoa.getCodigo() == null) {
 			pessoa.setCriacao(new DateTime());
 			pessoa.setAlteracao(new DateTime());
+			
+			if(imagem == null) {
+				String endImagem = new String("/imagem/pessoa/avatarpadrao.png");
+				pessoa.setImagem(endImagem);
+			}
+			else {
+				//File savedPhoto = new File("/path/to/photo/repository", photo.getFileName());
+			}
 			
 			if(pessoa.getEndereco().size() > 0) {
 				for(Endereco end : pessoa.getEndereco()) {

@@ -3,14 +3,12 @@ package br.edu.unoesc.model.pessoa;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -41,10 +39,10 @@ public class Pessoa implements MinhaEntidade{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@Lob
+	/* @Lob
 	//@Column(columnDefinition="blob")
-	@Basic(fetch = FetchType.EAGER)
-	private byte[] imagem;
+	@Basic(fetch = FetchType.EAGER) */
+	private String imagem;
 	
 	private Character tipo;
 	
@@ -104,11 +102,11 @@ public class Pessoa implements MinhaEntidade{
 		this.codigo = codigo;
 	}
 
-	public byte[] getImagem() {
+	public String getImagem() {
 		return imagem;
 	}
 
-	public void setImagem(byte[] imagem) {
+	public void setImagem(String imagem) {
 		this.imagem = imagem;
 	}
 

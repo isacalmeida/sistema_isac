@@ -55,13 +55,6 @@ public class ConfiguracoesBean implements Serializable {
 		PerfilAcesso perfil = new PerfilAcesso();
 		perfil.setCodigo(1L);
 		perfil.setDescricao("Administrador");
-		perfil.setConfiguracoes('S');
-		perfil.setCor('S');
-		perfil.setDepartamento('S');
-		perfil.setPerfis('S');
-		perfil.setPessoa('S');
-		perfil.setProduto('S');
-		perfil.setUsuario('S');
 		perfil.setCriacao(new DateTime());
 		perfil.setAlteracao(new DateTime());
 		

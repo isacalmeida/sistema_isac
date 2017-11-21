@@ -1,6 +1,5 @@
 package br.com.caelum.vraptor.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -12,23 +11,28 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
-import br.edu.unoesc.dao.ProgramasDAO;
+import br.edu.unoesc.dao.PerfilAcessoDAO;
+import br.edu.unoesc.dao.UsuarioDAO;
 import br.edu.unoesc.exception.DAOException;
 import br.edu.unoesc.model.outros.Configuracoes;
-import br.edu.unoesc.model.outros.Programas;
+import br.edu.unoesc.model.usuario.PerfilAcesso;
+import br.edu.unoesc.model.usuario.Usuario;
 
-@Path("/programas")
+@Path("/perfil_acesso")
 @Controller
-public class ProgramasController {
-
+public class PerfilAcessoController {
+	
 	@Inject
 	private Result result;
 	
 	@Inject
-	private ProgramasDAO pdao;
+	private PerfilAcessoDAO padao;
 	
 	@Inject
 	private ConfiguracoesDAO cdao;
+	
+	@Inject
+	private UsuarioDAO udao;
 	
 	@Inject
 	private UsuarioBean usuarioSessao;
@@ -42,23 +46,23 @@ public class ProgramasController {
 		Long cod = (long) 1;
 		Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
 		
-		List<Programas> programas = pdao.listar(Programas.class, "TODOS_PROGRAMAS");
+		List<PerfilAcesso> perfis = padao.listar(PerfilAcesso.class, "TODOS_PERFIS");
 		int linhas = 10;
 		if(conf != null) {
 			linhas = conf.getTabela_linhas();
 		}
-		int colunas = programas.size()/linhas;
+		int colunas = perfis.size()/linhas;
 		
-		if(programas.size()%linhas > 0) {
+		if(perfis.size()%linhas > 0) {
 			colunas++;
 		}
 		
-		Programas[][] mprog = new Programas[colunas][linhas];
+		PerfilAcesso[][] mperfs = new PerfilAcesso[colunas][linhas];
 		
 		int linha = 0;
 		int coluna = 0;
-		for(Programas prog : programas) {
-			mprog[coluna][linha] = prog;
+		for(PerfilAcesso perfil : perfis) {
+			mperfs[coluna][linha] = perfil;
 			linha ++;
 			if(linha == linhas) {
 				linha = 0;
@@ -72,12 +76,12 @@ public class ProgramasController {
 		else {
 			tpag--;
 		}
-		if(programas.size() == 0) {
-			result.include("programas", null);
+		if(perfis.size() == 0) {
+			result.include("perfis", null);
 			colunas = 1;
 		}
 		else {
-			result.include("programas", mprog[tpag]);
+			result.include("perfis", mperfs[tpag]);
 		}
 		result.include("colunas", colunas);
 		result.include("pag", tpag);
@@ -86,71 +90,53 @@ public class ProgramasController {
 	}
 	
 	@Get("/novo")
-	public void novo(Integer logado, Integer menu, Integer var) {
+	public void novo() {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		result.include("logado", logado);
-		result.include("menu", menu);
-		result.include("var", var);
-		
-		List<Programas> programas = pdao.listar(Programas.class, "TODOS_PROGRAMAS");
-		result.include("programas", programas);
 	}
 	
 	@Post("/salvar")
-	public void salvar(String programa, String endereco, Boolean ativo, Long codigo) throws DAOException {
+	public void salvar(PerfilAcesso perfil) {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		Programas programas = new Programas();
 		
-		programas.setCodigo(codigo);
-		programas.setDescricao(programa);
-		programas.setEndereco(endereco);
-		programas.setAtivo(ativo);
-		programas.setCriacao(new Date());
-		
-		if(codigo == null) {
-			result.redirectTo(this).index(pdao.salvar(programas),0,1);
-		}
-		else {
-			result.redirectTo(this).index(pdao.salvar(programas),1,1);
-		}
 	}
 	
-	@Post("/editar")
+	@Get("/{cod}/editar")
 	public void editar(Long cod) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		result.include("prog", pdao.buscar(Programas.class, cod));
+		List<PerfilAcesso> perfil = padao.buscar(PerfilAcesso.class,cod,"PERFIL_POR_CODIGO");
+		
+		result.include("perfil", perfil.get(0));
 	}
 	
-	@Get("/excluir")
+	@Get("/{cod}/excluir")
 	public void excluir(Long cod) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		result.redirectTo(this).index(pdao.excluir(pdao.buscar(Programas.class, cod)),2,1);
-	}
-	
-	@Get("/busca.json")
-	public void buscaJson(String nome){
-		if(usuarioSessao.isLogado() == false)
-			result.redirectTo(LoginController.class).index(null);
-		result.include("usuario_nome", usuarioSessao.getNome());
+		List<Usuario> usuarios = udao.listar(Usuario.class, "TODOS_USUARIOS");
+		PerfilAcesso perfil = null;
 		
-		//A lista = json().newInstance().withoutRoot().from(pdao.listar(Programas.class, "TODOS_PROGRAMAS")).serialize();
+		for (Usuario usuario : usuarios) {
+			if(usuario.getPerfil().getCodigo() == cod)
+				 perfil = usuario.getPerfil();
+		}
 		
-				
-		List<Programas> lista = pdao.listar(Programas.class, "TODOS_PROGRAMAS");
-
-		System.out.println("Teste: "+ lista);
-		//result.use(json()).withoutRoot().from(pdao.buscar(Programas.class, nome, "TODOS_PRODUTOS")).exclude("codigo", "data", "ativo").serialize();
+		if(perfil == null){
+			perfil = padao.buscar(PerfilAcesso.class, cod);
+			result.redirectTo(this).index(padao.excluir(perfil),2,1);
+		}
+		else {
+			result.redirectTo(this).index(0,2,1);
+		}
 	}
 }

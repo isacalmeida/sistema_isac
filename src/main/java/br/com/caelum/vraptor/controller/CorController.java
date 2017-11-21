@@ -10,19 +10,19 @@ import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.edu.unoesc.beans.UsuarioBean;
-import br.edu.unoesc.dao.DepartamentoDAO;
+import br.edu.unoesc.dao.CorDAO;
 import br.edu.unoesc.exception.DAOException;
-import br.edu.unoesc.model.produto.Departamento;
+import br.edu.unoesc.model.produto.Cor;
 
-@Path("/departamento")
+@Path("/cor")
 @Controller
-public class DepartamentoController {
+public class CorController {
 	
 	@Inject
 	private Result result;
 	
 	@Inject
-	private DepartamentoDAO dpdao;
+	private CorDAO crdao;
 	
 	@Inject
 	private UsuarioBean usuarioSessao;
@@ -33,9 +33,10 @@ public class DepartamentoController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		List<Departamento> departamentos = dpdao.listar(Departamento.class,"TODAS_DEPARTAMENTOS");
+		List<Cor> cores = crdao.listar(Cor.class,"TODAS_CORES");
 		
-		result.include("departamentos", departamentos);
+		result.include("cores", cores);
+		
 	}
 	
 	@Get("/novo")
@@ -47,7 +48,7 @@ public class DepartamentoController {
 	}
 	
 	@Post("/salvar")
-	public void salvar(Departamento departamento) {
+	public void salvar(Cor cor) {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());

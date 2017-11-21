@@ -1,21 +1,29 @@
 package br.edu.unoesc.model.usuario;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import br.edu.unoesc.model.MinhaEntidade;
+import br.edu.unoesc.model.outros.Acessos;
 
 @Entity
 @NamedQueries({
 	@NamedQuery(name="TODOS_PERFIS", 
-				query="select u from Usuario u order by u.codigo")
+				query="select p from PerfilAcesso p order by p.codigo"),
+	@NamedQuery(name="PERFIL_POR_CODIGO",
+				query="select p from PerfilAcesso p where p.codigo = :codigo")
 })
 public class PerfilAcesso implements MinhaEntidade{
 	
@@ -25,19 +33,8 @@ public class PerfilAcesso implements MinhaEntidade{
 	
 	private String descricao;
 	
-	private Character pessoa;
-	
-	private Character usuario;
-	
-	private Character perfis;
-	
-	private Character produto;
-	
-	private Character departamento;
-	
-	private Character cor;
-	
-	private Character configuracoes;
+	@OneToMany(targetEntity = Acessos.class, fetch = FetchType.EAGER)
+	private List<Acessos> acessos = new ArrayList<Acessos>();
 
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime criacao;
@@ -65,62 +62,6 @@ public class PerfilAcesso implements MinhaEntidade{
 		this.descricao = descricao;
 	}
 
-	public Character getPessoa() {
-		return pessoa;
-	}
-
-	public void setPessoa(Character pessoa) {
-		this.pessoa = pessoa;
-	}
-
-	public Character getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Character usuario) {
-		this.usuario = usuario;
-	}
-
-	public Character getPerfis() {
-		return perfis;
-	}
-
-	public void setPerfis(Character perfis) {
-		this.perfis = perfis;
-	}
-
-	public Character getProduto() {
-		return produto;
-	}
-
-	public void setProduto(Character produto) {
-		this.produto = produto;
-	}
-
-	public Character getDepartamento() {
-		return departamento;
-	}
-
-	public void setDepartamento(Character departamento) {
-		this.departamento = departamento;
-	}
-
-	public Character getCor() {
-		return cor;
-	}
-
-	public void setCor(Character cor) {
-		this.cor = cor;
-	}
-
-	public Character getConfiguracoes() {
-		return configuracoes;
-	}
-
-	public void setConfiguracoes(Character configuracoes) {
-		this.configuracoes = configuracoes;
-	}
-
 	public DateTime getCriacao() {
 		return criacao;
 	}
@@ -139,8 +80,7 @@ public class PerfilAcesso implements MinhaEntidade{
 
 	@Override
 	public String toString() {
-		return "PerfilAcesso [codigo=" + codigo + ", descricao=" + descricao + ", pessoa=" + pessoa + ", usuario="
-				+ usuario + ", perfis=" + perfis + ", produto=" + produto + ", departamento=" + departamento + ", cor="
-				+ cor + ", configuracoes=" + configuracoes + ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
+		return "PerfilAcesso [codigo=" + codigo + ", descricao=" + descricao + ", acessos=" + acessos + ", criacao="
+				+ criacao + ", alteracao=" + alteracao + "]";
 	}
 }

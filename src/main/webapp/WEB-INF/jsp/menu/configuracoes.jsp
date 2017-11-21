@@ -66,7 +66,7 @@
 						<div class="col-sm-1"></div>
 						<a href="<c:url value='/usuario' />" ><button class="btn btn-success btn-lg col-sm-4"> <br>Usuario<br><br> </button></a>
 						<div class="col-sm-2"></div>
-						<div class="col-sm-4"></div>
+						<a href="<c:url value='/perfil_acesso' />" ><button class="btn btn-success btn-lg col-sm-4"> <br>Perfil de Acesso<br><br> </button></a>
 						<div class="col-sm-1"></div>
 					</div>
 				</div>
@@ -85,6 +85,14 @@
 		     			<a href="<c:url value='/configuracoes' />" ><button class="btn btn-success btn-lg col-sm-4"> <br>Geral<br><br> </button></a>
 						<div class="col-sm-2"></div>
 						<a href="<c:url value='/programas' />" ><button class="btn btn-success btn-lg col-sm-4"> <br>Programas<br><br> </button></a>
+						<div class="col-sm-1"></div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-sm-1"></div>
+						<a href="<c:url value='/acessos' />" ><button class="btn btn-success btn-lg col-sm-4"> <br>Acessos<br><br> </button></a>
+						<div class="col-sm-2"></div>
+						<div class="col-sm-4"></div>
 						<div class="col-sm-1"></div>
 					</div>
 		     	</div>

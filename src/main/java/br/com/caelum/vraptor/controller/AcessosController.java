@@ -4,34 +4,27 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.joda.time.DateTime;
-
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.edu.unoesc.beans.UsuarioBean;
+import br.edu.unoesc.dao.AcessosDAO;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
-import br.edu.unoesc.dao.PessoaDAO;
-import br.edu.unoesc.dao.UsuarioDAO;
 import br.edu.unoesc.exception.DAOException;
+import br.edu.unoesc.model.outros.Acessos;
 import br.edu.unoesc.model.outros.Configuracoes;
-import br.edu.unoesc.model.pessoa.Pessoa;
-import br.edu.unoesc.model.usuario.Usuario;
 
-@Path("/usuario")
+@Path("/acessos")
 @Controller
-public class UsuarioController {
-
+public class AcessosController {
+	
 	@Inject
 	private Result result;
 	
-	@Inject 
-	private UsuarioDAO udao;
-	
 	@Inject
-	private PessoaDAO pdao;
+	private AcessosDAO acdao;
 	
 	@Inject
 	private ConfiguracoesDAO cdao;
@@ -48,23 +41,23 @@ public class UsuarioController {
 		Long cod = (long) 1;
 		Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
 		
-		List<Usuario> usuarios = udao.listar(Usuario.class, "TODOS_USUARIOS_ATIVOS");
+		List<Acessos> acessos = acdao.listar(Acessos.class,"TODOS_ACESSOS");
 		int linhas = 10;
 		if(conf != null) {
 			linhas = conf.getTabela_linhas();
 		}
-		int colunas = usuarios.size()/linhas;
+		int colunas = acessos.size()/linhas;
 		
-		if(usuarios.size()%linhas > 0) {
+		if(acessos.size()%linhas > 0) {
 			colunas++;
 		}
 		
-		Usuario[][] muser = new Usuario[colunas][linhas];
+		Acessos[][] macess = new Acessos[colunas][linhas];
 		
 		int linha = 0;
 		int coluna = 0;
-		for(Usuario usuario : usuarios) {
-			muser[coluna][linha] = usuario;
+		for(Acessos acesso : acessos) {
+			macess[coluna][linha] = acesso;
 			linha ++;
 			if(linha == linhas) {
 				linha = 0;
@@ -78,12 +71,12 @@ public class UsuarioController {
 		else {
 			tpag--;
 		}
-		if(usuarios.size() == 0) {
-			result.include("usuarios", null);
+		if(acessos.size() == 0) {
+			result.include("acessos", null);
 			colunas = 1;
 		}
 		else {
-			result.include("usuarios", muser[tpag]);
+			result.include("acessos", macess[tpag]);
 		}
 		result.include("colunas", colunas);
 		result.include("pag", tpag);
@@ -97,51 +90,30 @@ public class UsuarioController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		List<Pessoa> pessoa = pdao.listar(Pessoa.class, "TODAS_PESSOAS");
-		
-		result.include("pessoas", pessoa);
 	}
 	
 	@Post("/salvar")
-	public void salvar(String login, String senha, Long pessoa, Boolean ativo, Long codigo) throws DAOException {
+	public void salvar(Acessos acessos) {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		Usuario user = new Usuario();
 		
-		user.setCodigo(codigo);
-		user.setUsuario(login);
-		user.setSenha(senha);
-		user.setPessoa(pdao.buscar(Pessoa.class, pessoa));
-		user.setCriacao(new DateTime());
-		user.setAtivo(ativo);
-		
-		if(codigo == null) {
-			result.redirectTo(this).index(udao.salvar(user),0,1);
-		}
-		else {
-			result.redirectTo(this).index(udao.salvar(user),1,1);
-		}
 	}
 	
-	@Post("/editar")
+	@Get("/{cod}/editar")
 	public void editar(Long cod) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
-		
-		List<Pessoa> pessoas = pdao.listar(Pessoa.class, "TODAS_PESSOAS");
-		result.include("pessoas", pessoas);
-		result.include("user", udao.buscar(Usuario.class, cod));
+	
 	}
 	
-	@Get("/excluir")
+	@Get("/{cod}/excluir")
 	public void excluir(Long cod) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		result.redirectTo(this).index(udao.excluir(udao.buscar(Usuario.class, cod)),2,1);
 	}
 }

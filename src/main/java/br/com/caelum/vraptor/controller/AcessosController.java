@@ -12,8 +12,7 @@ import br.com.caelum.vraptor.Result;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.AcessosDAO;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
-import br.edu.unoesc.exception.DAOException;
-import br.edu.unoesc.model.outros.Acessos;
+import br.edu.unoesc.model.usuario.Acessos;
 import br.edu.unoesc.model.outros.Configuracoes;
 
 @Path("/acessos")
@@ -84,36 +83,12 @@ public class AcessosController {
 		result.include("acao", acao);
 	}
 	
-	@Get("/novo")
-	public void novo() {
+	@Post("/{cod}/editar")
+	public void editar(Long cod) {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-	}
-	
-	@Post("/salvar")
-	public void salvar(Acessos acessos) {
-		if(usuarioSessao.isLogado() == false)
-			result.redirectTo(LoginController.class).index(null);
-		result.include("usuario_nome", usuarioSessao.getNome());
-		
-		
-	}
-	
-	@Get("/{cod}/editar")
-	public void editar(Long cod) throws DAOException {
-		if(usuarioSessao.isLogado() == false)
-			result.redirectTo(LoginController.class).index(null);
-		result.include("usuario_nome", usuarioSessao.getNome());
-	
-	}
-	
-	@Get("/{cod}/excluir")
-	public void excluir(Long cod) throws DAOException {
-		if(usuarioSessao.isLogado() == false)
-			result.redirectTo(LoginController.class).index(null);
-		result.include("usuario_nome", usuarioSessao.getNome());
-		
+		result.include("acesso", acdao.buscar(Acessos.class, cod));
 	}
 }

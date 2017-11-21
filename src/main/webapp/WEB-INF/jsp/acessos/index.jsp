@@ -52,56 +52,9 @@
 		</div>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 col-lg-10 col-lg-offset-2">
 			<h3><span class="glyphicon glyphicon-chevron-right"></span> Acessos </h3><hr>
-			<c:choose>
-				<c:when test="${var == 0}">
-					<c:choose>
-						<c:when test="${acao == 0 }">
-							<div class="alert alert-danger alert-dismissible" role="alert">
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	       						<strong>Ops!</strong> Algum erro ocorreu na inclusão.
-	      					</div>
-	      				</c:when>
-	      				<c:when test="${acao == 1 }">
-	      					<div class="alert alert-danger alert-dismissible" role="alert">
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	       						<strong>Ops!</strong> Algum erro ocorreu na edição.
-	      					</div>
-	      				</c:when>
-	      				<c:when test="${acao == 2 }">
-	      					<div class="alert alert-danger alert-dismissible" role="alert">
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	       						<strong>Ops!</strong> Perfil com relacionamentos ativos.
-	      					</div>
-	      				</c:when>
-	      			</c:choose>
-				</c:when>
-				<c:when test="${var == 2}">
-					<c:choose>
-						<c:when test="${acao == 0 }">
-							<div class="alert alert-success alert-dismissible" role="alert">
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        			<strong>Sucesso!</strong> Cadastro efetuado.
-			      			</div>
-	      				</c:when>
-	      				<c:when test="${acao == 1 }">
-							<div class="alert alert-success alert-dismissible" role="alert">
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        			<strong>Sucesso!</strong> Cadastro alterado.
-			      			</div>
-	      				</c:when>
-	      				<c:when test="${acao == 2 }">
-							<div class="alert alert-success alert-dismissible" role="alert">
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        			<strong>Sucesso!</strong> Cadastro removido.
-			      			</div>
-	      				</c:when>
-	      			</c:choose>
-				</c:when>
-			</c:choose>
 			<div class="col-lg-12 responsive">
 				<div class="row">
 					<div class="box-actions">
-						<a href="<c:url value='/acessos/novo'/>" ><button type="button" class="btn btn-primary"> Novo </button></a>
 						<a href="<c:url value='/menu/configuracoes'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
 					</div>
 				</div>
@@ -111,7 +64,8 @@
 						<thead>
 							<tr>
 								<th>#</th>
-								<th>Descrição</th>
+								<th>Perfil de Acesso</th>
+								<th>Programa</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -119,7 +73,8 @@
 								<c:if test="${!empty(a)}" >
 									<tr>
 										<td>${a.codigo }</td>
-										<td><a href="<c:url value='/acessos/${a.codigo }/editar' />" >${a.programa.descricao }</a></td>
+										<td><a href="<c:url value='/acessos/${a.codigo }/editar' />" >${a.perfilacesso.descricao }</a></td>
+										<td>${a.programa.descricao }</td>
 									</tr>
 								</c:if>
 							</c:forEach>

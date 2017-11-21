@@ -3,6 +3,7 @@ package br.edu.unoesc.model.usuario;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,7 +17,6 @@ import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import br.edu.unoesc.model.MinhaEntidade;
-import br.edu.unoesc.model.outros.Acessos;
 
 @Entity
 @NamedQueries({
@@ -33,7 +33,7 @@ public class PerfilAcesso implements MinhaEntidade{
 	
 	private String descricao;
 	
-	@OneToMany(targetEntity = Acessos.class, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="perfilacesso", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Acessos> acessos = new ArrayList<Acessos>();
 
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -60,6 +60,14 @@ public class PerfilAcesso implements MinhaEntidade{
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public List<Acessos> getAcessos() {
+		return acessos;
+	}
+
+	public void setAcessos(List<Acessos> acessos) {
+		this.acessos = acessos;
 	}
 
 	public DateTime getCriacao() {

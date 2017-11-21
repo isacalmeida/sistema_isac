@@ -111,7 +111,7 @@
 						<tr>
 							<th>#</th>
 							<th>Programa</th>
-							<th>Caminho</th>
+							<th>Endereço</th>
 							<th>Data de Cadastro</th>
 						</tr>
 					</thead>
@@ -120,12 +120,7 @@
 							<c:if test="${!empty(p)}" >
 								<tr>
 									<td>${p.codigo }</td>
-									<td>
-										<form method="post" action="<c:url value='/programas/editar' />">
-											<input type="hidden" name="cod" value="${p.codigo }">
-											<a href="" onclick="this.parentNode.submit(); return false;">${p.programa }</a>
-										</form>
-									</td>
+									<td><a href="<c:url value='/programas/${p.codigo }/editar' />" >${p.descricao }</a></td>
 									<td>${p.endereco }</td>
 									<td>${p.criacao }</td>
 								</tr>

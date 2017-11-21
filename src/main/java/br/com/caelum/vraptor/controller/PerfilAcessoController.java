@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.joda.time.DateTime;
+
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -12,9 +14,12 @@ import br.com.caelum.vraptor.Result;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
 import br.edu.unoesc.dao.PerfilAcessoDAO;
+import br.edu.unoesc.dao.ProgramasDAO;
 import br.edu.unoesc.dao.UsuarioDAO;
 import br.edu.unoesc.exception.DAOException;
 import br.edu.unoesc.model.outros.Configuracoes;
+import br.edu.unoesc.model.outros.Programas;
+import br.edu.unoesc.model.usuario.Acessos;
 import br.edu.unoesc.model.usuario.PerfilAcesso;
 import br.edu.unoesc.model.usuario.Usuario;
 
@@ -26,10 +31,13 @@ public class PerfilAcessoController {
 	private Result result;
 	
 	@Inject
+	private ConfiguracoesDAO cdao;
+	
+	@Inject
 	private PerfilAcessoDAO padao;
 	
 	@Inject
-	private ConfiguracoesDAO cdao;
+	private ProgramasDAO podao;
 	
 	@Inject
 	private UsuarioDAO udao;
@@ -95,14 +103,44 @@ public class PerfilAcessoController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
+		List<Programas> programas = podao.listar(Programas.class, "TODOS_PROGRAMAS");
+		
+		result.include("programas", programas);
 	}
 	
 	@Post("/salvar")
-	public void salvar(PerfilAcesso perfil) {
+	public void salvar(PerfilAcesso perfil) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
+		System.out.println("Salvando: "+ perfil);
+		
+		if(perfil.getCodigo() == null) {
+			perfil.setCriacao(new DateTime());
+			perfil.setAlteracao(new DateTime());
+			
+			List<Programas> prog = null;
+			for(Acessos acesso : perfil.getAcessos()) {
+				prog = podao.buscar(Programas.class, acesso.getPrograma().getCodigo(), "PROGRAMA_POR_CODIGO");
+				acesso.setPerfilacesso(perfil);
+				acesso.setPrograma(prog.get(0));
+			}
+			result.redirectTo(this).index(padao.salvar(perfil),0,1);
+		}
+		else {
+			List<PerfilAcesso> perf = padao.buscar(PerfilAcesso.class, perfil.getCodigo(), "PERFIL_POR_CODIGO");
+			PerfilAcesso per = perf.get(0);
+			
+			perfil.setCriacao(per.getCriacao());
+			perfil.setAlteracao(new DateTime());
+			
+			for(Acessos acesso : perfil.getAcessos()) {
+				acesso.setPerfilacesso(perfil);
+			}
+			
+			result.redirectTo(this).index(padao.salvar(perfil),0,1);
+		}
 		
 	}
 	
@@ -113,7 +151,9 @@ public class PerfilAcessoController {
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
 		List<PerfilAcesso> perfil = padao.buscar(PerfilAcesso.class,cod,"PERFIL_POR_CODIGO");
+		List<Programas> programas = podao.listar(Programas.class, "TODOS_PROGRAMAS");
 		
+		result.include("programas", programas);
 		result.include("perfil", perfil.get(0));
 	}
 	

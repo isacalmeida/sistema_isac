@@ -53,55 +53,30 @@
 			</ul>
 		</div>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<h3 class="page-header"><span class="glyphicon glyphicon-chevron-right"></span> Pessoas </h3>
+			<h3 class="page-header"><span class="glyphicon glyphicon-chevron-right"></span> Cor </h3>
 			<ol class="breadcrumb">
-				<li><a href="<c:url value='/programas'/>"> Programas </a></li>
+				<li><a href="<c:url value='/cor'/>"> Cor </a></li>
 				<li class="active"> Novo </li>
 			</ol>
 			<div class="row">
 				<div class="tab-pane">
-					<form role="form" method="post" action='<c:url value="/programas/salvar"/>'>
+					<form role="form" method="post" action='<c:url value="/cor/salvar"/>'>
 						<fieldset>
 							<div class="row">
 								<div class="form-group col-lg-12">
 									<label for="campoCodigo">Codigo</label>
-									<input type="text" class="form-control" id="campoCodigo" disabled>
+									<input type="text" class="form-control" id="campoCodigo" name="cor.codigo" disabled>
 								</div>
 							</div>
 							<div class="row">
 								<div class="form-group col-lg-12">
 									<label for="campoDescricao">Descricao</label>
-									<input type="text" class="form-control" id="campoDescricao" name="programa.descricao">
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group col-lg-12">
-									<label for="campoEndereco">Endereço</label>
-									<input type="text" class="form-control" id="campoEndereco" name="programa.endereco">
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group col-lg-12">
-									<label for="campoGrupo">Grupo</label>
-									<select id="campoGrupo" name="programa.grupo" class="form-control">
-										<option value="1">Geral</option>
-										<option value="2">Pessoa</option>
-										<option value="3">Produto</option>
-									</select>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group col-lg-2">
-									<label for="campoAtivo">Ativo</label>
-									<select id="campoAtivo" name="programa.ativo" class="form-control" >
-										<option value="true" selected="selected">Sim</option>
-										<option value="false">Não</option>
-									</select>
+									<input type="text" class="form-control" id="campoDescricao" name="cor.descricao">
 								</div>
 							</div>
 							<div class="box-actions">
 								<button type="submit" class="btn btn-success">Salvar</button>
-								<a href="<c:url value='/programas'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
+								<a href="<c:url value='/cor'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
 							</div>
 						</fieldset>
 					</form>

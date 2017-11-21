@@ -14,7 +14,9 @@ import br.edu.unoesc.model.MinhaEntidade;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="TODAS_CORES", 
-				query="select c from Cor c order by c.codigo")
+				query="select c from Cor c order by c.codigo"),
+	@NamedQuery(name="COR_POR_CODIGO",
+				query="select c from Cor c where c.codigo = :codigo")
 })
 public class Cor implements MinhaEntidade{
 	

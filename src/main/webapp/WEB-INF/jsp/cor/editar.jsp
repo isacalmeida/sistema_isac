@@ -5,12 +5,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title> Novo </title>
+<title> Editar </title>
 
 <link rel="icon" href="<c:url value='/bootstrap/img/icon.png' />" />
 
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/css/bootstrap.min.css' />" />
-<link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/navbar-fixed-top.css' />" />
+<link rel="stylesheet" type="text/css" 	href="<c:url value='/bootstrap/styles/navbar-fixed-top.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/dashboard.css' />" />
 
 </head>
@@ -53,55 +53,58 @@
 			</ul>
 		</div>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<h3 class="page-header"><span class="glyphicon glyphicon-chevron-right"></span> Pessoas </h3>
+			<h3 class="page-header"><span class="glyphicon glyphicon-chevron-right"></span> Cor </h3>
 			<ol class="breadcrumb">
-				<li><a href="<c:url value='/programas'/>"> Programas </a></li>
-				<li class="active"> Novo </li>
+				<li><a href="<c:url value='/cor'/>"> Cor </a></li>
+				<li class="active"> Editar </li>
 			</ol>
 			<div class="row">
 				<div class="tab-pane">
-					<form role="form" method="post" action='<c:url value="/programas/salvar"/>'>
+					<form role="form" method="post" action='<c:url value="/cor/salvar"/>'>
 						<fieldset>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="col-lg-6">
+										<label for="campoCriacao">Criado em:</label>
+										<input type="datetime" id="campoCriacao" class="form-control" value="${cor.criacao }" disabled>
+									</div>
+									<div class="col-lg-6">
+										<label for="campoAlteracao">Última alteração em:</label>
+										<input type="datetime" id="campoAlteracao" class="form-control" value="${cor.alteracao }" disabled>
+									</div>
+								</div>
+							</div>
+							<br>
 							<div class="row">
 								<div class="form-group col-lg-12">
 									<label for="campoCodigo">Codigo</label>
 									<input type="text" class="form-control" id="campoCodigo" disabled>
+									<input value="${cor.codigo }" name="cor.codigo" type="hidden">
 								</div>
 							</div>
 							<div class="row">
 								<div class="form-group col-lg-12">
-									<label for="campoDescricao">Descricao</label>
-									<input type="text" class="form-control" id="campoDescricao" name="programa.descricao">
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group col-lg-12">
-									<label for="campoEndereco">Endereço</label>
-									<input type="text" class="form-control" id="campoEndereco" name="programa.endereco">
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group col-lg-12">
-									<label for="campoGrupo">Grupo</label>
-									<select id="campoGrupo" name="programa.grupo" class="form-control">
-										<option value="1">Geral</option>
-										<option value="2">Pessoa</option>
-										<option value="3">Produto</option>
-									</select>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group col-lg-2">
-									<label for="campoAtivo">Ativo</label>
-									<select id="campoAtivo" name="programa.ativo" class="form-control" >
-										<option value="true" selected="selected">Sim</option>
-										<option value="false">Não</option>
-									</select>
+									<label for="campoDescricao">Descrição</label>
+									<input value="${cor.descricao }" type="text" class="form-control" id="campoDescricao" name="cor.descricao">
 								</div>
 							</div>
 							<div class="box-actions">
 								<button type="submit" class="btn btn-success">Salvar</button>
-								<a href="<c:url value='/programas'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
+								<a href="<c:url value='/cor'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
+								<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm"> Excluir </button>
+							</div>
+							<div class="modal fade" id="confirm" role="dialog">
+								<div class="modal-dialog modal-md">
+									<div class="modal-content">
+										<div class="modal-body">
+											<p> Tem certeza que deseja excluir? </p>
+										</div>
+										<div class="modal-footer">
+											<button type="button" data-dismiss="modal" class="btn btn-default"> Voltar </button>
+											<a href="<c:url value='/cor/${cor.codigo }/excluir'/>" ><button type="button" class="btn btn-primary" id="delete"> Confirmar </button></a>
+										</div>
+									</div>							
+								</div>
 							</div>
 						</fieldset>
 					</form>

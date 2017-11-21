@@ -153,8 +153,6 @@ public class PessoaController {
 			
 			pessoa.setCriacao(pess.getCriacao());
 			pessoa.setAlteracao(new DateTime());
-			System.out.println("Pessoa 1: "+ pess);
-			System.out.println("Pessoa 2: "+ pessoa);
 			
 			List<Endereco> endremov = pess.getEndereco();
 			if(endremov.size() > 0) {
@@ -192,7 +190,6 @@ public class PessoaController {
 				}
 			}
 			cdao.salvar(confs);
-			System.out.println("Final: "+ pessoa);
 			result.redirectTo(this).index(pdao.salvar(pessoa),1,1); 
 		} 
 	}

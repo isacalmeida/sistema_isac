@@ -1,9 +1,10 @@
 package br.com.caelum.vraptor.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import org.joda.time.DateTime;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
@@ -11,11 +12,13 @@ import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.edu.unoesc.beans.UsuarioBean;
+import br.edu.unoesc.dao.AcessosDAO;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
 import br.edu.unoesc.dao.ProgramasDAO;
 import br.edu.unoesc.exception.DAOException;
 import br.edu.unoesc.model.outros.Configuracoes;
 import br.edu.unoesc.model.outros.Programas;
+import br.edu.unoesc.model.usuario.Acessos;
 
 @Path("/programas")
 @Controller
@@ -25,10 +28,13 @@ public class ProgramasController {
 	private Result result;
 	
 	@Inject
-	private ProgramasDAO pdao;
+	private ConfiguracoesDAO cdao;
 	
 	@Inject
-	private ConfiguracoesDAO cdao;
+	private ProgramasDAO podao;
+	
+	@Inject
+	private AcessosDAO acdao;
 	
 	@Inject
 	private UsuarioBean usuarioSessao;
@@ -42,7 +48,7 @@ public class ProgramasController {
 		Long cod = (long) 1;
 		Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
 		
-		List<Programas> programas = pdao.listar(Programas.class, "TODOS_PROGRAMAS");
+		List<Programas> programas = podao.listar(Programas.class, "TODOS_PROGRAMAS");
 		int linhas = 10;
 		if(conf != null) {
 			linhas = conf.getTabela_linhas();
@@ -86,71 +92,66 @@ public class ProgramasController {
 	}
 	
 	@Get("/novo")
-	public void novo(Integer logado, Integer menu, Integer var) {
+	public void novo() {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		result.include("logado", logado);
-		result.include("menu", menu);
-		result.include("var", var);
-		
-		List<Programas> programas = pdao.listar(Programas.class, "TODOS_PROGRAMAS");
-		result.include("programas", programas);
 	}
 	
 	@Post("/salvar")
-	public void salvar(String programa, String endereco, Boolean ativo, Long codigo) throws DAOException {
+	public void salvar(Programas programa) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		Programas programas = new Programas();
-		
-		programas.setCodigo(codigo);
-		programas.setDescricao(programa);
-		programas.setEndereco(endereco);
-		programas.setAtivo(ativo);
-		programas.setCriacao(new Date());
-		
-		if(codigo == null) {
-			result.redirectTo(this).index(pdao.salvar(programas),0,1);
+		if(programa.getCodigo() == null) {
+			programa.setCriacao(new DateTime());
+			programa.setAlteracao(new DateTime());
+			
+			result.redirectTo(this).index(podao.salvar(programa),0,1);
 		}
 		else {
-			result.redirectTo(this).index(pdao.salvar(programas),1,1);
+			List<Programas> progs = podao.buscar(Programas.class, programa.getCodigo(), "PROGRAMA_POR_CODIGO");
+			Programas prog = progs.get(0);
+			
+			programa.setCriacao(prog.getCriacao());
+			programa.setAlteracao(new DateTime());
+
+			result.redirectTo(this).index(podao.salvar(programa),1,1);
 		}
 	}
 	
-	@Post("/editar")
+	@Get("/{cod}/editar")
 	public void editar(Long cod) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		result.include("prog", pdao.buscar(Programas.class, cod));
+		result.include("programa", podao.buscar(Programas.class, cod));
 	}
 	
-	@Get("/excluir")
+	@Get("/{cod}/excluir")
 	public void excluir(Long cod) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		result.redirectTo(this).index(pdao.excluir(pdao.buscar(Programas.class, cod)),2,1);
-	}
-	
-	@Get("/busca.json")
-	public void buscaJson(String nome){
-		if(usuarioSessao.isLogado() == false)
-			result.redirectTo(LoginController.class).index(null);
-		result.include("usuario_nome", usuarioSessao.getNome());
+		List<Acessos> acessos = acdao.listar(Acessos.class, "TODOS_ACESSOS");
+		Programas prog = null;
 		
-		//A lista = json().newInstance().withoutRoot().from(pdao.listar(Programas.class, "TODOS_PROGRAMAS")).serialize();
+		for (Acessos acesso : acessos) {
+			if(acesso.getPrograma().getCodigo() == cod) {
+				prog = acesso.getPrograma();
+			}
+		}
 		
-				
-		List<Programas> lista = pdao.listar(Programas.class, "TODOS_PROGRAMAS");
-
-		System.out.println("Teste: "+ lista);
-		//result.use(json()).withoutRoot().from(pdao.buscar(Programas.class, nome, "TODOS_PRODUTOS")).exclude("codigo", "data", "ativo").serialize();
+		if(prog == null){
+			prog = podao.buscar(Programas.class, cod);
+			result.redirectTo(this).index(podao.excluir(prog),2,1);
+		}
+		else {
+			result.redirectTo(this).index(0,2,1);
+		}
 	}
 }

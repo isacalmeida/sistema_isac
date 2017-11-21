@@ -53,7 +53,7 @@
 			</ul>
 		</div>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<h3 class="page-header"><span class="glyphicon glyphicon-chevron-right"></span> Usuarios </h3>
+			<h3 class="page-header"><span class="glyphicon glyphicon-chevron-right"></span> Programas </h3>
 			<ol class="breadcrumb">
 				<li><a href="<c:url value='/programas'/>"> Programas </a></li>
 				<li class="active"> Editar </li>
@@ -62,29 +62,72 @@
 				<div class="tab-pane">
 					<form role="form" method="post" action='<c:url value="/programas/salvar"/>'>
 						<fieldset>
-							<input type="hidden" name="codigo" value="${prog.codigo }">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="col-lg-6">
+										<label for="campoCriacao">Criado em:</label>
+										<input type="datetime" id="campoCriacao" class="form-control" value="${programa.criacao }" disabled>
+									</div>
+									<div class="col-lg-6">
+										<label for="campoAlteracao">Última alteração em:</label>
+										<input type="datetime" id="campoAlteracao" class="form-control" value="${programa.alteracao }" disabled>
+									</div>
+								</div>
+							</div>
+							<br>
 							<div class="row">
 								<div class="form-group col-lg-12">
-									<label for="campoPrograma">Programa</label>
-									<input value="${prog.programa }" type="text" class="form-control" id="campoPrograma" name="programa">
+									<label for="campoCodigo">Codigo</label>
+									<input type="text" class="form-control" id="campoCodigo" value="${programa.codigo}" disabled>
+									<input type="hidden" name="programa.codigo" value="${programa.codigo}">
 								</div>
 							</div>
 							<div class="row">
 								<div class="form-group col-lg-12">
-									<label for="campoCaminho">Caminho</label>
-									<input value="${prog.endereco }" type="text" class="form-control" id="campoCaminho" name="endereco">
+									<label for="campoDescricao">Descricao</label>
+									<input type="text" class="form-control" id="campoDescricao" value="${programa.descricao}" name="programa.descricao">
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-lg-12">
+									<label for="campoEndereco">Endereço</label>
+									<input type="text" class="form-control" id="campoEndereco" value="${programa.endereco}" name="programa.endereco">
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-lg-12">
+									<label for="campoGrupo">Grupo</label>
+									<select id="campoGrupo" name="programa.grupo" class="form-control">
+										<c:choose>
+											<c:when test="${programa.grupo == 1}">
+												<option value="1" selected="selected">Geral</option>
+												<option value="2">Pessoa</option>
+												<option value="3">Produto</option>
+											</c:when>
+											<c:when test="${programa.grupo == 2}">
+												<option value="1">Geral</option>
+												<option value="2" selected="selected">Pessoa</option>
+												<option value="3">Produto</option>
+											</c:when>
+											<c:when test="${programa.grupo == 3}">
+												<option value="1">Geral</option>
+												<option value="2">Pessoa</option>
+												<option value="3" selected="selected">Produto</option>
+											</c:when>
+										</c:choose>
+									</select>
 								</div>
 							</div>
 							<div class="row">
 								<div class="form-group col-lg-2">
 									<label for="campoAtivo">Ativo</label>
-									<select id="campoAtivo" name="ativo" class="form-control" >
+									<select id="campoAtivo" name="programa.ativo" class="form-control" >
 										<c:choose>
-											<c:when test="${prog.ativo == true }">
+											<c:when test="${programa.ativo == true }">
 												<option value="true" selected="selected">Sim</option>
 												<option value="false">Não</option>
 											</c:when>
-											<c:when test="${prog.ativo == false }">
+											<c:when test="${programa.ativo == false }">
 												<option value="true">Sim</option>
 												<option value="false" selected="selected">Não</option>
 											</c:when>
@@ -105,7 +148,7 @@
 										</div>
 										<div class="modal-footer">
 											<button type="button" data-dismiss="modal" class="btn btn-default"> Voltar </button>
-											<a href="<c:url value='/programas/excluir?cod=${prog.codigo }'/>" ><button type="button" class="btn btn-primary" id="delete"> Confirmar </button></a>
+											<a href="<c:url value='/programas/${programa.codigo }/excluir'/>" ><button type="button" class="btn btn-primary" id="delete"> Confirmar </button></a>
 										</div>
 									</div>							
 								</div>

@@ -92,6 +92,14 @@ public class Produto implements MinhaEntidade{
 		this.departamento = departamento;
 	}
 
+	public List<Cor> getCor() {
+		return cor;
+	}
+
+	public void setCor(List<Cor> cor) {
+		this.cor = cor;
+	}
+
 	public String getCodigo_barras() {
 		return codigo_barras;
 	}
@@ -127,7 +135,7 @@ public class Produto implements MinhaEntidade{
 	@Override
 	public String toString() {
 		return "Produto [codigo=" + codigo + ", descricao=" + descricao + ", fornecedor=" + fornecedor
-				+ ", departamento=" + departamento + ", codigo_barras=" + codigo_barras + ", ativo=" + ativo
-				+ ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
+				+ ", departamento=" + departamento + ", cor=" + cor + ", codigo_barras=" + codigo_barras + ", ativo="
+				+ ativo + ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
 	}
 }

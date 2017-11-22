@@ -20,6 +20,10 @@ public class UsuarioBean implements Serializable {
 		this.logado = usuario;
 	}
 	
+	public Usuario getUsuario() {
+		return this.logado;
+	}
+	
 	public String getNome() {
 		if(logado == null) {
 			return null;

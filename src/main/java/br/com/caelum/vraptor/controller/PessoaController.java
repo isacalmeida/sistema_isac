@@ -23,6 +23,7 @@ import br.edu.unoesc.model.outros.Configuracoes;
 import br.edu.unoesc.model.pessoa.Contato;
 import br.edu.unoesc.model.pessoa.Endereco;
 import br.edu.unoesc.model.pessoa.Pessoa;
+import br.edu.unoesc.model.usuario.Acessos;
 import br.edu.unoesc.model.usuario.Usuario;
 
 @Path("/pessoa")
@@ -115,6 +116,17 @@ public class PessoaController {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
+		
+		Boolean temPermissao = false;
+		List<Acessos> acuser = usuarioSessao.getUsuario().getPerfil().getAcessos();
+		for(Acessos acess : acuser) {
+			if(acess.getPrograma().getDescricao().equals("Pessoa")) 
+				if(acess.getIncluir() == true)
+					temPermissao = acess.getIncluir();
+		}
+		if(temPermissao == false)
+			result.redirectTo(this).index(3,0,1);
+		
 		Configuracoes confs = cdao.buscar(Configuracoes.class, 1L);
 		
 		if(pessoa.getCodigo() == null) {

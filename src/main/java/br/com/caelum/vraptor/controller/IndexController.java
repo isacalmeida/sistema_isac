@@ -11,9 +11,11 @@ import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
 import br.edu.unoesc.dao.PerfilAcessoDAO;
 import br.edu.unoesc.dao.PessoaDAO;
+import br.edu.unoesc.dao.ProgramasDAO;
 import br.edu.unoesc.dao.UsuarioDAO;
 import br.edu.unoesc.exception.DAOException;
 import br.edu.unoesc.model.outros.Configuracoes;
+import br.edu.unoesc.model.outros.Programas;
 
 @Path("/")
 @Controller
@@ -27,6 +29,9 @@ public class IndexController {
 	
 	@Inject
 	private PessoaDAO pdao;
+	
+	@Inject
+	private ProgramasDAO podao;
 	
 	@Inject
 	private PerfilAcessoDAO pfdao;
@@ -44,6 +49,9 @@ public class IndexController {
 			
 			cdao.salvar(confs.getConfs());
 			pdao.salvar(confs.getPess());
+			for(Programas prog : confs.getProgramas()) {
+				podao.salvar(prog);
+			}
 			pfdao.salvar(confs.getPerfil());
 			udao.salvar(confs.getUser());
 			

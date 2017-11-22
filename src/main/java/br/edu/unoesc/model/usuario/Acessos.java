@@ -102,7 +102,7 @@ public class Acessos implements MinhaEntidade{
 
 	@Override
 	public String toString() {
-		return "Acessos [codigo=" + codigo + ", programa=" + programa + ", perfilacesso=" + perfilacesso
+		return "Acessos [codigo=" + codigo + ", programa=" + programa
 				+ ", visualizar=" + visualizar + ", incluir=" + incluir + ", alterar=" + alterar + ", remover="
 				+ remover + "]";
 	}

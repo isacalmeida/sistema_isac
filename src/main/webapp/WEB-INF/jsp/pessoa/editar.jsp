@@ -762,9 +762,13 @@ $(function() {
 						<div class="row">
 							<br>
 							<div class="box-actions col-lg-12">
-								<button type="submit" class="btn btn-success">Salvar</button>
+								<c:if test="${editar != 1 }">
+									<button type="submit" class="btn btn-success">Salvar</button>
+								</c:if>
 								<a href="<c:url value='/pessoa'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm"> Excluir </button>
+								<c:if test="${excluir != 1 }">
+									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm"> Excluir </button>
+								</c:if>
 							</div>
 							<div class="modal fade" id="confirm" role="dialog">
 								<div class="modal-dialog modal-md">

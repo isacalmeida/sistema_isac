@@ -117,37 +117,37 @@
 												</tr>
 											</thead>
 											<tbody>
-												<c:forEach var="p" items="${programas}">
-													<c:if test="${p.grupo == 1}">
+												<c:forEach var="ac" items="${perfil.acessos}">
+													<c:if test="${ac.programa.grupo == 1}">
 														<c:set var="var" value="${var+1 }" />
 														<tr>
 															<td>
-																<c:out value="${p.descricao }" />
-																<input type="text" value="${p.codigo }" name="perfil.acessos[${var }].programa.codigo" hidden="hidden">
-																<input type="text" value="${perfil.acessos[var].codigo }" name="perfil.acessos[${var }].codigo" hidden="hidden">
+																<c:out value="${ac.programa.descricao }" />
+																<input type="text" value="${ac.programa.codigo }" name="perfil.acessos[${var }].programa.codigo" hidden="hidden">
+																<input type="text" value="${ac.codigo }" name="perfil.acessos[${var }].codigo" hidden="hidden">
 															</td>
 															<td>
 																<span class="button-checkbox">
 																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].visualizar" <c:if test="${perfil.acessos[var].visualizar == true }">checked</c:if>>
+																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].visualizar" <c:if test="${ac.visualizar == true }">checked</c:if>>
 																</span>
 															</td>
 															<td>
 					            								<span class="button-checkbox">
 																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].incluir" <c:if test="${perfil.acessos[var].incluir == true }">checked</c:if>>
+																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].incluir" <c:if test="${ac.incluir == true }">checked</c:if>>
 																</span>
 															</td>
 															<td>
 																<span class="button-checkbox">
 																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].alterar" <c:if test="${perfil.acessos[var].alterar == true }">checked</c:if>>
+																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].alterar" <c:if test="${ac.alterar == true }">checked</c:if>>
 																</span>
 															</td>
 															<td>
 																<span class="button-checkbox">
 																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].remover" <c:if test="${perfil.acessos[var].remover == true }">checked</c:if>>
+																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].remover" <c:if test="${ac.remover == true }">checked</c:if>>
 																</span>
 															</td>
 														</tr>
@@ -176,37 +176,37 @@
 												</tr>
 											</thead>
 											<tbody>
-												<c:forEach var="p" items="${programas}">
-													<c:if test="${p.grupo == 2}">
+												<c:forEach var="ac" items="${perfil.acessos}">
+													<c:if test="${ac.programa.grupo == 2}">
 														<c:set var="var" value="${var+1 }" />
 														<tr>
 															<td>
-																<c:out value="${p.descricao }" />
-																<input type="text" value="${p.codigo }" name="perfil.acessos[${var }].programa.codigo" hidden="hidden">
-																<input type="text" value="${perfil.acessos[var].codigo }" name="perfil.acessos[${var }].codigo" hidden="hidden">
+																<c:out value="${ac.programa.descricao }" />
+																<input type="text" value="${ac.programa.codigo }" name="perfil.acessos[${var }].programa.codigo" hidden="hidden">
+																<input type="text" value="${ac.codigo }" name="perfil.acessos[${var }].codigo" hidden="hidden">
 															</td>
 															<td>
 																<span class="button-checkbox">
 																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].visualizar" <c:if test="${perfil.acessos[var].visualizar == true }">checked</c:if>>
+																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].visualizar" <c:if test="${ac.visualizar == true }">checked</c:if>>
 																</span>
 															</td>
 															<td>
 					            								<span class="button-checkbox">
 																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].incluir" <c:if test="${perfil.acessos[var].incluir == true }">checked</c:if>>
+																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].incluir" <c:if test="${ac.incluir == true }">checked</c:if>>
 																</span>
 															</td>
 															<td>
 																<span class="button-checkbox">
 																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].alterar" <c:if test="${perfil.acessos[var].alterar == true }">checked</c:if>>
+																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].alterar" <c:if test="${ac.alterar == true }">checked</c:if>>
 																</span>
 															</td>
 															<td>
 																<span class="button-checkbox">
 																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].remover" <c:if test="${perfil.acessos[var].remover == true }">checked</c:if>>
+																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].remover" <c:if test="${ac.remover == true }">checked</c:if>>
 																</span>
 															</td>
 														</tr>
@@ -235,37 +235,37 @@
 												</tr>
 											</thead>
 											<tbody>
-												<c:forEach var="p" items="${programas}">
-													<c:if test="${p.grupo == 3}">
+												<c:forEach var="ac" items="${perfil.acessos}">
+													<c:if test="${ac.programa.grupo == 3}">
 														<c:set var="var" value="${var+1 }" />
 														<tr>
 															<td>
-																<c:out value="${p.descricao }" />
-																<input type="text" value="${p.codigo }" name="perfil.acessos[${var }].programa.codigo" hidden="hidden">
-																<input type="text" value="${perfil.acessos[var].codigo }" name="perfil.acessos[${var }].codigo" hidden="hidden">
+																<c:out value="${ac.programa.descricao }" />
+																<input type="text" value="${ac.programa.codigo }" name="perfil.acessos[${var }].programa.codigo" hidden="hidden">
+																<input type="text" value="${ac.codigo }" name="perfil.acessos[${var }].codigo" hidden="hidden">
 															</td>
 															<td>
 																<span class="button-checkbox">
 																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].visualizar" <c:if test="${perfil.acessos[var].visualizar == true }">checked</c:if>>
+																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].visualizar" <c:if test="${ac.visualizar == true }">checked</c:if>>
 																</span>
 															</td>
 															<td>
 					            								<span class="button-checkbox">
 																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].incluir" <c:if test="${perfil.acessos[var].incluir == true }">checked</c:if>>
+																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].incluir" <c:if test="${ac.incluir == true }">checked</c:if>>
 																</span>
 															</td>
 															<td>
 																<span class="button-checkbox">
 																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].alterar" <c:if test="${perfil.acessos[var].alterar == true }">checked</c:if>>
+																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].alterar" <c:if test="${ac.alterar == true }">checked</c:if>>
 																</span>
 															</td>
 															<td>
 																<span class="button-checkbox">
 																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].remover" <c:if test="${perfil.acessos[var].remover == true }">checked</c:if>>
+																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].remover" <c:if test="${ac.remover == true }">checked</c:if>>
 																</span>
 															</td>
 														</tr>

@@ -125,6 +125,14 @@ public class PerfilAcessoController {
 				prog = podao.buscar(Programas.class, acesso.getPrograma().getCodigo(), "PROGRAMA_POR_CODIGO");
 				acesso.setPerfilacesso(perfil);
 				acesso.setPrograma(prog.get(0));
+				if(acesso.getVisualizar() == null)
+					acesso.setVisualizar(false);
+				if(acesso.getIncluir() == null)
+					acesso.setIncluir(false);
+				if(acesso.getAlterar() == null)
+					acesso.setAlterar(false);
+				if(acesso.getRemover() == null)
+					acesso.setRemover(false);
 			}
 			result.redirectTo(this).index(padao.salvar(perfil),0,1);
 		}
@@ -136,8 +144,19 @@ public class PerfilAcessoController {
 			perfil.setAlteracao(new DateTime());
 			
 			for(Acessos acesso : perfil.getAcessos()) {
+				if(acesso.getVisualizar() == null)
+					acesso.setVisualizar(false);
+				if(acesso.getIncluir() == null)
+					acesso.setIncluir(false);
+				if(acesso.getAlterar() == null)
+					acesso.setAlterar(false);
+				if(acesso.getRemover() == null)
+					acesso.setRemover(false);
 				acesso.setPerfilacesso(perfil);
 			}
+			
+			if(usuarioSessao.getUsuario().getPerfil().getCodigo() == perfil.getCodigo())
+				usuarioSessao.setPermissao(perfil);
 			
 			result.redirectTo(this).index(padao.salvar(perfil),0,1);
 		}
@@ -151,9 +170,9 @@ public class PerfilAcessoController {
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
 		List<PerfilAcesso> perfil = padao.buscar(PerfilAcesso.class,cod,"PERFIL_POR_CODIGO");
-		List<Programas> programas = podao.listar(Programas.class, "TODOS_PROGRAMAS");
+		//List<Programas> programas = podao.listar(Programas.class, "TODOS_PROGRAMAS");
 		
-		result.include("programas", programas);
+		//result.include("programas", programas);
 		result.include("perfil", perfil.get(0));
 	}
 	

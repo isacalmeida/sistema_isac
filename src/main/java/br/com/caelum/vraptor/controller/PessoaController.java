@@ -23,7 +23,6 @@ import br.edu.unoesc.model.outros.Configuracoes;
 import br.edu.unoesc.model.pessoa.Contato;
 import br.edu.unoesc.model.pessoa.Endereco;
 import br.edu.unoesc.model.pessoa.Pessoa;
-import br.edu.unoesc.model.usuario.Acessos;
 import br.edu.unoesc.model.usuario.Usuario;
 
 @Path("/pessoa")
@@ -57,50 +56,58 @@ public class PessoaController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		Long cod = (long) 1;
-		Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
-		
-		List<Pessoa> pessoas = pdao.listar(Pessoa.class, "TODAS_PESSOAS");
-		int linhas = 10;
-		if(conf != null) {
-			linhas = conf.getTabela_linhas();
+		if(usuarioSessao.getPermissao("Pessoa", 1) == false) {
+			result.include("permissao", 1);
 		}
-		int colunas = pessoas.size()/linhas;
-		
-		if(pessoas.size()%linhas > 0) {
-			colunas++;
-		}
-		
-		Pessoa[][] mpess = new Pessoa[colunas][linhas];
-		
-		int linha = 0;
-		int coluna = 0;
-		for(Pessoa pessoa : pessoas) {
-			mpess[coluna][linha] = pessoa;
-			linha ++;
-			if(linha == linhas) {
-				linha = 0;
-				coluna ++;
+		else {
+			if(usuarioSessao.getPermissao("Pessoa", 2) == false) {
+				result.include("permissao", 2);
 			}
+			Long cod = (long) 1;
+			Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
+			
+			List<Pessoa> pessoas = pdao.listar(Pessoa.class, "TODAS_PESSOAS");
+			int linhas = 10;
+			if(conf != null) {
+				linhas = conf.getTabela_linhas();
+			}
+			int colunas = pessoas.size()/linhas;
+			
+			if(pessoas.size()%linhas > 0) {
+				colunas++;
+			}
+			
+			Pessoa[][] mpess = new Pessoa[colunas][linhas];
+			
+			int linha = 0;
+			int coluna = 0;
+			for(Pessoa pessoa : pessoas) {
+				mpess[coluna][linha] = pessoa;
+				linha ++;
+				if(linha == linhas) {
+					linha = 0;
+					coluna ++;
+				}
+			}
+			
+			if(tpag == null) {
+				tpag = 0;
+			}
+			else {
+				tpag--;
+			}
+			if(pessoas.size() == 0) {
+				result.include("pessoas", null);
+				colunas = 1;
+			}
+			else {
+				result.include("pessoas", mpess[tpag]);
+			}
+			result.include("colunas", colunas);
+			result.include("pag", tpag);
+			result.include("var", var);
+			result.include("acao", acao);
 		}
-		
-		if(tpag == null) {
-			tpag = 0;
-		}
-		else {
-			tpag--;
-		}
-		if(pessoas.size() == 0) {
-			result.include("pessoas", null);
-			colunas = 1;
-		}
-		else {
-			result.include("pessoas", mpess[tpag]);
-		}
-		result.include("colunas", colunas);
-		result.include("pag", tpag);
-		result.include("var", var);
-		result.include("acao", acao);
 	}
 	
 	@Get("/novo")
@@ -109,6 +116,9 @@ public class PessoaController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
+		if(usuarioSessao.getPermissao("Pessoa", 2) == false) {
+			result.include("permissao", 1);
+		}
 	}
 	
 	@Post("/salvar")
@@ -116,16 +126,6 @@ public class PessoaController {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
-		
-		Boolean temPermissao = false;
-		List<Acessos> acuser = usuarioSessao.getUsuario().getPerfil().getAcessos();
-		for(Acessos acess : acuser) {
-			if(acess.getPrograma().getDescricao().equals("Pessoa")) 
-				if(acess.getIncluir() == true)
-					temPermissao = acess.getIncluir();
-		}
-		if(temPermissao == false)
-			result.redirectTo(this).index(3,0,1);
 		
 		Configuracoes confs = cdao.buscar(Configuracoes.class, 1L);
 		
@@ -212,6 +212,13 @@ public class PessoaController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
+		if(usuarioSessao.getPermissao("Pessoa", 3) == false) {
+			result.include("editar", 1);
+		}
+		if(usuarioSessao.getPermissao("Pessoa", 4) == false) {
+			result.include("excluir", 1);
+		}
+		
 		List<Pessoa> pessoa = pdao.buscar(Pessoa.class,cod,"PESSOA_POR_CODIGO");
 		
 		//System.out.println("Pessoa Pag: "+ pessoa);
@@ -227,20 +234,25 @@ public class PessoaController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		List<Usuario> usuarios = udao.listar(Usuario.class, "TODOS_USUARIOS");
-		Pessoa pessoa = null;
-		
-		for (Usuario usuario : usuarios) {
-			if(usuario.getPessoa().getCodigo() == cod)
-				 pessoa = usuario.getPessoa();
-		}
-		
-		if(pessoa == null){
-			pessoa = pdao.buscar(Pessoa.class, cod);
-			result.redirectTo(this).index(pdao.excluir(pessoa),2,1);
+		if(usuarioSessao.getPermissao("Pessoa", 4) == false) {
+			result.redirectTo(this).index(1,2,1);
 		}
 		else {
-			result.redirectTo(this).index(0,2,1);
+			List<Usuario> usuarios = udao.listar(Usuario.class, "TODOS_USUARIOS");
+			Pessoa pessoa = null;
+			
+			for (Usuario usuario : usuarios) {
+				if(usuario.getPessoa().getCodigo() == cod)
+					 pessoa = usuario.getPessoa();
+			}
+			
+			if(pessoa == null){
+				pessoa = pdao.buscar(Pessoa.class, cod);
+				result.redirectTo(this).index(pdao.excluir(pessoa),2,1);
+			}
+			else {
+				result.redirectTo(this).index(0,2,1);
+			}
 		}
 	}
 }

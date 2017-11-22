@@ -25,7 +25,9 @@ import br.edu.unoesc.model.pessoa.Pessoa;
 	@NamedQuery(name="TODOS_USUARIOS_ATIVOS",
 				query="select u from Usuario u where u.ativo = TRUE"),
 	@NamedQuery(name="TODOS_USUARIOS_INATIVOS",
-				query="select u from Usuario u where u.ativo = FALSE")
+				query="select u from Usuario u where u.ativo = FALSE"),
+	@NamedQuery(name="USUARIO_POR_CODIGO",
+				query="select u from Usuario u where u.codigo = :codigo")
 })/*
 	@NamedQuery(name="PESSOAS_EM_USUARIOS",
 				query="select u from Usuario u left join Pessoa p on u.pessoa.codigo = p.codigo")

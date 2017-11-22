@@ -66,6 +66,7 @@ public class ConfiguracoesBean implements Serializable {
 		prog1.setGrupo(2L);
 		prog1.setCriacao(new DateTime());
 		prog1.setAlteracao(new DateTime());
+		prog1.setAtivo(true);
 		programas.add(prog1);
 		
 		Programas prog2 = new Programas();
@@ -74,6 +75,7 @@ public class ConfiguracoesBean implements Serializable {
 		prog2.setGrupo(3L);
 		prog2.setCriacao(new DateTime());
 		prog2.setAlteracao(new DateTime());
+		prog2.setAtivo(true);
 		programas.add(prog2);
 		
 		Programas prog3 = new Programas();
@@ -82,6 +84,7 @@ public class ConfiguracoesBean implements Serializable {
 		prog3.setGrupo(2L);
 		prog3.setCriacao(new DateTime());
 		prog3.setAlteracao(new DateTime());
+		prog3.setAtivo(true);
 		programas.add(prog3);
 		
 		Programas prog4 = new Programas();
@@ -90,6 +93,7 @@ public class ConfiguracoesBean implements Serializable {
 		prog4.setGrupo(2L);
 		prog4.setCriacao(new DateTime());
 		prog4.setAlteracao(new DateTime());
+		prog4.setAtivo(true);
 		programas.add(prog4);
 		
 		Programas prog5 = new Programas();
@@ -98,6 +102,7 @@ public class ConfiguracoesBean implements Serializable {
 		prog5.setGrupo(3L);
 		prog5.setCriacao(new DateTime());
 		prog5.setAlteracao(new DateTime());
+		prog5.setAtivo(true);
 		programas.add(prog5);
 		
 		Programas prog6 = new Programas();
@@ -106,6 +111,7 @@ public class ConfiguracoesBean implements Serializable {
 		prog6.setGrupo(3L);
 		prog6.setCriacao(new DateTime());
 		prog6.setAlteracao(new DateTime());
+		prog6.setAtivo(true);
 		programas.add(prog6);
 
 		Programas prog7 = new Programas();
@@ -114,6 +120,7 @@ public class ConfiguracoesBean implements Serializable {
 		prog7.setGrupo(1L);
 		prog7.setCriacao(new DateTime());
 		prog7.setAlteracao(new DateTime());
+		prog7.setAtivo(true);
 		programas.add(prog7);
 
 		Programas prog8 = new Programas();
@@ -122,6 +129,7 @@ public class ConfiguracoesBean implements Serializable {
 		prog8.setGrupo(1L);
 		prog8.setCriacao(new DateTime());
 		prog8.setAlteracao(new DateTime());
+		prog8.setAtivo(true);
 		programas.add(prog8);
 
 		Programas prog9 = new Programas();
@@ -130,6 +138,7 @@ public class ConfiguracoesBean implements Serializable {
 		prog9.setGrupo(1L);
 		prog9.setCriacao(new DateTime());
 		prog9.setAlteracao(new DateTime());
+		prog9.setAtivo(true);
 		programas.add(prog9);
 		
 		PerfilAcesso perfil = new PerfilAcesso();

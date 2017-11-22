@@ -11,6 +11,11 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/navbar-fixed-top.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/dashboard.css' />" />
 
+<style type="text/css">
+.btn-default.btn-on.active{background-color: #5BB75B;color: white;}
+.btn-default.btn-off.active{background-color: #DA4F49;color: white;}
+</style>
+
 <%-- jQuery (necessary for Bootstrap's JavaScript plugins) --%>
 <script src="<c:url value='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js' />"></script>
 <script src="<c:url value='/bootstrap/js/jquery.maskedinput.min.js' />"></script>
@@ -139,15 +144,6 @@ $(function() {
 						<div class="col-lg-1"></div>
 						<div class="col-lg-9">
 							<img class="img-thumbnail" id="imagemPessoa" src="<c:url value='${pessoa.imagem }' />">
-							<%-- <c:choose>
-								<c:when test="${pessoa.imagem == null }">
-									<img class="img-thumbnail" id="imagemPessoa" src="<c:url value="/bootstrap/img/avatarpadrao.png" />">
-								</c:when>
-								<c:otherwise>
-									<c:set var="imagem" value="data:image/bin;base64,${pessoa.imagem }" />
-									<img class="img-thumbnail" id="imagemPessoa" src="${imagem }">
-								</c:otherwise>
-							</c:choose>--%>
 						</div>
 						<div class="col-lg-2"></div>
 					</div>
@@ -269,50 +265,75 @@ $(function() {
 								<div class="col-sm-1"></div>
 							</div>
 							<div class="row">
-								<div class="form-group col-lg-4">
-									<label for="campoCliente">Cliente</label>
-									<select id="campoCliente" name="pessoa.cliente" class="form-control" >
-										<c:choose>
-											<c:when test="${pessoa.cliente == true}">
-												<option value="true" selected="selected">Sim</option>
-												<option value="false">Não</option>
-											</c:when>
-											<c:when test="${pessoa.cliente == false}">
-												<option value="true">Sim</option>
-												<option value="false" selected="selected">Não</option>
-											</c:when>
-										</c:choose>
-									</select>
+								<div class="col-sm-2"></div>
+								<div class="col-sm-3">
+									<div class="col-sm-12">
+										<label for="campoCliente">Cliente</label>
+									</div>
+									<div id="campoCliente" class="col-xs-12 col-sm-8">
+										<div class="btn-group" data-toggle="buttons">
+											<c:choose>
+												<c:when test="${pessoa.cliente == true}">
+													<label class="btn btn-default btn-on active">
+													<input type="radio" value="true" name="pessoa.cliente" checked="checked">Sim</label>
+													<label class="btn btn-default btn-off">
+													<input type="radio" value="false" name="pessoa.cliente">Não</label>
+												</c:when>
+												<c:when test="${pessoa.cliente == false}">
+													<label class="btn btn-default btn-on">
+													<input type="radio" value="true" name="pessoa.cliente">Sim</label>
+													<label class="btn btn-default btn-off active">
+													<input type="radio" value="false" name="pessoa.cliente" checked="checked">Não</label>
+												</c:when>
+											</c:choose>
+										</div>
+									</div>
 								</div>
-								<div class="form-group col-lg-4">
-									<label for="campoFornecedor">Fornecedor</label>
-									<select id="campoFornecedor" name="pessoa.fornecedor" class="form-control" >
-										<c:choose>
-											<c:when test="${pessoa.fornecedor == true}">
-												<option value="true" selected="selected">Sim</option>
-												<option value="false">Não</option>
-											</c:when>
-											<c:when test="${pessoa.fornecedor == false}">
-												<option value="true">Sim</option>
-												<option value="false" selected="selected">Não</option>
-											</c:when>
-										</c:choose>
-									</select>
+								<div class="col-sm-3">
+									<div class="col-sm-12">
+										<label for="campoFornecedor">Fornecedor</label>
+									</div>
+									<div id="campoFornecedor" class="col-xs-12 col-sm-8">
+										<div class="btn-group" data-toggle="buttons">
+											<c:choose>
+												<c:when test="${pessoa.fornecedor == true}">
+													<label class="btn btn-default btn-on active">
+													<input type="radio" value="true" name="pessoa.fornecedor" checked="checked">Sim</label>
+													<label class="btn btn-default btn-off">
+													<input type="radio" value="false" name="pessoa.fornecedor">Não</label>
+												</c:when>
+												<c:when test="${pessoa.fornecedor == false}">
+													<label class="btn btn-default btn-on">
+													<input type="radio" value="true" name="pessoa.fornecedor">Sim</label>
+													<label class="btn btn-default btn-off active">
+													<input type="radio" value="false" name="pessoa.fornecedor" checked="checked">Não</label>
+												</c:when>
+											</c:choose>
+										</div>
+									</div>
 								</div>
-								<div class="form-group col-lg-4">
-									<label for="campoAtivo">Ativo</label>
-									<select id="campoAtivo" name="pessoa.ativo" class="form-control" >
-										<c:choose>
-											<c:when test="${pessoa.ativo == true}">
-												<option value="true" selected="selected">Sim</option>
-												<option value="false">Não</option>
-											</c:when>
-											<c:when test="${pessoa.ativo == false}">
-												<option value="true">Sim</option>
-												<option value="false" selected="selected">Não</option>
-											</c:when>
-										</c:choose>
-									</select>
+								<div class="col-sm-3">
+									<div class="col-sm-12">
+										<label for="campoAtivo">Ativo</label>
+									</div>
+									<div id="campoAtivo" class="col-xs-12 col-sm-8">
+										<div class="btn-group" data-toggle="buttons">
+											<c:choose>
+												<c:when test="${pessoa.ativo == true}">
+													<label class="btn btn-default btn-on active">
+													<input type="radio" value="true" name="pessoa.ativo" checked="checked">Sim</label>
+													<label class="btn btn-default btn-off">
+													<input type="radio" value="false" name="pessoa.ativo">Não</label>
+												</c:when>
+												<c:when test="${pessoa.ativo == false}">
+													<label class="btn btn-default btn-on">
+													<input type="radio" value="true" name="pessoa.ativo">Sim</label>
+													<label class="btn btn-default btn-off active">
+													<input type="radio" value="false" name="pessoa.ativo" checked="checked">Não</label>
+												</c:when>
+											</c:choose>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -761,6 +782,7 @@ $(function() {
 						</div>
 						<div class="row">
 							<br>
+							<br>
 							<div class="box-actions col-lg-12">
 								<c:if test="${editar != 1 }">
 									<button type="submit" class="btn btn-success">Salvar</button>
@@ -769,6 +791,9 @@ $(function() {
 								<c:if test="${excluir != 1 }">
 									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm"> Excluir </button>
 								</c:if>
+								<br>
+								<br>
+								<br>
 							</div>
 							<div class="modal fade" id="confirm" role="dialog">
 								<div class="modal-dialog modal-md">

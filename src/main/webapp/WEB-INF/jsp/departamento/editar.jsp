@@ -53,24 +53,24 @@
 			</ul>
 		</div>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-			<h3><span class="glyphicon glyphicon-chevron-right"></span> Cor </h3>
+			<h3><span class="glyphicon glyphicon-chevron-right"></span> Departamento </h3>
 			<ol class="breadcrumb">
-				<li><a href="<c:url value='/cor'/>"> Cor </a></li>
+				<li><a href="<c:url value='/departamento'/>"> Departamento </a></li>
 				<li class="active"> Editar </li>
 			</ol>
 			<div class="row">
 				<div class="tab-pane">
-					<form role="form" method="post" action='<c:url value="/cor/salvar"/>'>
+					<form role="form" method="post" action='<c:url value="/departamento/salvar"/>'>
 						<fieldset>
 							<div class="row">
 								<div class="col-lg-12">
 									<div class="col-lg-6">
 										<label for="campoCriacao">Criado em:</label>
-										<input type="datetime" id="campoCriacao" class="form-control" value="${cor.criacao }" disabled>
+										<input type="datetime" id="campoCriacao" class="form-control" value="${departamento.criacao }" disabled>
 									</div>
 									<div class="col-lg-6">
 										<label for="campoAlteracao">Última alteração em:</label>
-										<input type="datetime" id="campoAlteracao" class="form-control" value="${cor.alteracao }" disabled>
+										<input type="datetime" id="campoAlteracao" class="form-control" value="${departamento.alteracao }" disabled>
 									</div>
 								</div>
 							</div>
@@ -79,20 +79,20 @@
 								<div class="form-group col-lg-12">
 									<label for="campoCodigo">Codigo</label>
 									<input type="text" class="form-control" id="campoCodigo" disabled>
-									<input value="${cor.codigo }" name="cor.codigo" type="hidden">
+									<input value="${departamento.codigo }" name="departamento.codigo" type="hidden">
 								</div>
 							</div>
 							<div class="row">
 								<div class="form-group col-lg-12">
 									<label for="campoDescricao">Descrição</label>
-									<input value="${cor.descricao }" type="text" class="form-control" id="campoDescricao" name="cor.descricao">
+									<input value="${departamento.descricao }" type="text" class="form-control" id="campoDescricao" name="departamento.descricao">
 								</div>
 							</div>
 							<div class="box-actions">
 								<c:if test="${editar != 1 }">
 									<button type="submit" class="btn btn-success">Salvar</button>
 								</c:if>
-								<a href="<c:url value='/cor'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
+								<a href="<c:url value='/departamento'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
 								<c:if test="${excluir != 1 }">
 									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm"> Excluir </button>
 								</c:if>
@@ -105,7 +105,7 @@
 										</div>
 										<div class="modal-footer">
 											<button type="button" data-dismiss="modal" class="btn btn-default"> Voltar </button>
-											<a href="<c:url value='/cor/${cor.codigo }/excluir'/>" ><button type="button" class="btn btn-primary" id="delete"> Confirmar </button></a>
+											<a href="<c:url value='/departamento/${departamento.codigo }/excluir'/>" ><button type="button" class="btn btn-primary" id="delete"> Confirmar </button></a>
 										</div>
 									</div>							
 								</div>

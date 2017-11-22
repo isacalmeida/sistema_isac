@@ -221,8 +221,6 @@ public class PessoaController {
 		
 		List<Pessoa> pessoa = pdao.buscar(Pessoa.class,cod,"PESSOA_POR_CODIGO");
 		
-		//System.out.println("Pessoa Pag: "+ pessoa);
-		
 		result.include("qtdendereco", pessoa.get(0).getEndereco().size());
 		result.include("qtdcontato", pessoa.get(0).getContato().size());
 		result.include("pessoa", pessoa.get(0));

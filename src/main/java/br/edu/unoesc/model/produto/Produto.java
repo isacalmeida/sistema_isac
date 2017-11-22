@@ -25,7 +25,9 @@ import br.edu.unoesc.model.pessoa.Pessoa;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="TODOS_PRODUTOS", 
-				query="select p from Produto p order by p.codigo")
+				query="select p from Produto p order by p.codigo"),
+	@NamedQuery(name="PRODUTO_POR_CODIGO",
+				query="select p from Produto p where p.codigo = :codigo")
 })
 public class Produto implements MinhaEntidade{
 	

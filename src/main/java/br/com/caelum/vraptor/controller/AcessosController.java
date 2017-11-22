@@ -37,50 +37,58 @@ public class AcessosController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		Long cod = (long) 1;
-		Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
-		
-		List<Acessos> acessos = acdao.listar(Acessos.class,"TODOS_ACESSOS");
-		int linhas = 10;
-		if(conf != null) {
-			linhas = conf.getTabela_linhas();
+		if(usuarioSessao.getPermissao("Acessos", 1) == false) {
+			result.include("permissao", 1);
 		}
-		int colunas = acessos.size()/linhas;
-		
-		if(acessos.size()%linhas > 0) {
-			colunas++;
-		}
-		
-		Acessos[][] macess = new Acessos[colunas][linhas];
-		
-		int linha = 0;
-		int coluna = 0;
-		for(Acessos acesso : acessos) {
-			macess[coluna][linha] = acesso;
-			linha ++;
-			if(linha == linhas) {
-				linha = 0;
-				coluna ++;
+		else {
+			if(usuarioSessao.getPermissao("Acessos", 2) == false) {
+				result.include("permissao", 2);
+			}		
+			Long cod = (long) 1;
+			Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
+			
+			List<Acessos> acessos = acdao.listar(Acessos.class,"TODOS_ACESSOS");
+			int linhas = 10;
+			if(conf != null) {
+				linhas = conf.getTabela_linhas();
 			}
+			int colunas = acessos.size()/linhas;
+			
+			if(acessos.size()%linhas > 0) {
+				colunas++;
+			}
+			
+			Acessos[][] macess = new Acessos[colunas][linhas];
+			
+			int linha = 0;
+			int coluna = 0;
+			for(Acessos acesso : acessos) {
+				macess[coluna][linha] = acesso;
+				linha ++;
+				if(linha == linhas) {
+					linha = 0;
+					coluna ++;
+				}
+			}
+			
+			if(tpag == null) {
+				tpag = 0;
+			}
+			else {
+				tpag--;
+			}
+			if(acessos.size() == 0) {
+				result.include("acessos", null);
+				colunas = 1;
+			}
+			else {
+				result.include("acessos", macess[tpag]);
+			}
+			result.include("colunas", colunas);
+			result.include("pag", tpag);
+			result.include("var", var);
+			result.include("acao", acao);
 		}
-		
-		if(tpag == null) {
-			tpag = 0;
-		}
-		else {
-			tpag--;
-		}
-		if(acessos.size() == 0) {
-			result.include("acessos", null);
-			colunas = 1;
-		}
-		else {
-			result.include("acessos", macess[tpag]);
-		}
-		result.include("colunas", colunas);
-		result.include("pag", tpag);
-		result.include("var", var);
-		result.include("acao", acao);
 	}
 	
 	@Post("/{cod}/editar")
@@ -88,6 +96,13 @@ public class AcessosController {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
+		
+		if(usuarioSessao.getPermissao("Acessos", 3) == false) {
+			result.include("editar", 1);
+		}
+		if(usuarioSessao.getPermissao("Acessos", 4) == false) {
+			result.include("excluir", 1);
+		}
 		
 		result.include("acesso", acdao.buscar(Acessos.class, cod));
 	}

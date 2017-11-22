@@ -52,8 +52,8 @@
 				<li class="active"><a href="<c:url value='/menu/configuracoes'/>"> Configurações <span class="sr-only">(current)</span></a></li>
 			</ul>
 		</div>
-		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<h3 class="page-header"><span class="glyphicon glyphicon-chevron-right"></span> Programas </h3>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+			<h3><span class="glyphicon glyphicon-chevron-right"></span> Programas </h3>
 			<ol class="breadcrumb">
 				<li><a href="<c:url value='/programas'/>"> Programas </a></li>
 				<li class="active"> Editar </li>
@@ -136,9 +136,13 @@
 								</div>
 							</div>
 							<div class="box-actions">
-								<button type="submit" class="btn btn-success">Salvar</button>
+								<c:if test="${editar != 1 }">
+									<button type="submit" class="btn btn-success">Salvar</button>
+								</c:if>
 								<a href="<c:url value='/programas'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm"> Excluir </button>
+								<c:if test="${excluir != 1 }">
+									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm"> Excluir </button>
+								</c:if>
 							</div>
 							<div class="modal fade" id="confirm" role="dialog">
 								<div class="modal-dialog modal-md">

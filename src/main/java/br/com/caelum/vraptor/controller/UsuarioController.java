@@ -45,50 +45,58 @@ public class UsuarioController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		Long cod = (long) 1;
-		Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
-		
-		List<Usuario> usuarios = udao.listar(Usuario.class, "TODOS_USUARIOS_ATIVOS");
-		int linhas = 10;
-		if(conf != null) {
-			linhas = conf.getTabela_linhas();
+		if(usuarioSessao.getPermissao("Usuario", 1) == false) {
+			result.include("permissao", 1);
 		}
-		int colunas = usuarios.size()/linhas;
-		
-		if(usuarios.size()%linhas > 0) {
-			colunas++;
-		}
-		
-		Usuario[][] muser = new Usuario[colunas][linhas];
-		
-		int linha = 0;
-		int coluna = 0;
-		for(Usuario usuario : usuarios) {
-			muser[coluna][linha] = usuario;
-			linha ++;
-			if(linha == linhas) {
-				linha = 0;
-				coluna ++;
+		else {
+			if(usuarioSessao.getPermissao("Usuario", 2) == false) {
+				result.include("permissao", 2);
 			}
+			Long cod = (long) 1;
+			Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
+			
+			List<Usuario> usuarios = udao.listar(Usuario.class, "TODOS_USUARIOS_ATIVOS");
+			int linhas = 10;
+			if(conf != null) {
+				linhas = conf.getTabela_linhas();
+			}
+			int colunas = usuarios.size()/linhas;
+			
+			if(usuarios.size()%linhas > 0) {
+				colunas++;
+			}
+			
+			Usuario[][] muser = new Usuario[colunas][linhas];
+			
+			int linha = 0;
+			int coluna = 0;
+			for(Usuario usuario : usuarios) {
+				muser[coluna][linha] = usuario;
+				linha ++;
+				if(linha == linhas) {
+					linha = 0;
+					coluna ++;
+				}
+			}
+			
+			if(tpag == null) {
+				tpag = 0;
+			}
+			else {
+				tpag--;
+			}
+			if(usuarios.size() == 0) {
+				result.include("usuarios", null);
+				colunas = 1;
+			}
+			else {
+				result.include("usuarios", muser[tpag]);
+			}
+			result.include("colunas", colunas);
+			result.include("pag", tpag);
+			result.include("var", var);
+			result.include("acao", acao);
 		}
-		
-		if(tpag == null) {
-			tpag = 0;
-		}
-		else {
-			tpag--;
-		}
-		if(usuarios.size() == 0) {
-			result.include("usuarios", null);
-			colunas = 1;
-		}
-		else {
-			result.include("usuarios", muser[tpag]);
-		}
-		result.include("colunas", colunas);
-		result.include("pag", tpag);
-		result.include("var", var);
-		result.include("acao", acao);
 	}
 	
 	@Get("/novo")
@@ -97,8 +105,11 @@ public class UsuarioController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		List<Pessoa> pessoa = pdao.listar(Pessoa.class, "TODAS_PESSOAS");
+		if(usuarioSessao.getPermissao("Usuario", 2) == false) {
+			result.include("permissao", 1);
+		}
 		
+		List<Pessoa> pessoa = pdao.listar(Pessoa.class, "TODAS_PESSOAS");
 		result.include("pessoas", pessoa);
 	}
 	
@@ -125,23 +136,35 @@ public class UsuarioController {
 		}
 	}
 	
-	@Post("/editar")
+	@Get("/{cod}/editar")
 	public void editar(Long cod) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
+		
+		if(usuarioSessao.getPermissao("Usuario", 3) == false) {
+			result.include("editar", 1);
+		}
+		if(usuarioSessao.getPermissao("Usuario", 4) == false) {
+			result.include("excluir", 1);
+		}
 		
 		List<Pessoa> pessoas = pdao.listar(Pessoa.class, "TODAS_PESSOAS");
 		result.include("pessoas", pessoas);
 		result.include("user", udao.buscar(Usuario.class, cod));
 	}
 	
-	@Get("/excluir")
+	@Get("/{cod}/excluir")
 	public void excluir(Long cod) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		result.redirectTo(this).index(udao.excluir(udao.buscar(Usuario.class, cod)),2,1);
+		if(usuarioSessao.getPermissao("Usuario", 4) == false) {
+			result.redirectTo(this).index(1,2,1);
+		}
+		else {
+			result.redirectTo(this).index(udao.excluir(udao.buscar(Usuario.class, cod)),2,1);
+		}
 	}
 }

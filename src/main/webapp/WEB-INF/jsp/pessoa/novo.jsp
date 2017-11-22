@@ -13,6 +13,11 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/navbar-fixed-top.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/dashboard.css' />" />
 
+<style type="text/css">
+.btn-default.btn-on.active{background-color: #5BB75B;color: white;}
+.btn-default.btn-off.active{background-color: #DA4F49;color: white;}
+</style>
+
 <%-- jQuery (necessary for Bootstrap's JavaScript plugins) --%>
 <script src="<c:url value='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js' />"></script>
 <script src="<c:url value='/bootstrap/js/jquery.maskedinput.min.js' />"></script>
@@ -250,26 +255,45 @@ $(function () {
 										<div class="col-sm-1"></div>
 									</div>
 									<div class="row">
-										<div class="form-group col-lg-4">
-											<label for="campoCliente">Cliente</label>
-											<select id="campoCliente" name="pessoa.cliente" class="form-control" >
-												<option value="true" selected="selected">Sim</option>
-												<option value="false">Não</option>
-											</select>
+										<div class="col-sm-2"></div>
+										<div class="col-sm-3">
+											<div class="col-sm-12">
+												<label for="campoCliente">Cliente</label>
+											</div>
+											<div id="campoCliente" class="col-xs-12 col-sm-8">
+												<div class="btn-group" data-toggle="buttons">
+													<label class="btn btn-default btn-on active">
+													<input type="radio" value="true" name="pessoa.cliente" checked="checked">Sim</label>
+													<label class="btn btn-default btn-off">
+													<input type="radio" value="false" name="pessoa.cliente">Não</label>
+												</div>
+											</div>
 										</div>
-										<div class="form-group col-lg-4">
-											<label for="campoFornecedor">Fornecedor</label>
-											<select id="campoFornecedor" name="pessoa.fornecedor" class="form-control" >
-												<option value="true">Sim</option>
-												<option value="false" selected="selected">Não</option>
-											</select>
+										<div class="col-sm-3">
+											<div class="col-sm-12">
+												<label for="campoFornecedor">Fornecedor</label>
+											</div>
+											<div id="campoFornecedor" class="col-xs-12 col-sm-8">
+												<div class="btn-group" data-toggle="buttons">
+													<label class="btn btn-default btn-on">
+													<input type="radio" value="true" name="pessoa.fornecedor">Sim</label>
+													<label class="btn btn-default btn-off active">
+													<input type="radio" value="false" name="pessoa.fornecedor" checked="checked">Não</label>
+												</div>
+											</div>
 										</div>
-										<div class="form-group col-lg-4">
-											<label for="campoAtivo">Ativo</label>
-											<select id="campoAtivo" name="pessoa.ativo" class="form-control" >
-												<option value="true" selected="selected">Sim</option>
-												<option value="false">Não</option>
-											</select>
+										<div class="col-sm-3">
+											<div class="col-sm-12">
+												<label for="campoAtivo">Ativo</label>
+											</div>
+											<div id="campoAtivo" class="col-xs-12 col-sm-8">
+												<div class="btn-group" data-toggle="buttons">
+													<label class="btn btn-default btn-on active">
+													<input type="radio" value="true" name="pessoa.ativo" checked="checked">Sim</label>
+													<label class="btn btn-default btn-off">
+													<input type="radio" value="false" name="pessoa.ativo">Não</label>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -445,8 +469,9 @@ $(function () {
 									</div>
 								</div>
 								<div class="row">
-									<br>
 									<div class="box-actions col-lg-12">
+										<br>
+										<br>
 										<button type="submit" class="btn btn-success">Salvar</button>
 										<a href="<c:url value='/pessoa'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
 									</div>

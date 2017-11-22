@@ -35,51 +35,58 @@ public class ConfiguracoesController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		Long cod = (long) 1;
-		Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
-		
-		List<Configuracoes> confs = cdao.listar(Configuracoes.class, "TODAS_CONFIGURACOES");
-		int linhas = 10;
-		if(conf.getTabela_linhas() != null) {
-			linhas = conf.getTabela_linhas();
+		if(usuarioSessao.getPermissao("Configuracoes", 1) == false) {
+			result.include("permissao", 1);
 		}
-		int colunas = confs.size()/linhas;
-		
-		if(confs.size()%linhas > 0) {
-			colunas++;
-		}
-		
-		Configuracoes[][] mconfs = new Configuracoes[colunas][linhas];
-		
-		int linha = 0;
-		int coluna = 0;
-		for(Configuracoes confes : confs) {
-			mconfs[coluna][linha] = confes;
-			linha ++;
-			if(linha == linhas) {
-				linha = 0;
-				coluna ++;
+		else {
+			if(usuarioSessao.getPermissao("Configuracoes", 2) == false) {
+				result.include("permissao", 2);
+			}		
+			Long cod = (long) 1;
+			Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
+			
+			List<Configuracoes> confs = cdao.listar(Configuracoes.class, "TODAS_CONFIGURACOES");
+			int linhas = 10;
+			if(conf.getTabela_linhas() != null) {
+				linhas = conf.getTabela_linhas();
 			}
+			int colunas = confs.size()/linhas;
+			
+			if(confs.size()%linhas > 0) {
+				colunas++;
+			}
+			
+			Configuracoes[][] mconfs = new Configuracoes[colunas][linhas];
+			
+			int linha = 0;
+			int coluna = 0;
+			for(Configuracoes confes : confs) {
+				mconfs[coluna][linha] = confes;
+				linha ++;
+				if(linha == linhas) {
+					linha = 0;
+					coluna ++;
+				}
+			}
+			
+			if(tpag == null) {
+				tpag = 0;
+			}
+			else {
+				tpag--;
+			}
+			if(confs.size() == 0) {
+				result.include("confs", null);
+				colunas = 1;
+			}
+			else {
+				result.include("confs", mconfs[tpag]);
+			}
+			result.include("colunas", colunas);
+			result.include("pag", tpag);
+			result.include("var", var);
+			result.include("acao", acao);
 		}
-		
-		if(tpag == null) {
-			tpag = 0;
-		}
-		else {
-			tpag--;
-		}
-		if(confs.size() == 0) {
-			result.include("confs", null);
-			colunas = 1;
-		}
-		else {
-			result.include("confs", mconfs[tpag]);
-		}
-		result.include("colunas", colunas);
-		result.include("pag", tpag);
-		result.include("var", var);
-		result.include("acao", acao);
-		
 	}
 	
 	@Post("/salvar")
@@ -103,11 +110,18 @@ public class ConfiguracoesController {
 		}
 	}
 	
-	@Post("/editar")
+	@Get("/{cod}/editar")
 	public void editar(Long cod) {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
+		
+		if(usuarioSessao.getPermissao("Configuracoes", 3) == false) {
+			result.include("editar", 1);
+		}
+		if(usuarioSessao.getPermissao("Configuracoes", 4) == false) {
+			result.include("excluir", 1);
+		}
 		
 		result.include("confs", cdao.buscar(Configuracoes.class, cod));
 	}

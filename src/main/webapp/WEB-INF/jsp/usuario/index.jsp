@@ -50,8 +50,8 @@
 				<li class="active"><a href="<c:url value='/menu/configuracoes'/>"> Configurações <span class="sr-only">(current)</span></a></li>
 			</ul>
 		</div>
-		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<h3 class="page-header"><span class="glyphicon glyphicon-chevron-right"></span> Usuarios </h3>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+			<h3><span class="glyphicon glyphicon-chevron-right"></span> Usuarios </h3>
 			<c:choose>
 				<c:when test="${var == 0}">
 					<c:choose>
@@ -74,6 +74,12 @@
 	      					</div>
 	      				</c:when>
 	      			</c:choose>
+				</c:when>
+				<c:when test="${var == 1 }">
+					<div class="alert alert-danger alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	       				<strong>Ops!</strong> Sem permissão para visualizar o programa.
+	      			</div>
 				</c:when>
 				<c:when test="${var == 2}">
 					<c:choose>
@@ -98,142 +104,151 @@
 	      			</c:choose>
 				</c:when>
 			</c:choose>
-			<div class="row">
-				<div class="box-actions">
-					<a href="<c:url value='/usuario/novo'/>" ><button type="button" class="btn btn-primary"> Novo </button></a>
-					<a href="<c:url value='/menu/configuracoes'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
-				</div>
-			</div>
-			<br>
-			<div class="row">
-				<table class="table table-striped table-bordered table-hover">
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>Login</th>
-							<th>Pessoa</th>
-							<th>Data de Cadastro</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="u" items="${usuarios }">
-							<c:if test="${!empty(u)}" >
-								<tr>
-									<td>${u.codigo }</td>
-									<td>
-										<form method="post" action="<c:url value='/usuario/editar' />">
-											<input type="hidden" name="cod" value="${u.codigo }">
-											<a href="" onclick="this.parentNode.submit(); return false;">${u.usuario }</a>
-										</form>
-									</td>
-									<td>${u.pessoa.nome }</td>
-									<td>${u.criacao }</td>
-								</tr>
-							</c:if>
-						</c:forEach>
-					</tbody>
-				</table>
-			</div>
-			<div class="row text-center">
-				<ul class="pagination">
-					<c:choose>
-						<c:when test="${colunas == 1 }">
-							<li class="prev disabled"><span>&lt;</span></li>
-							<li class="active"><span><c:out value="${pag+1 }" /></span></li>
-							<li class="next disabled"><span>&gt;</span></li>
-						</c:when>
-						<c:when test="${colunas > pag && colunas <= 5 }">
-							<c:choose>
-								<c:when test="${pag == 0 }">
-									<li class="prev disabled"><span>&lt;</span></li>
-									<li class="active"><span><c:out value="${pag+1 }" /></span></li>
-									<c:forEach var="pg" begin="${pag+2 }" end="${colunas }">
-										<li><a href="<c:url value='/usuario?tpag=${pg }' />" target="_self" rel="next"><c:out value="${pg }" /></a></li>
+			<c:choose>
+				<c:when test="${permissao != 1 }">
+					<div class="col-lg-12 responsive">
+						<div class="row">
+							<div class="box-actions">
+								<c:if test="${permissao != 2 }">
+									<a href="<c:url value='/usuario/novo'/>" ><button type="button" class="btn btn-primary"> Novo </button></a>
+								</c:if>
+								<a href="<c:url value='/menu/configuracoes'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
+							</div>
+						</div>
+						<br>
+						<div class="row">
+							<table class="table table-striped table-bordered table-hover">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Login</th>
+										<th>Pessoa</th>
+										<th>Data de Cadastro</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="u" items="${usuarios }">
+										<c:if test="${!empty(u)}" >
+											<tr>
+												<td>${u.codigo }</td>
+												<td><a href="<c:url value='/usuario/${u.codigo }/editar' />" >${u.usuario }</a></td>
+												<td>${u.pessoa.nome }</td>
+												<td>${u.criacao }</td>
+											</tr>
+										</c:if>
 									</c:forEach>
-									<li class="next"><a href="<c:url value='/usuario?tpag=${pag+2 }' />" target="_self" rel="next"><span>&gt;</span></a></li>
-								</c:when>
-								<c:when test="${pag+1 == colunas }">
-									<li class="prev"><a href="<c:url value='/usuario?tpag=${pag }' />" target="_self" rel="prev" ><span>&lt;</span></a></li>
-									<c:forEach var="pg" begin="${1 }" end="${colunas-1 }">
-										<li><a href="<c:url value='/usuario?tpag=${pg }' />" target="_self" rel="next"><c:out value="${pg }" /></a></li>
-									</c:forEach>
-									<li class="active"><span><c:out value="${colunas }" /></span></li>
-									<li class="next disabled"><span>&gt;</span></li>
-								</c:when>
-								<c:otherwise>
-									<li class="prev"><a href="<c:url value='/usuario?tpag=${pag }' />" target="_self" rel="prev" ><span>&lt;</span></a></li>
-									<c:forEach var="pg" begin="${1 }" end="${colunas }">
+								</tbody>
+							</table>
+						</div>
+						<div class="row text-center">
+							<ul class="pagination">
+								<c:choose>
+									<c:when test="${colunas == 1 }">
+										<li class="prev disabled"><span>&lt;</span></li>
+										<li class="active"><span><c:out value="${pag+1 }" /></span></li>
+										<li class="next disabled"><span>&gt;</span></li>
+									</c:when>
+									<c:when test="${colunas > pag && colunas <= 5 }">
 										<c:choose>
-											<c:when test="${pg == pag+1 }">
-												<li class="active"><span><c:out value="${pg }" /></span></li>
+											<c:when test="${pag == 0 }">
+												<li class="prev disabled"><span>&lt;</span></li>
+												<li class="active"><span><c:out value="${pag+1 }" /></span></li>
+												<c:forEach var="pg" begin="${pag+2 }" end="${colunas }">
+													<li><a href="<c:url value='/usuario?tpag=${pg }' />" target="_self" rel="next"><c:out value="${pg }" /></a></li>
+												</c:forEach>
+												<li class="next"><a href="<c:url value='/usuario?tpag=${pag+2 }' />" target="_self" rel="next"><span>&gt;</span></a></li>
+											</c:when>
+											<c:when test="${pag+1 == colunas }">
+												<li class="prev"><a href="<c:url value='/usuario?tpag=${pag }' />" target="_self" rel="prev" ><span>&lt;</span></a></li>
+												<c:forEach var="pg" begin="${1 }" end="${colunas-1 }">
+													<li><a href="<c:url value='/usuario?tpag=${pg }' />" target="_self" rel="next"><c:out value="${pg }" /></a></li>
+												</c:forEach>
+												<li class="active"><span><c:out value="${colunas }" /></span></li>
+												<li class="next disabled"><span>&gt;</span></li>
 											</c:when>
 											<c:otherwise>
-												<li><a href="<c:url value='/usuario?tpag=${pg }' />" target="_self" rel="next"><c:out value="${pg }" /></a></li>
+												<li class="prev"><a href="<c:url value='/usuario?tpag=${pag }' />" target="_self" rel="prev" ><span>&lt;</span></a></li>
+												<c:forEach var="pg" begin="${1 }" end="${colunas }">
+													<c:choose>
+														<c:when test="${pg == pag+1 }">
+															<li class="active"><span><c:out value="${pg }" /></span></li>
+														</c:when>
+														<c:otherwise>
+															<li><a href="<c:url value='/usuario?tpag=${pg }' />" target="_self" rel="next"><c:out value="${pg }" /></a></li>
+														</c:otherwise>
+													</c:choose>
+												</c:forEach>
+												<li class="next"><a href="<c:url value='/usuario?tpag=${pag+2 }' />" target="_self" rel="next"><span>&gt;</span></a></li>
 											</c:otherwise>
 										</c:choose>
-									</c:forEach>
-									<li class="next"><a href="<c:url value='/usuario?tpag=${pag+2 }' />" target="_self" rel="next"><span>&gt;</span></a></li>
-								</c:otherwise>
-							</c:choose>
-						</c:when>
-						<c:otherwise>
-							<c:choose>
-								<c:when test="${pag == 0 }">
-									<li class="prev disabled"><span>&lt;</span></li>
-									<li class="active"><span><c:out value="${pag+1 }" /></span></li>
-									<c:forEach var="pg" begin="${pag+2 }" end="${pag+3 }">
-										<li><a href="<c:url value='/usuario?tpag=${pg }' />" target="_self" rel="next"><c:out value="${pg }" /></a></li>
-									</c:forEach>
-									<li class="disabled"><span>&hellip;</span></li>
-									<li><a href="<c:url value='/usuario?tpag=${colunas }' />" target="_self" rel="next"><c:out value="${colunas }" /></a></li>
-									<li class="next"><a href="<c:url value='/usuario?tpag=${pag+2 }' />" target="_self" rel="next"><span>&gt;</span></a></li>
-								</c:when>
-								<c:when test="${pag+1 == colunas }">
-									<li class="prev"><a href="<c:url value='/usuario?tpag=${pag }' />" target="_self" rel="prev" ><span>&lt;</span></a></li>
-									<li><a href="<c:url value='/usuario?tpag=${1 }' />" target="_self" rel="next"><c:out value="${1 }" /></a></li>
-									<li class="disabled"><span>&hellip;</span></li>
-									<c:forEach var="pg" begin="${pag-1 }" end="${colunas-1 }">
-										<li><a href="<c:url value='/usuario?tpag=${pg }' />" target="_self" rel="next"><c:out value="${pg }" /></a></li>
-									</c:forEach>
-									<li class="active"><span><c:out value="${colunas }" /></span></li>
-									<li class="next disabled"><span>&gt;</span></li>
-								</c:when>
-								<c:otherwise>
-									<li class="prev"><a href="<c:url value='/usuario?tpag=${pag }' />" target="_self" rel="prev" ><span>&lt;</span></a></li>
-									<c:forEach var="pg" begin="${1 }" end="${colunas }">
+									</c:when>
+									<c:otherwise>
 										<c:choose>
-											<c:when test="${pg == 1 }">
-												<li><a href="<c:url value='/usuario?tpag=${pg }' />" target="_self" rel="prev"><c:out value="${pg }" /></a></li>
-											</c:when>
-											<c:when test="${ pg < pag && pg == 2 }">
-												<li class="disabled"><span>&hellip;</span></li>	
-											</c:when>
-											<c:when test="${pg == pag || pg == pag+1 || pg == pag+2 }">
-												<c:if test="${pg == pag }">
-													<li><a href="<c:url value='/usuario?tpag=${pg }' />" target="_self" rel="prev"><c:out value="${pg }" /></a></li>
-												</c:if>
-												<c:if test="${pg == pag+1 }">
-													<li class="active"><span><c:out value="${pg }" /></span></li>
-												</c:if>
-												<c:if test="${pg == pag+2 }">
+											<c:when test="${pag == 0 }">
+												<li class="prev disabled"><span>&lt;</span></li>
+												<li class="active"><span><c:out value="${pag+1 }" /></span></li>
+												<c:forEach var="pg" begin="${pag+2 }" end="${pag+3 }">
 													<li><a href="<c:url value='/usuario?tpag=${pg }' />" target="_self" rel="next"><c:out value="${pg }" /></a></li>
-												</c:if>
+												</c:forEach>
+												<li class="disabled"><span>&hellip;</span></li>
+												<li><a href="<c:url value='/usuario?tpag=${colunas }' />" target="_self" rel="next"><c:out value="${colunas }" /></a></li>
+												<li class="next"><a href="<c:url value='/usuario?tpag=${pag+2 }' />" target="_self" rel="next"><span>&gt;</span></a></li>
 											</c:when>
-											<c:when test="${pg == colunas-1 }">
-												<li class="disabled"><span>&hellip;</span></li>	
+											<c:when test="${pag+1 == colunas }">
+												<li class="prev"><a href="<c:url value='/usuario?tpag=${pag }' />" target="_self" rel="prev" ><span>&lt;</span></a></li>
+												<li><a href="<c:url value='/usuario?tpag=${1 }' />" target="_self" rel="next"><c:out value="${1 }" /></a></li>
+												<li class="disabled"><span>&hellip;</span></li>
+												<c:forEach var="pg" begin="${pag-1 }" end="${colunas-1 }">
+													<li><a href="<c:url value='/usuario?tpag=${pg }' />" target="_self" rel="next"><c:out value="${pg }" /></a></li>
+												</c:forEach>
+												<li class="active"><span><c:out value="${colunas }" /></span></li>
+												<li class="next disabled"><span>&gt;</span></li>
 											</c:when>
-											<c:when test="${pg == colunas }">
-												<li><a href="<c:url value='/usuario?tpag=${pg }' />" target="_self" rel="next"><c:out value="${pg }" /></a></li>
-											</c:when>
+											<c:otherwise>
+												<li class="prev"><a href="<c:url value='/usuario?tpag=${pag }' />" target="_self" rel="prev" ><span>&lt;</span></a></li>
+												<c:forEach var="pg" begin="${1 }" end="${colunas }">
+													<c:choose>
+														<c:when test="${pg == 1 }">
+															<li><a href="<c:url value='/usuario?tpag=${pg }' />" target="_self" rel="prev"><c:out value="${pg }" /></a></li>
+														</c:when>
+														<c:when test="${ pg < pag && pg == 2 }">
+															<li class="disabled"><span>&hellip;</span></li>	
+														</c:when>
+														<c:when test="${pg == pag || pg == pag+1 || pg == pag+2 }">
+															<c:if test="${pg == pag }">
+																<li><a href="<c:url value='/usuario?tpag=${pg }' />" target="_self" rel="prev"><c:out value="${pg }" /></a></li>
+															</c:if>
+															<c:if test="${pg == pag+1 }">
+																<li class="active"><span><c:out value="${pg }" /></span></li>
+															</c:if>
+															<c:if test="${pg == pag+2 }">
+																<li><a href="<c:url value='/usuario?tpag=${pg }' />" target="_self" rel="next"><c:out value="${pg }" /></a></li>
+															</c:if>
+														</c:when>
+														<c:when test="${pg == colunas-1 }">
+															<li class="disabled"><span>&hellip;</span></li>	
+														</c:when>
+														<c:when test="${pg == colunas }">
+															<li><a href="<c:url value='/usuario?tpag=${pg }' />" target="_self" rel="next"><c:out value="${pg }" /></a></li>
+														</c:when>
+													</c:choose>
+												</c:forEach>
+												<li class="next"><a href="<c:url value='/usuario?tpag=${pag+2 }' />" target="_self" rel="next"><span>&gt;</span></a></li>
+											</c:otherwise>
 										</c:choose>
-									</c:forEach>
-									<li class="next"><a href="<c:url value='/usuario?tpag=${pag+2 }' />" target="_self" rel="next"><span>&gt;</span></a></li>
-								</c:otherwise>
-							</c:choose>
-						</c:otherwise>
-					</c:choose>
-				</ul>
-			</div>
+									</c:otherwise>
+								</c:choose>
+							</ul>
+						</div>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div class="alert alert-danger alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	       				<strong>Ops!</strong> Sem permissão para visualizar o programa.
+	      			</div>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 </div>

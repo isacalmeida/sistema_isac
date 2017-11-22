@@ -15,7 +15,9 @@ import br.edu.unoesc.model.MinhaEntidade;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="TODOS_DEPARTAMENTOS", 
-				query="select d from Departamento d order by d.codigo")
+				query="select d from Departamento d order by d.codigo"),
+	@NamedQuery(name="DEPARTAMENTO_POR_CODIGO",
+				query="select d from Departamento d where d.codigo = :codigo")
 })
 public class Departamento implements MinhaEntidade{
 	

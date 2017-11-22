@@ -51,50 +51,58 @@ public class PerfilAcessoController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		Long cod = (long) 1;
-		Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
-		
-		List<PerfilAcesso> perfis = padao.listar(PerfilAcesso.class, "TODOS_PERFIS");
-		int linhas = 10;
-		if(conf != null) {
-			linhas = conf.getTabela_linhas();
+		if(usuarioSessao.getPermissao("Perfil de Acesso", 1) == false) {
+			result.include("permissao", 1);
 		}
-		int colunas = perfis.size()/linhas;
-		
-		if(perfis.size()%linhas > 0) {
-			colunas++;
-		}
-		
-		PerfilAcesso[][] mperfs = new PerfilAcesso[colunas][linhas];
-		
-		int linha = 0;
-		int coluna = 0;
-		for(PerfilAcesso perfil : perfis) {
-			mperfs[coluna][linha] = perfil;
-			linha ++;
-			if(linha == linhas) {
-				linha = 0;
-				coluna ++;
+		else {
+			if(usuarioSessao.getPermissao("Perfil de Acesso", 2) == false) {
+				result.include("permissao", 2);
+			}		
+			Long cod = (long) 1;
+			Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
+			
+			List<PerfilAcesso> perfis = padao.listar(PerfilAcesso.class, "TODOS_PERFIS");
+			int linhas = 10;
+			if(conf != null) {
+				linhas = conf.getTabela_linhas();
 			}
+			int colunas = perfis.size()/linhas;
+			
+			if(perfis.size()%linhas > 0) {
+				colunas++;
+			}
+			
+			PerfilAcesso[][] mperfs = new PerfilAcesso[colunas][linhas];
+			
+			int linha = 0;
+			int coluna = 0;
+			for(PerfilAcesso perfil : perfis) {
+				mperfs[coluna][linha] = perfil;
+				linha ++;
+				if(linha == linhas) {
+					linha = 0;
+					coluna ++;
+				}
+			}
+			
+			if(tpag == null) {
+				tpag = 0;
+			}
+			else {
+				tpag--;
+			}
+			if(perfis.size() == 0) {
+				result.include("perfis", null);
+				colunas = 1;
+			}
+			else {
+				result.include("perfis", mperfs[tpag]);
+			}
+			result.include("colunas", colunas);
+			result.include("pag", tpag);
+			result.include("var", var);
+			result.include("acao", acao);
 		}
-		
-		if(tpag == null) {
-			tpag = 0;
-		}
-		else {
-			tpag--;
-		}
-		if(perfis.size() == 0) {
-			result.include("perfis", null);
-			colunas = 1;
-		}
-		else {
-			result.include("perfis", mperfs[tpag]);
-		}
-		result.include("colunas", colunas);
-		result.include("pag", tpag);
-		result.include("var", var);
-		result.include("acao", acao);
 	}
 	
 	@Get("/novo")
@@ -103,8 +111,11 @@ public class PerfilAcessoController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		List<Programas> programas = podao.listar(Programas.class, "TODOS_PROGRAMAS");
+		if(usuarioSessao.getPermissao("Perfil de Acesso", 2) == false) {
+			result.include("permissao", 1);
+		}
 		
+		List<Programas> programas = podao.listar(Programas.class, "TODOS_PROGRAMAS");
 		result.include("programas", programas);
 	}
 	
@@ -169,10 +180,15 @@ public class PerfilAcessoController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		List<PerfilAcesso> perfil = padao.buscar(PerfilAcesso.class,cod,"PERFIL_POR_CODIGO");
-		//List<Programas> programas = podao.listar(Programas.class, "TODOS_PROGRAMAS");
+		if(usuarioSessao.getPermissao("Perfil de Acesso", 3) == false) {
+			result.include("editar", 1);
+		}
+		if(usuarioSessao.getPermissao("Perfil de Acesso", 4) == false) {
+			result.include("excluir", 1);
+		}
 		
-		//result.include("programas", programas);
+		List<PerfilAcesso> perfil = padao.buscar(PerfilAcesso.class,cod,"PERFIL_POR_CODIGO");
+
 		result.include("perfil", perfil.get(0));
 	}
 	
@@ -182,20 +198,25 @@ public class PerfilAcessoController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		List<Usuario> usuarios = udao.listar(Usuario.class, "TODOS_USUARIOS");
-		PerfilAcesso perfil = null;
-		
-		for (Usuario usuario : usuarios) {
-			if(usuario.getPerfil().getCodigo() == cod)
-				 perfil = usuario.getPerfil();
-		}
-		
-		if(perfil == null){
-			perfil = padao.buscar(PerfilAcesso.class, cod);
-			result.redirectTo(this).index(padao.excluir(perfil),2,1);
+		if(usuarioSessao.getPermissao("Cor", 4) == false) {
+			result.redirectTo(this).index(1,2,1);
 		}
 		else {
-			result.redirectTo(this).index(0,2,1);
+			List<Usuario> usuarios = udao.listar(Usuario.class, "TODOS_USUARIOS");
+			PerfilAcesso perfil = null;
+			
+			for (Usuario usuario : usuarios) {
+				if(usuario.getPerfil().getCodigo() == cod)
+					 perfil = usuario.getPerfil();
+			}
+			
+			if(perfil == null){
+				perfil = padao.buscar(PerfilAcesso.class, cod);
+				result.redirectTo(this).index(padao.excluir(perfil),2,1);
+			}
+			else {
+				result.redirectTo(this).index(0,2,1);
+			}
 		}
 	}
 }

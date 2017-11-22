@@ -57,220 +57,230 @@
 		</div>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
 			<h3><span class="glyphicon glyphicon-chevron-right"></span> Perfil de Acesso </h3><hr>
-			<ol class="breadcrumb">
-				<li><a href="<c:url value='/perfil_acesso'/>"> Perfis </a></li>
-				<li class="active"> Novo </li>
-			</ol>
-			<form name="formPessoa" role="form" method="post" action='<c:url value="/perfil_acesso/salvar"/>'>
-				<fieldset>
-					<div class="form-group row">
-						<div class="col-lg-1"></div>
-						<div class="col-lg-7">
-							<div class="row">
-								<label for="campoCodigo">Codigo</label>
-								<input type="text" id="campoCodigo" class="form-control" disabled>
+			<c:choose>
+				<c:when test="${permissao != 1}">
+					<ol class="breadcrumb">
+						<li><a href="<c:url value='/perfil_acesso'/>"> Perfis </a></li>
+						<li class="active"> Novo </li>
+					</ol>
+					<form name="formPessoa" role="form" method="post" action='<c:url value="/perfil_acesso/salvar"/>'>
+						<fieldset>
+							<div class="form-group row">
+								<div class="col-lg-1"></div>
+								<div class="col-lg-7">
+									<div class="row">
+										<label for="campoCodigo">Codigo</label>
+										<input type="text" id="campoCodigo" class="form-control" disabled>
+									</div>
+									<br>
+									<div class="row">
+										<label for="campoDescricao">Descrição</label>
+										<input type="text" id="campoDescricao" class="form-control" name="perfil.descricao">
+									</div>
+								</div>
+								<div class="col-lg-4"></div>
 							</div>
 							<br>
-							<div class="row">
-								<label for="campoDescricao">Descrição</label>
-								<input type="text" id="campoDescricao" class="form-control" name="perfil.descricao">
-							</div>
-						</div>
-						<div class="col-lg-4"></div>
-					</div>
-					<br>
-					<c:set var="var" value="-1" />
-					<ul class="nav nav-tabs responsive">
-						<li class="active"><a data-toggle="tab" href="#geral"> Geral </a></li>
-						<li><a data-toggle="tab" href="#pessoa"> Pessoa </a></li>
-						<li><a data-toggle="tab" href="#produto"> Produto </a></li>
-					</ul>
-					<div class="tab-content responsive">
-						<br>
-						<div id="geral" class="tab-pane active">
-							<div class="row">
-								<div class="col-sm-1"></div>
-								<div class="col-sm-10">
+							<c:set var="var" value="-1" />
+							<ul class="nav nav-tabs responsive">
+								<li class="active"><a data-toggle="tab" href="#geral"> Geral </a></li>
+								<li><a data-toggle="tab" href="#pessoa"> Pessoa </a></li>
+								<li><a data-toggle="tab" href="#produto"> Produto </a></li>
+							</ul>
+							<div class="tab-content responsive">
+								<br>
+								<div id="geral" class="tab-pane active">
 									<div class="row">
-										<table class="table table-striped table-bordered table-hover">
-											<thead>
-												<tr>
-													<th> Programa </th>
-													<th> Visualizar </th>
-													<th> Incluir </th>
-													<th> Alterar </th>
-													<th> Remover </th>
-												</tr>
-											</thead>
-											<tbody>
-												<c:forEach var="p" items="${programas}">
-													<c:if test="${p.grupo == 1}">
-														<c:set var="var" value="${var+1 }" />
+										<div class="col-sm-1"></div>
+										<div class="col-sm-10">
+											<div class="row">
+												<table class="table table-striped table-bordered table-hover">
+													<thead>
 														<tr>
-															<td>
-																<c:out value="${p.descricao }" />
-																<input type="text" value="${p.codigo }" name="perfil.acessos[${var }].programa.codigo" hidden="hidden">
-															</td>
-															<td>
-																<span class="button-checkbox">
-																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].visualizar">
-																</span>
-															</td>
-															<td>
-					            								<span class="button-checkbox">
-																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].incluir">
-																</span>
-															</td>
-															<td>
-																<span class="button-checkbox">
-																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].alterar">
-																</span>
-															</td>
-															<td>
-																<span class="button-checkbox">
-																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].remover">
-																</span>
-															</td>
+															<th> Programa </th>
+															<th> Visualizar </th>
+															<th> Incluir </th>
+															<th> Alterar </th>
+															<th> Remover </th>
 														</tr>
-													</c:if>
-												</c:forEach>
-											</tbody>
-										</table>
+													</thead>
+													<tbody>
+														<c:forEach var="p" items="${programas}">
+															<c:if test="${p.grupo == 1}">
+																<c:set var="var" value="${var+1 }" />
+																<tr>
+																	<td>
+																		<c:out value="${p.descricao }" />
+																		<input type="text" value="${p.codigo }" name="perfil.acessos[${var }].programa.codigo" hidden="hidden">
+																	</td>
+																	<td>
+																		<span class="button-checkbox">
+																			<button type="button" class="btn btn-lg" data-color="primary"></button>
+																			<input type="checkbox" class="hidden" name="perfil.acessos[${var}].visualizar">
+																		</span>
+																	</td>
+																	<td>
+							            								<span class="button-checkbox">
+																			<button type="button" class="btn btn-lg" data-color="primary"></button>
+																			<input type="checkbox" class="hidden" name="perfil.acessos[${var}].incluir">
+																		</span>
+																	</td>
+																	<td>
+																		<span class="button-checkbox">
+																			<button type="button" class="btn btn-lg" data-color="primary"></button>
+																			<input type="checkbox" class="hidden" name="perfil.acessos[${var}].alterar">
+																		</span>
+																	</td>
+																	<td>
+																		<span class="button-checkbox">
+																			<button type="button" class="btn btn-lg" data-color="primary"></button>
+																			<input type="checkbox" class="hidden" name="perfil.acessos[${var}].remover">
+																		</span>
+																	</td>
+																</tr>
+															</c:if>
+														</c:forEach>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div class="col-sm-1"></div>
 									</div>
 								</div>
-								<div class="col-sm-1"></div>
-							</div>
-						</div>
-						<div id="pessoa" class="tab-pane">
-							<div class="row">
-								<div class="col-sm-1"></div>
-								<div class="col-sm-10">
+								<div id="pessoa" class="tab-pane">
 									<div class="row">
-										<table class="table table-striped table-bordered table-hover">
-											<thead>
-												<tr>
-													<th> Programa </th>
-													<th> Visualizar </th>
-													<th> Incluir </th>
-													<th> Alterar </th>
-													<th> Remover </th>
-												</tr>
-											</thead>
-											<tbody>
-												<c:forEach var="p" items="${programas}">
-													<c:if test="${p.grupo == 2}">
-														<c:set var="var" value="${var+1 }" />
+										<div class="col-sm-1"></div>
+										<div class="col-sm-10">
+											<div class="row">
+												<table class="table table-striped table-bordered table-hover">
+													<thead>
 														<tr>
-															<td>
-																<c:out value="${p.descricao }" />
-																<input type="text" value="${p.codigo }" name="perfil.acessos[${var }].programa.codigo" hidden="hidden">
-															</td>
-															<td>
-																<span class="button-checkbox">
-																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].visualizar">
-																</span>
-															</td>
-															<td>
-					            								<span class="button-checkbox">
-																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].incluir">
-																</span>
-															</td>
-															<td>
-																<span class="button-checkbox">
-																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].alterar">
-																</span>
-															</td>
-															<td>
-																<span class="button-checkbox">
-																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].remover">
-																</span>
-															</td>
+															<th> Programa </th>
+															<th> Visualizar </th>
+															<th> Incluir </th>
+															<th> Alterar </th>
+															<th> Remover </th>
 														</tr>
-													</c:if>
-												</c:forEach>
-											</tbody>
-										</table>
+													</thead>
+													<tbody>
+														<c:forEach var="p" items="${programas}">
+															<c:if test="${p.grupo == 2}">
+																<c:set var="var" value="${var+1 }" />
+																<tr>
+																	<td>
+																		<c:out value="${p.descricao }" />
+																		<input type="text" value="${p.codigo }" name="perfil.acessos[${var }].programa.codigo" hidden="hidden">
+																	</td>
+																	<td>
+																		<span class="button-checkbox">
+																			<button type="button" class="btn btn-lg" data-color="primary"></button>
+																			<input type="checkbox" class="hidden" name="perfil.acessos[${var}].visualizar">
+																		</span>
+																	</td>
+																	<td>
+							            								<span class="button-checkbox">
+																			<button type="button" class="btn btn-lg" data-color="primary"></button>
+																			<input type="checkbox" class="hidden" name="perfil.acessos[${var}].incluir">
+																		</span>
+																	</td>
+																	<td>
+																		<span class="button-checkbox">
+																			<button type="button" class="btn btn-lg" data-color="primary"></button>
+																			<input type="checkbox" class="hidden" name="perfil.acessos[${var}].alterar">
+																		</span>
+																	</td>
+																	<td>
+																		<span class="button-checkbox">
+																			<button type="button" class="btn btn-lg" data-color="primary"></button>
+																			<input type="checkbox" class="hidden" name="perfil.acessos[${var}].remover">
+																		</span>
+																	</td>
+																</tr>
+															</c:if>
+														</c:forEach>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div class="col-sm-1"></div>
 									</div>
 								</div>
-								<div class="col-sm-1"></div>
-							</div>
-						</div>
-						<div id="produto" class="tab-pane">
-							<div class="row">
-								<div class="col-sm-1"></div>
-								<div class="col-sm-10">
+								<div id="produto" class="tab-pane">
 									<div class="row">
-										<table class="table table-striped table-bordered table-hover">
-											<thead>
-												<tr>
-													<th> Programa </th>
-													<th> Visualizar </th>
-													<th> Incluir </th>
-													<th> Alterar </th>
-													<th> Remover </th>
-												</tr>
-											</thead>
-											<tbody>
-												<c:forEach var="p" items="${programas}">
-													<c:if test="${p.grupo == 3}">
-														<c:set var="var" value="${var+1 }" />
+										<div class="col-sm-1"></div>
+										<div class="col-sm-10">
+											<div class="row">
+												<table class="table table-striped table-bordered table-hover">
+													<thead>
 														<tr>
-															<td>
-																<c:out value="${p.descricao }" />
-																<input type="text" value="${p.codigo }" name="perfil.acessos[${var }].programa.codigo" hidden="hidden">
-															</td>
-															<td>
-																<span class="button-checkbox">
-																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].visualizar">
-																</span>
-															</td>
-															<td>
-					            								<span class="button-checkbox">
-																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].incluir">
-																</span>
-															</td>
-															<td>
-																<span class="button-checkbox">
-																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].alterar">
-																</span>
-															</td>
-															<td>
-																<span class="button-checkbox">
-																	<button type="button" class="btn btn-lg" data-color="primary"></button>
-																	<input type="checkbox" class="hidden" name="perfil.acessos[${var}].remover">
-																</span>
-															</td>
+															<th> Programa </th>
+															<th> Visualizar </th>
+															<th> Incluir </th>
+															<th> Alterar </th>
+															<th> Remover </th>
 														</tr>
-													</c:if>
-												</c:forEach>
-											</tbody>
-										</table>
+													</thead>
+													<tbody>
+														<c:forEach var="p" items="${programas}">
+															<c:if test="${p.grupo == 3}">
+																<c:set var="var" value="${var+1 }" />
+																<tr>
+																	<td>
+																		<c:out value="${p.descricao }" />
+																		<input type="text" value="${p.codigo }" name="perfil.acessos[${var }].programa.codigo" hidden="hidden">
+																	</td>
+																	<td>
+																		<span class="button-checkbox">
+																			<button type="button" class="btn btn-lg" data-color="primary"></button>
+																			<input type="checkbox" class="hidden" name="perfil.acessos[${var}].visualizar">
+																		</span>
+																	</td>
+																	<td>
+							            								<span class="button-checkbox">
+																			<button type="button" class="btn btn-lg" data-color="primary"></button>
+																			<input type="checkbox" class="hidden" name="perfil.acessos[${var}].incluir">
+																		</span>
+																	</td>
+																	<td>
+																		<span class="button-checkbox">
+																			<button type="button" class="btn btn-lg" data-color="primary"></button>
+																			<input type="checkbox" class="hidden" name="perfil.acessos[${var}].alterar">
+																		</span>
+																	</td>
+																	<td>
+																		<span class="button-checkbox">
+																			<button type="button" class="btn btn-lg" data-color="primary"></button>
+																			<input type="checkbox" class="hidden" name="perfil.acessos[${var}].remover">
+																		</span>
+																	</td>
+																</tr>
+															</c:if>
+														</c:forEach>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div class="col-sm-1"></div>
 									</div>
 								</div>
-								<div class="col-sm-1"></div>
+								<div class="row">
+									<br>
+									<div class="box-actions col-lg-12">
+										<button type="submit" class="btn btn-success">Salvar</button>
+										<a href="<c:url value='/perfil_acesso'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
+									</div>
+								</div>
 							</div>
-						</div>
-						<div class="row">
-							<br>
-							<div class="box-actions col-lg-12">
-								<button type="submit" class="btn btn-success">Salvar</button>
-								<a href="<c:url value='/perfil_acesso'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
-							</div>
-						</div>
-					</div>
-				</fieldset>
-			</form>
+						</fieldset>
+					</form>
+				</c:when>
+				<c:otherwise>
+					<div class="alert alert-danger alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	       				<strong>Ops!</strong> Sem permissão para visualizar o programa.
+	      			</div>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 </div>

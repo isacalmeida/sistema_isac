@@ -45,50 +45,58 @@ public class ProgramasController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		Long cod = (long) 1;
-		Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
-		
-		List<Programas> programas = podao.listar(Programas.class, "TODOS_PROGRAMAS");
-		int linhas = 10;
-		if(conf != null) {
-			linhas = conf.getTabela_linhas();
+		if(usuarioSessao.getPermissao("Programas", 1) == false) {
+			result.include("permissao", 1);
 		}
-		int colunas = programas.size()/linhas;
-		
-		if(programas.size()%linhas > 0) {
-			colunas++;
-		}
-		
-		Programas[][] mprog = new Programas[colunas][linhas];
-		
-		int linha = 0;
-		int coluna = 0;
-		for(Programas prog : programas) {
-			mprog[coluna][linha] = prog;
-			linha ++;
-			if(linha == linhas) {
-				linha = 0;
-				coluna ++;
+		else {
+			if(usuarioSessao.getPermissao("Programas", 2) == false) {
+				result.include("permissao", 2);
 			}
+			Long cod = (long) 1;
+			Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
+			
+			List<Programas> programas = podao.listar(Programas.class, "TODOS_PROGRAMAS");
+			int linhas = 10;
+			if(conf != null) {
+				linhas = conf.getTabela_linhas();
+			}
+			int colunas = programas.size()/linhas;
+			
+			if(programas.size()%linhas > 0) {
+				colunas++;
+			}
+			
+			Programas[][] mprog = new Programas[colunas][linhas];
+			
+			int linha = 0;
+			int coluna = 0;
+			for(Programas prog : programas) {
+				mprog[coluna][linha] = prog;
+				linha ++;
+				if(linha == linhas) {
+					linha = 0;
+					coluna ++;
+				}
+			}
+			
+			if(tpag == null) {
+				tpag = 0;
+			}
+			else {
+				tpag--;
+			}
+			if(programas.size() == 0) {
+				result.include("programas", null);
+				colunas = 1;
+			}
+			else {
+				result.include("programas", mprog[tpag]);
+			}
+			result.include("colunas", colunas);
+			result.include("pag", tpag);
+			result.include("var", var);
+			result.include("acao", acao);
 		}
-		
-		if(tpag == null) {
-			tpag = 0;
-		}
-		else {
-			tpag--;
-		}
-		if(programas.size() == 0) {
-			result.include("programas", null);
-			colunas = 1;
-		}
-		else {
-			result.include("programas", mprog[tpag]);
-		}
-		result.include("colunas", colunas);
-		result.include("pag", tpag);
-		result.include("var", var);
-		result.include("acao", acao);
 	}
 	
 	@Get("/novo")
@@ -97,6 +105,9 @@ public class ProgramasController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
+		if(usuarioSessao.getPermissao("Programas", 2) == false) {
+			result.include("permissao", 1);
+		}
 	}
 	
 	@Post("/salvar")
@@ -128,6 +139,13 @@ public class ProgramasController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
+		if(usuarioSessao.getPermissao("Programas", 3) == false) {
+			result.include("editar", 1);
+		}
+		if(usuarioSessao.getPermissao("Programas", 4) == false) {
+			result.include("excluir", 1);
+		}
+		
 		result.include("programa", podao.buscar(Programas.class, cod));
 	}
 	
@@ -137,21 +155,26 @@ public class ProgramasController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		List<Acessos> acessos = acdao.listar(Acessos.class, "TODOS_ACESSOS");
-		Programas prog = null;
-		
-		for (Acessos acesso : acessos) {
-			if(acesso.getPrograma().getCodigo() == cod) {
-				prog = acesso.getPrograma();
-			}
-		}
-		
-		if(prog == null){
-			prog = podao.buscar(Programas.class, cod);
-			result.redirectTo(this).index(podao.excluir(prog),2,1);
+		if(usuarioSessao.getPermissao("Programas", 4) == false) {
+			result.redirectTo(this).index(1,2,1);
 		}
 		else {
-			result.redirectTo(this).index(0,2,1);
+			List<Acessos> acessos = acdao.listar(Acessos.class, "TODOS_ACESSOS");
+			Programas prog = null;
+			
+			for (Acessos acesso : acessos) {
+				if(acesso.getPrograma().getCodigo() == cod) {
+					prog = acesso.getPrograma();
+				}
+			}
+			
+			if(prog == null){
+				prog = podao.buscar(Programas.class, cod);
+				result.redirectTo(this).index(podao.excluir(prog),2,1);
+			}
+			else {
+				result.redirectTo(this).index(0,2,1);
+			}
 		}
 	}
 }

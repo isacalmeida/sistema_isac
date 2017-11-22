@@ -45,57 +45,58 @@ public class CorController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		/*List<Cor> cores = crdao.listar(Cor.class,"TODAS_CORES");
-		
-		result.include("cores", cores);
-		
-		result.include("var", var);
-		result.include("acao", acao); */
-		
-		Long cod = (long) 1;
-		Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
-		
-		List<Cor> cores = crdao.listar(Cor.class, "TODAS_CORES");
-		int linhas = 10;
-		if(conf != null) {
-			linhas = conf.getTabela_linhas();
+		if(usuarioSessao.getPermissao("Cor", 1) == false) {
+			result.include("permissao", 1);
 		}
-		int colunas = cores.size()/linhas;
-		
-		if(cores.size()%linhas > 0) {
-			colunas++;
-		}
-		
-		Cor[][] mcors = new Cor[colunas][linhas];
-		
-		int linha = 0;
-		int coluna = 0;
-		for(Cor cor : cores) {
-			mcors[coluna][linha] = cor;
-			linha ++;
-			if(linha == linhas) {
-				linha = 0;
-				coluna ++;
+		else {
+			if(usuarioSessao.getPermissao("Cor", 2) == false) {
+				result.include("permissao", 2);
 			}
+			Long cod = (long) 1;
+			Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
+			
+			List<Cor> cores = crdao.listar(Cor.class, "TODAS_CORES");
+			int linhas = 10;
+			if(conf != null) {
+				linhas = conf.getTabela_linhas();
+			}
+			int colunas = cores.size()/linhas;
+			
+			if(cores.size()%linhas > 0) {
+				colunas++;
+			}
+			
+			Cor[][] mcors = new Cor[colunas][linhas];
+			
+			int linha = 0;
+			int coluna = 0;
+			for(Cor cor : cores) {
+				mcors[coluna][linha] = cor;
+				linha ++;
+				if(linha == linhas) {
+					linha = 0;
+					coluna ++;
+				}
+			}
+			
+			if(tpag == null) {
+				tpag = 0;
+			}
+			else {
+				tpag--;
+			}
+			if(cores.size() == 0) {
+				result.include("cores", null);
+				colunas = 1;
+			}
+			else {
+				result.include("cores", mcors[tpag]);
+			}
+			result.include("colunas", colunas);
+			result.include("pag", tpag);
+			result.include("var", var);
+			result.include("acao", acao);
 		}
-		
-		if(tpag == null) {
-			tpag = 0;
-		}
-		else {
-			tpag--;
-		}
-		if(cores.size() == 0) {
-			result.include("cores", null);
-			colunas = 1;
-		}
-		else {
-			result.include("cores", mcors[tpag]);
-		}
-		result.include("colunas", colunas);
-		result.include("pag", tpag);
-		result.include("var", var);
-		result.include("acao", acao);
 	}
 	
 	@Get("/novo")
@@ -104,6 +105,9 @@ public class CorController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
+		if(usuarioSessao.getPermissao("Cor", 2) == false) {
+			result.include("permissao", 1);
+		}
 	}
 	
 	@Post("/salvar")
@@ -135,6 +139,13 @@ public class CorController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
+		if(usuarioSessao.getPermissao("Cor", 3) == false) {
+			result.include("editar", 1);
+		}
+		if(usuarioSessao.getPermissao("Cor", 4) == false) {
+			result.include("excluir", 1);
+		}
+		
 		List<Cor> cor = crdao.buscar(Cor.class,cod,"COR_POR_CODIGO");
 		
 		result.include("cor", cor.get(0));
@@ -146,23 +157,28 @@ public class CorController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		List<Produto> produtos = prdao.listar(Produto.class, "TODOS_PRODUTOS");
-		Cor cor = null;
-		
-		for (Produto produto : produtos) {
-			for(Cor coraux : produto.getCor()) {
-				if(coraux.getCodigo() == cod) {
-					cor = coraux;
-				}
-			}
-		}
-		
-		if(cor == null){
-			cor = crdao.buscar(Cor.class, cod);
-			result.redirectTo(this).index(crdao.excluir(cor),2,1);
+		if(usuarioSessao.getPermissao("Cor", 4) == false) {
+			result.redirectTo(this).index(1,2,1);
 		}
 		else {
-			result.redirectTo(this).index(0,2,1);
+			List<Produto> produtos = prdao.listar(Produto.class, "TODOS_PRODUTOS");
+			Cor cor = null;
+			
+			for (Produto produto : produtos) {
+				for(Cor coraux : produto.getCor()) {
+					if(coraux.getCodigo() == cod) {
+						cor = coraux;
+					}
+				}
+			}
+			
+			if(cor == null){
+				cor = crdao.buscar(Cor.class, cod);
+				result.redirectTo(this).index(crdao.excluir(cor),2,1);
+			}
+			else {
+				result.redirectTo(this).index(0,2,1);
+			}
 		}
 	}
 }

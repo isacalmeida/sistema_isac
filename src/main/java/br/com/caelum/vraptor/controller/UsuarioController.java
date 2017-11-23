@@ -172,7 +172,7 @@ public class UsuarioController {
 		List<PerfilAcesso> perfis = padao.listar(PerfilAcesso.class, "TODOS_PERFIS");
 		result.include("pessoas", pessoas);
 		result.include("perfis", perfis);
-		result.include("user", udao.buscar(Usuario.class, cod));
+		result.include("usuario", udao.buscar(Usuario.class, cod));
 	}
 	
 	@Get("/{cod}/excluir")

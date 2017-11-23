@@ -12,6 +12,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/css/bootstrap.min.css' />" />
 <link rel="stylesheet" type="text/css" 	href="<c:url value='/bootstrap/styles/navbar-fixed-top.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/dashboard.css' />" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/select/dist/css/bootstrap-select.min.css' />" />
 
 </head>
 <body>
@@ -53,36 +54,56 @@
 			</ul>
 		</div>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-			<h3><span class="glyphicon glyphicon-chevron-right"></span> Usuarios </h3>
+			<h3><span class="glyphicon glyphicon-chevron-right"></span> Usuarios </h3><hr>
 			<ol class="breadcrumb">
 				<li><a href="<c:url value='/usuario'/>"> Usuarios </a></li>
 				<li class="active"> Editar </li>
 			</ol>
 			<form role="form" method="post" action='<c:url value="/usuario/salvar"/>'>
 				<fieldset>
-					<div class="form-group row">
-						<div class="col-lg-1"></div>
-						<div class="col-lg-10">
-							<input type="hidden" name="usuario.codigo" value="${user.codigo }">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="col-lg-6">
+								<label for="campoCriacao">Criado em:</label>
+								<input type="datetime" id="campoCriacao" class="form-control" value="${usuario.criacao }" disabled>
+							</div>
+							<div class="col-lg-6">
+								<label for="campoAlteracao">Última alteração em:</label>
+								<input type="datetime" id="campoAlteracao" class="form-control" value="${usuario.alteracao }" disabled>
+							</div>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="row">
+								<div class="form-group col-lg-12">
+									<label for="campoCodigo">Codigo</label>
+									<input value="${usuario.codigo }" type="text" class="form-control" id="campoCodigo" disabled>
+									<input value="${usuario.codigo }" name="usuario.codigo" type="hidden">
+								</div>
+							</div>
 							<div class="row">
 								<div class="form-group col-lg-12">
 									<label for="campoLogin">Login</label>
-									<input value="${user.usuario }" type="text" class="form-control" id="campoLogin" name="usuario.usuario">
+									<input value="${usuario.usuario }" type="text" class="form-control" id="campoLogin" name="usuario.usuario">
 								</div>
 							</div>
 							<div class="row">
 								<div class="form-group col-lg-12">
 									<label for="campoSenha">Senha</label>
-									<input value="${user.senha }" type="password" class="form-control" id="campoSenha" name="usuario.senha">
+									<input value="${usuario.senha }" type="password" class="form-control" id="campoSenha" name="usuario.senha">
 								</div>
 							</div>
-							<div class="row">
-								<div class="form-group col-lg-12">
+							<div class="form-group row">
+								<div class="col-lg-12">
 									<label for="campoPessoa">Pessoa</label>
-									<select id="campoPessoa" class="form-control" name="usuario.pessoa.codigo">
+								</div>
+								<div class="col-lg-12">
+									<select id="campoPessoa" class="selectpicker form-control" data-live-search="true" data-size="5" name="usuario.pessoa.codigo">
 										<c:forEach var="p" items="${pessoas }">
 											<c:choose>
-												<c:when test="${user.pessoa.codigo == p.codigo}">
+												<c:when test="${usuario.pessoa.codigo == p.codigo}">
 													<option selected="selected" value="${p.codigo  }">${p.nome }</option>
 												</c:when>
 												<c:otherwise>
@@ -96,7 +117,7 @@
 							<div class="row">
 								<div class="form-group col-lg-12">
 									<label for="campoPerfil">Perfil de Acesso</label>
-									<select id="campoPerfil" class="form-control" name="usuario.perfil.codigo">
+									<select id="campoPerfil" class="selectpicker form-control" name="usuario.perfil.codigo">
 										<c:forEach var="pa" items="${perfis }">
 											<c:choose>
 												<c:when test="${user.perfil.codigo == pa.codigo}">
@@ -110,46 +131,55 @@
 									</select>
 								</div>
 							</div>
-							<div class="row">
-								<div class="form-group col-lg-2">
+							<div class="form-group row">
+								<div class="col-lg-12">
 									<label for="campoAtivo">Ativo</label>
-									<select id="campoAtivo" name="usuario.ativo" class="form-control" >
+								</div>
+								<div id="campoAtivo" class="col-lg-12">
+									<div class="btn-group" data-toggle="buttons">
 										<c:choose>
-											<c:when test="${user.ativo == true }">
-												<option value="true" selected="selected">Sim</option>
-												<option value="false">Não</option>
+											<c:when test="${usuario.ativo == true}">
+												<label class="btn btn-default btn-on active">
+												<input type="radio" value="true" name="usuario.ativo" checked="checked">Sim</label>
+												<label class="btn btn-default btn-off">
+												<input type="radio" value="false" name="usuario.ativo">Não</label>
 											</c:when>
-											<c:when test="${user.ativo == false }">
-												<option value="true">Sim</option>
-												<option value="false" selected="selected">Não</option>
+											<c:when test="${usuario.ativo == false}">
+												<label class="btn btn-default btn-on">
+												<input type="radio" value="true" name="usuario.ativo">Sim</label>
+												<label class="btn btn-default btn-off active">
+												<input type="radio" value="false" name="usuario.ativo" checked="checked">Não</label>
 											</c:when>
 										</c:choose>
-									</select>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="col-lg-1"></div>
-					</div>
-					<div class="box-actions">
-						<c:if test="${editar != 1 }">
-							<button type="submit" class="btn btn-success">Salvar</button>
-						</c:if>
-						<a href="<c:url value='/usuario'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
-						<c:if test="${excluir != 1 }">
-							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm"> Excluir </button>
-						</c:if>
-					</div>
-					<div class="modal fade" id="confirm" role="dialog">
-						<div class="modal-dialog modal-md">
-							<div class="modal-content">
-								<div class="modal-body">
-									<p> Tem certeza que deseja excluir? </p>
+							<div class="box-actions">
+								<br>
+								<c:if test="${editar != 1 }">
+									<button type="submit" class="btn btn-success">Salvar</button>
+								</c:if>
+								<a href="<c:url value='/usuario'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
+								<c:if test="${excluir != 1 }">
+									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm"> Excluir </button>
+								</c:if>
+								<br>
+								<br>
+								<br>
+							</div>
+							<div class="modal fade" id="confirm" role="dialog">
+								<div class="modal-dialog modal-md">
+									<div class="modal-content">
+										<div class="modal-body">
+											<p> Tem certeza que deseja excluir? </p>
+										</div>
+										<div class="modal-footer">
+											<button type="button" data-dismiss="modal" class="btn btn-default"> Voltar </button>
+											<a href="<c:url value='/usuario/${usuario.codigo }/excluir'/>" ><button type="button" class="btn btn-primary" id="delete"> Confirmar </button></a>
+										</div>
+									</div>							
 								</div>
-								<div class="modal-footer">
-									<button type="button" data-dismiss="modal" class="btn btn-default"> Voltar </button>
-									<a href="<c:url value='/usuario/${user.codigo }/excluir'/>" ><button type="button" class="btn btn-primary" id="delete"> Confirmar </button></a>
-								</div>
-							</div>							
+							</div>
 						</div>
 					</div>
 				</fieldset>
@@ -162,6 +192,8 @@
 <script src="<c:url value='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js' />"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="<c:url value='/bootstrap/js/bootstrap.min.js'/>"></script>
+<script src="<c:url value='/bootstrap/select/dist/js/bootstrap-select.min.js'/>"></script>
+<script src="<c:url value='/bootstrap/select/dist/js/i18n/defaults-pt_BR.js'/>"></script>
 
 </body>
 </html>

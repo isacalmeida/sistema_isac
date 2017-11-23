@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/css/bootstrap.min.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/navbar-fixed-top.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/dashboard.css' />" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/select/dist/css/bootstrap-select.min.css' />" />
 
 </head>
 <body>
@@ -42,7 +43,11 @@
 			<ul class="nav nav-sidebar">
 				<li>
 					<div class="navbar-form">
-						<input id="buscar" class="form-control" placeholder="Pesquisar ...">	
+						<select id="campoPesquisa" class="selectpicker form-control" data-live-search="true" data-size="auto" title="Pesquisar..." onchange="location = this.value;">
+							<c:forEach var="prog" items="${programas }">
+								<option value="/lista${prog.endereco  }">${prog.descricao }</option>
+							</c:forEach>
+						</select>
 					</div>
 				</li>
 				<li class="active"><a href="<c:url value='/menu'/>">Inicio <span class="sr-only">(current)</span></a></li>
@@ -60,6 +65,8 @@
 <script src="<c:url value='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js' />"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="<c:url value='/bootstrap/js/bootstrap.min.js'/>"></script>
+<script src="<c:url value='/bootstrap/select/dist/js/bootstrap-select.min.js'/>"></script>
+<script src="<c:url value='/bootstrap/select/dist/js/i18n/defaults-pt_BR.js'/>"></script>
 
 </body>
 </html>

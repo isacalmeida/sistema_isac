@@ -75,7 +75,7 @@
 										<c:if test="${!empty(a)}" >
 											<tr>
 												<td>${a.codigo }</td>
-												<td><a href="<c:url value='/acessos/${a.codigo }/editar' />" >${a.perfilacesso.descricao }</a></td>
+												<td>${a.perfilacesso.descricao }</td>
 												<td>${a.programa.descricao }</td>
 											</tr>
 										</c:if>

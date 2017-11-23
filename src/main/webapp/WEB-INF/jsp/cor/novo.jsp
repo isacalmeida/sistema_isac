@@ -53,37 +53,35 @@
 			</ul>
 		</div>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-			<h3><span class="glyphicon glyphicon-chevron-right"></span> Cor </h3>
+			<h3><span class="glyphicon glyphicon-chevron-right"></span> Cor </h3><hr>
 			<c:choose>
 				<c:when test="${permissao != 1}">
 					<ol class="breadcrumb">
 						<li><a href="<c:url value='/cor'/>"> Cor </a></li>
 						<li class="active"> Novo </li>
 					</ol>
-					<div class="row">
-						<div class="tab-pane">
-							<form role="form" method="post" action='<c:url value="/cor/salvar"/>'>
-								<fieldset>
-									<div class="row">
-										<div class="form-group col-lg-12">
-											<label for="campoCodigo">Codigo</label>
-											<input type="text" class="form-control" id="campoCodigo" name="cor.codigo" disabled>
-										</div>
+					<form role="form" method="post" action='<c:url value="/cor/salvar"/>'>
+						<fieldset>
+							<div class="col-lg-12">
+								<div class="row">
+									<div class="form-group col-lg-12">
+										<label for="campoCodigo">Codigo</label>
+										<input type="text" class="form-control" id="campoCodigo" disabled>
 									</div>
-									<div class="row">
-										<div class="form-group col-lg-12">
-											<label for="campoDescricao">Descricao</label>
-											<input type="text" class="form-control" id="campoDescricao" name="cor.descricao">
-										</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-lg-12">
+										<label for="campoDescricao">Descricao</label>
+										<input type="text" class="form-control" id="campoDescricao" name="cor.descricao">
 									</div>
-									<div class="box-actions">
-										<button type="submit" class="btn btn-success">Salvar</button>
-										<a href="<c:url value='/cor'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
-									</div>
-								</fieldset>
-							</form>
-						</div>
-					</div>
+								</div>
+								<div class="box-actions">
+									<button type="submit" class="btn btn-success">Salvar</button>
+									<a href="<c:url value='/cor'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
+								</div>
+							</div>
+						</fieldset>
+					</form>
 				</c:when>
 				<c:otherwise>
 					<div class="alert alert-danger alert-dismissible" role="alert">

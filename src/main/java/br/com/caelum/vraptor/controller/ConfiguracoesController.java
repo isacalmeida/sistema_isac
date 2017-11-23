@@ -90,23 +90,24 @@ public class ConfiguracoesController {
 	}
 	
 	@Post("/salvar")
-	public void salvar(Integer linhasMatriz, Boolean ativo, Long codigo) throws DAOException {
+	public void salvar(Configuracoes configuracao) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		Configuracoes confs = new Configuracoes();
-		
-		confs.setCodigo(codigo);
-		confs.setTabela_linhas(linhasMatriz);
-		confs.setAtivo(ativo);
-		confs.setAlteracao(new DateTime());
-		
-		if(codigo == null) {
-			result.redirectTo(this).index(cdao.salvar(confs),0,1);
+		if(configuracao.getCodigo() == null) {
+			configuracao.setCriacao(new DateTime());
+			configuracao.setAlteracao(new DateTime());
+			
+			result.redirectTo(this).index(cdao.salvar(configuracao),0,1);
 		}
 		else {
-			result.redirectTo(this).index(cdao.salvar(confs),1,1);
+			List<Configuracoes> confs = cdao.buscar(Configuracoes.class, configuracao.getCodigo(), "CONFIGURACOES_POR_CODIGO");
+			
+			configuracao.setCriacao(confs.get(0).getCriacao());
+			configuracao.setAlteracao(new DateTime());
+			
+			result.redirectTo(this).index(cdao.salvar(configuracao),1,1);
 		}
 	}
 	
@@ -123,6 +124,6 @@ public class ConfiguracoesController {
 			result.include("excluir", 1);
 		}
 		
-		result.include("confs", cdao.buscar(Configuracoes.class, cod));
+		result.include("configuracao", cdao.buscar(Configuracoes.class, cod));
 	}
 }

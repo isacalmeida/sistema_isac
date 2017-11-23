@@ -53,32 +53,32 @@
 			</ul>
 		</div>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-			<h3><span class="glyphicon glyphicon-chevron-right"></span> Departamento </h3>
+			<h3><span class="glyphicon glyphicon-chevron-right"></span> Departamento </h3><hr>
 			<ol class="breadcrumb">
 				<li><a href="<c:url value='/departamento'/>"> Departamento </a></li>
 				<li class="active"> Editar </li>
 			</ol>
-			<div class="row">
-				<div class="tab-pane">
-					<form role="form" method="post" action='<c:url value="/departamento/salvar"/>'>
-						<fieldset>
-							<div class="row">
-								<div class="col-lg-12">
-									<div class="col-lg-6">
-										<label for="campoCriacao">Criado em:</label>
-										<input type="datetime" id="campoCriacao" class="form-control" value="${departamento.criacao }" disabled>
-									</div>
-									<div class="col-lg-6">
-										<label for="campoAlteracao">Última alteração em:</label>
-										<input type="datetime" id="campoAlteracao" class="form-control" value="${departamento.alteracao }" disabled>
-									</div>
-								</div>
+			<form role="form" method="post" action='<c:url value="/departamento/salvar"/>'>
+				<fieldset>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="col-lg-6">
+								<label for="campoCriacao">Criado em:</label>
+								<input type="datetime" id="campoCriacao" class="form-control" value="${departamento.criacao }" disabled>
 							</div>
-							<br>
+							<div class="col-lg-6">
+								<label for="campoAlteracao">Última alteração em:</label>
+								<input type="datetime" id="campoAlteracao" class="form-control" value="${departamento.alteracao }" disabled>
+							</div>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-lg-12">
 							<div class="row">
 								<div class="form-group col-lg-12">
 									<label for="campoCodigo">Codigo</label>
-									<input type="text" class="form-control" id="campoCodigo" disabled>
+									<input value="${departamento.codigo }" type="text" class="form-control" id="campoCodigo" disabled>
 									<input value="${departamento.codigo }" name="departamento.codigo" type="hidden">
 								</div>
 							</div>
@@ -110,10 +110,10 @@
 									</div>							
 								</div>
 							</div>
-						</fieldset>
-					</form>
-				</div>
-			</div>
+						</div>
+					</div>
+				</fieldset>
+			</form>
 		</div>
 	</div>
 </div>

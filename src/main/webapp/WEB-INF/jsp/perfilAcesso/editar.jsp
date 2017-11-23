@@ -288,6 +288,9 @@
 								<c:if test="${excluir != 1 }">
 									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm"> Excluir </button>
 								</c:if>
+								<br>
+								<br>
+								<br>
 							</div>
 							<div class="modal fade" id="confirm" role="dialog">
 								<div class="modal-dialog modal-md">

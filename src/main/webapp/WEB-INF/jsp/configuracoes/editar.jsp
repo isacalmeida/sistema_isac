@@ -53,65 +53,102 @@
 			</ul>
 		</div>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-			<h3><span class="glyphicon glyphicon-chevron-right"></span> Pessoas </h3>
+			<h3><span class="glyphicon glyphicon-chevron-right"></span> Geral </h3><hr>
 			<ol class="breadcrumb">
 				<li><a href="<c:url value='/configuracoes'/>"> Geral </a></li>
 				<li class="active"> Editar </li>
 			</ol>
-			<div class="row">
-				<div class="tab-pane">
-					<form role="form" method="post" action='<c:url value="/configuracoes/salvar"/>'>
-						<fieldset>
+			<form role="form" method="post" action='<c:url value="/configuracoes/salvar"/>'>
+				<fieldset>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="col-lg-6">
+								<label for="campoCriacao">Criado em:</label>
+								<input type="datetime" id="campoCriacao" class="form-control" value="${configuracao.criacao }" disabled>
+							</div>
+							<div class="col-lg-6">
+								<label for="campoAlteracao">Última alteração em:</label>
+								<input type="datetime" id="campoAlteracao" class="form-control" value="${configuracao.alteracao }" disabled>
+							</div>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="row">
+								<div class="form-group col-lg-4">
+									<label for="campoCodigo">Codigo</label>
+									<input class="form-control" type="text" value="${configuracao.codigo }" disabled>
+									<input type="text" value="${configuracao.codigo }" hidden="hidden" name="configuracao.codigo">
+								</div>
+								<div class="form-group col-lg-4">
+									<label for="campoEndereco">Contador de Endereços</label>
+									<input value="${configuracao.contador_endereco }" type="text" class="form-control" id="campoEndereco" disabled>
+									<input value="${configuracao.contador_endereco }" type="text" hidden="hidden" name="configuracao.contador_endereco">
+								</div>
+								<div class="form-group col-lg-4">
+									<label for="campoContato">Contador de Contatos</label>
+									<input value="${configuracao.contador_contato }" type="text" class="form-control" id="campoContato" disabled>
+									<input value="${configuracao.contador_contato }" type="text" hidden="hidden" name="configuracao.contador_contato">
+								
+								</div>
+							</div>
 							<div class="row">
 								<div class="form-group col-lg-12">
-									<input type="hidden" name="codigo" value="${confs.codigo }">
-									<label for="campoLinhasMatriz">Linhas Matriz</label>
-									<input value="${confs.tabela_linhas }" type="text" class="form-control" id="campoLinhasMatriz" name="linhasMatriz">
+									<label for="campoTabelaLinhas">Tabela Linhas</label>
+									<input value="${configuracao.tabela_linhas }" type="text" class="form-control" id="campoTabelaLinhas" name="configuracao.tabela_linhas">
 								</div>
 							</div>
-							<div class="row">
-								<div class="form-group col-lg-2">
+							<div class="form-group row">
+								<div class="col-lg-12">
 									<label for="campoAtivo">Ativo</label>
-									<select id="campoAtivo" name="ativo" class="form-control" >
+								</div>
+								<div id="campoAtivo" class="col-lg-12">
+									<div class="btn-group" data-toggle="buttons">
 										<c:choose>
-											<c:when test="${confs.ativo == true }">
-												<option value="true" selected="selected">Sim</option>
-												<option value="false">Não</option>
+											<c:when test="${configuracao.ativo == true}">
+												<label class="btn btn-default btn-on active">
+												<input type="radio" value="true" name="configuracao.ativo" checked="checked">Sim</label>
+												<label class="btn btn-default btn-off">
+												<input type="radio" value="false" name="configuracao.ativo">Não</label>
 											</c:when>
-											<c:when test="${confs.ativo == false }">
-												<option value="true">Sim</option>
-												<option value="false" selected="selected">Não</option>
+											<c:when test="${configuracao.ativo == false}">
+												<label class="btn btn-default btn-on">
+												<input type="radio" value="true" name="configuracao.ativo">Sim</label>
+												<label class="btn btn-default btn-off active">
+												<input type="radio" value="false" name="configuracao.ativo" checked="checked">Não</label>
 											</c:when>
 										</c:choose>
-									</select>
+									</div>
 								</div>
 							</div>
-							<div class="box-actions">
-								<c:if test="${editar != 1 }">
-									<button type="submit" class="btn btn-success">Salvar</button>
-								</c:if>
-								<a href="<c:url value='/configuracoes'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
-								<c:if test="${excluir != 1 }">
-									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm"> Excluir </button>
-								</c:if>
-							</div>
-							<div class="modal fade" id="confirm" role="dialog">
-								<div class="modal-dialog modal-md">
-									<div class="modal-content">
-										<div class="modal-body">
-											<p> Tem certeza que deseja excluir? </p>
-										</div>
-										<div class="modal-footer">
-											<button type="button" data-dismiss="modal" class="btn btn-default"> Voltar </button>
-											<a href="<c:url value='/configuracoes/${confs.codigo }/excluir'/>" ><button type="button" class="btn btn-primary" id="delete"> Confirmar </button></a>
-										</div>
-									</div>							
+						</div>
+					</div>
+					<div class="box-actions">
+						<br>
+						<c:if test="${editar != 1 }">
+							<button type="submit" class="btn btn-success">Salvar</button>
+						</c:if>
+						<a href="<c:url value='/configuracoes'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
+						<c:if test="${excluir != 1 }">
+							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm"> Excluir </button>
+						</c:if>
+					</div>
+					<div class="modal fade" id="confirm" role="dialog">
+						<div class="modal-dialog modal-md">
+							<div class="modal-content">
+								<div class="modal-body">
+									<p> Tem certeza que deseja excluir? </p>
 								</div>
-							</div>
-						</fieldset>
-					</form>
-				</div>
-			</div>
+								<div class="modal-footer">
+									<button type="button" data-dismiss="modal" class="btn btn-default"> Voltar </button>
+									<a href="<c:url value='/configuracoes/${confs.codigo }/excluir'/>" ><button type="button" class="btn btn-primary" id="delete"> Confirmar </button></a>
+								</div>
+							</div>							
+						</div>
+					</div>
+				</fieldset>
+			</form>
 		</div>
 	</div>
 </div>

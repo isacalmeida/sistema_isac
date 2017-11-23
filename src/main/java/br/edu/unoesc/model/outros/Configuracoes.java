@@ -1,6 +1,5 @@
 package br.edu.unoesc.model.outros;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,22 +13,22 @@ import org.joda.time.DateTime;
 import br.edu.unoesc.model.MinhaEntidade;
 
 @Entity
-@NamedQueries(
+@NamedQueries({
 		@NamedQuery(name="TODAS_CONFIGURACOES", 
-					query="select c from Configuracoes c order by c.codigo"))
+					query="select c from Configuracoes c order by c.codigo"),
+		@NamedQuery(name="CONFIGURACOES_POR_CODIGO",
+					query="select c from Configuracoes c where c.codigo = :codigo")
+})
 public class Configuracoes implements MinhaEntidade {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@Column(nullable=false)
 	private Integer tabela_linhas;
 	
-	@Column(nullable=false)
 	private Long contador_endereco;
 	
-	@Column(nullable=false)
 	private Long contador_contato;
 	
 	private boolean ativo;

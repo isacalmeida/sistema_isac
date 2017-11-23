@@ -53,28 +53,28 @@
 			</ul>
 		</div>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-			<h3><span class="glyphicon glyphicon-chevron-right"></span> Programas </h3>
+			<h3><span class="glyphicon glyphicon-chevron-right"></span> Programas </h3><hr>
 			<ol class="breadcrumb">
 				<li><a href="<c:url value='/programas'/>"> Programas </a></li>
 				<li class="active"> Editar </li>
 			</ol>
-			<div class="row">
-				<div class="tab-pane">
-					<form role="form" method="post" action='<c:url value="/programas/salvar"/>'>
-						<fieldset>
-							<div class="row">
-								<div class="col-lg-12">
-									<div class="col-lg-6">
-										<label for="campoCriacao">Criado em:</label>
-										<input type="datetime" id="campoCriacao" class="form-control" value="${programa.criacao }" disabled>
-									</div>
-									<div class="col-lg-6">
-										<label for="campoAlteracao">Última alteração em:</label>
-										<input type="datetime" id="campoAlteracao" class="form-control" value="${programa.alteracao }" disabled>
-									</div>
-								</div>
+			<form role="form" method="post" action='<c:url value="/programas/salvar"/>'>
+				<fieldset>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="col-lg-6">
+								<label for="campoCriacao">Criado em:</label>
+								<input type="datetime" id="campoCriacao" class="form-control" value="${programa.criacao }" disabled>
 							</div>
-							<br>
+							<div class="col-lg-6">
+								<label for="campoAlteracao">Última alteração em:</label>
+								<input type="datetime" id="campoAlteracao" class="form-control" value="${programa.alteracao }" disabled>
+							</div>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-lg-12">
 							<div class="row">
 								<div class="form-group col-lg-12">
 									<label for="campoCodigo">Codigo</label>
@@ -118,24 +118,31 @@
 									</select>
 								</div>
 							</div>
-							<div class="row">
-								<div class="form-group col-lg-2">
+							<div class="form-group row">
+								<div class="col-lg-12">
 									<label for="campoAtivo">Ativo</label>
-									<select id="campoAtivo" name="programa.ativo" class="form-control" >
+								</div>
+								<div id="campoAtivo" class="col-lg-12">
+									<div class="btn-group" data-toggle="buttons">
 										<c:choose>
-											<c:when test="${programa.ativo == true }">
-												<option value="true" selected="selected">Sim</option>
-												<option value="false">Não</option>
+											<c:when test="${programa.ativo == true}">
+												<label class="btn btn-default btn-on active">
+												<input type="radio" value="true" name="programa.ativo" checked="checked">Sim</label>
+												<label class="btn btn-default btn-off">
+												<input type="radio" value="false" name="programa.ativo">Não</label>
 											</c:when>
-											<c:when test="${programa.ativo == false }">
-												<option value="true">Sim</option>
-												<option value="false" selected="selected">Não</option>
+											<c:when test="${programa.ativo == false}">
+												<label class="btn btn-default btn-on">
+												<input type="radio" value="true" name="programa.ativo">Sim</label>
+												<label class="btn btn-default btn-off active">
+												<input type="radio" value="false" name="programa.ativo" checked="checked">Não</label>
 											</c:when>
 										</c:choose>
-									</select>
+									</div>
 								</div>
 							</div>
 							<div class="box-actions">
+								<br>
 								<c:if test="${editar != 1 }">
 									<button type="submit" class="btn btn-success">Salvar</button>
 								</c:if>
@@ -143,24 +150,27 @@
 								<c:if test="${excluir != 1 }">
 									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm"> Excluir </button>
 								</c:if>
+								<br>
+								<br>
+								<br>
 							</div>
-							<div class="modal fade" id="confirm" role="dialog">
-								<div class="modal-dialog modal-md">
-									<div class="modal-content">
-										<div class="modal-body">
-											<p> Tem certeza que deseja excluir? </p>
-										</div>
-										<div class="modal-footer">
-											<button type="button" data-dismiss="modal" class="btn btn-default"> Voltar </button>
-											<a href="<c:url value='/programas/${programa.codigo }/excluir'/>" ><button type="button" class="btn btn-primary" id="delete"> Confirmar </button></a>
-										</div>
-									</div>							
-								</div>
+						</div>
+						<div class="modal fade" id="confirm" role="dialog">
+							<div class="modal-dialog modal-md">
+								<div class="modal-content">
+									<div class="modal-body">
+										<p> Tem certeza que deseja excluir? </p>
+									</div>
+									<div class="modal-footer">
+										<button type="button" data-dismiss="modal" class="btn btn-default"> Voltar </button>
+										<a href="<c:url value='/programas/${programa.codigo }/excluir'/>" ><button type="button" class="btn btn-primary" id="delete"> Confirmar </button></a>
+									</div>
+								</div>							
 							</div>
-						</fieldset>
-					</form>
-				</div>
-			</div>
+						</div>
+					</div>
+				</fieldset>
+			</form>
 		</div>
 	</div>
 </div>

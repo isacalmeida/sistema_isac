@@ -12,6 +12,13 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/css/bootstrap.min.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/navbar-fixed-top.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/dashboard.css' />" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/select/dist/css/bootstrap-select.min.css' />" />
+
+
+<style type="text/css">
+.btn-default.btn-on.active{background-color: #5BB75B;color: white;}
+.btn-default.btn-off.active{background-color: #DA4F49;color: white;}
+</style>
 
 </head>
 <body>
@@ -53,7 +60,7 @@
 			</ul>
 		</div>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-			<h3><span class="glyphicon glyphicon-chevron-right"></span> Usuarios </h3>
+			<h3><span class="glyphicon glyphicon-chevron-right"></span> Usuarios </h3><hr>
 			<c:choose>
 				<c:when test="${permissao != 1}">
 					<ol class="breadcrumb">
@@ -61,57 +68,69 @@
 						<li class="active"> Novo </li>
 					</ol>
 					<form role="form" method="post" action='<c:url value="/usuario/salvar"/>'>
-						<fieldset>
-							<div class="form-group row">
-								<div class="col-lg-1"></div>
-								<div class="col-lg-10">
-									<div class="row">
-										<div class="form-group col-lg-12">
-											<label for="campoLogin">Login</label>
-											<input type="text" class="form-control" id="campoLogin" name="usuario.usuario">
-										</div>
+						<fieldset>	
+							<div class="col-lg-12">
+								<div class="row">
+									<div class="form-group col-lg-12">
+										<label for="campoCodigo">Codigo</label>
+										<input type="text" class="form-control" id="campoCodigo" disabled>
 									</div>
-									<div class="row">
-										<div class="form-group col-lg-12">
-											<label for="campoSenha">Senha</label>
-											<input type="password" class="form-control" id="campoSenha" name="usuario.senha">
-										</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-lg-12">
+										<label for="campoLogin">Login</label>
+										<input type="text" class="form-control" id="campoLogin" name="usuario.usuario">
 									</div>
-									<div class="row">
-										<div class="form-group col-lg-12">
-											<label for="campoPessoa">Pessoa</label>
-											<select class="form-control" name="usuario.pessoa.codigo">
-												<c:forEach var="p" items="${pessoas }">
-													<option value="${p.codigo  }">${p.nome }</option>
-												</c:forEach>
-											</select>
-										</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-lg-12">
+										<label for="campoSenha">Senha</label>
+										<input type="password" class="form-control" id="campoSenha" name="usuario.senha">
 									</div>
-									<div class="row">
-										<div class="form-group col-lg-12">
-											<label for="campoPessoa">Perfil de Acesso</label>
-											<select class="form-control" name="usuario.perfil.codigo">
-												<c:forEach var="pa" items="${perfis }">
-													<option value="${pa.codigo }">${pa.descricao}</option>
-												</c:forEach>
-											</select>
-										</div>
+								</div>
+								<div class="form-group row">
+									<div class="col-lg-12">
+										<label for="campoPessoa">Pessoa</label>
 									</div>
-									<div class="row">
-										<div class="form-group col-lg-2">
-											<label for="campoAtivo">Ativo</label>
-											<select id="campoAtivo" name="usuario.ativo" class="form-control" >
-												<option value="true" selected="selected">Sim</option>
-												<option value="false">Não</option>
-											</select>
+									<div class="col-lg-12">
+										<select id="campoPessoa" class="selectpicker form-control" data-live-search="true" data-size="5" name="usuario.pessoa.codigo" >
+											<c:forEach var="p" items="${pessoas }">
+												<option value="${p.codigo  }">${p.nome }</option>
+											</c:forEach>
+										</select>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-lg-12">
+										<label for="campoPerfil">Perfil de Acesso</label>
+										<select id="campoPerfil" class="selectpicker form-control" name="usuario.perfil.codigo">
+											<c:forEach var="pa" items="${perfis }">
+												<option value="${pa.codigo }">${pa.descricao}</option>
+											</c:forEach>
+										</select>
+									</div>
+								</div>
+								<div class="form-group row">
+									<div class="col-lg-12">
+										<label for="campoAtivo">Ativo</label>
+									</div>
+									<div id="campoAtivo" class="col-lg-12">
+										<div class="btn-group" data-toggle="buttons">
+											<label class="btn btn-default btn-on active">
+											<input type="radio" value="true" name="usuario.ativo" checked="checked">Sim</label>
+											<label class="btn btn-default btn-off">
+											<input type="radio" value="false" name="usuario.ativo">Não</label>
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-1"></div>
-							</div>
-							<div class="box-actions">
-								<button type="submit" class="btn btn-success">Salvar</button>
-								<a href="<c:url value='/usuario'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
+								<div class="box-actions">
+									<br>
+									<button type="submit" class="btn btn-success">Salvar</button>
+									<a href="<c:url value='/usuario'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
+									<br>
+									<br>
+									<br>
+								</div>
 							</div>
 						</fieldset>
 					</form>
@@ -131,6 +150,9 @@
 <script src="<c:url value='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js' />"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="<c:url value='/bootstrap/js/bootstrap.min.js'/>"></script>
+<script src="<c:url value='/bootstrap/select/dist/js/bootstrap-select.min.js'/>"></script>
+<script src="<c:url value='/bootstrap/select/dist/js/i18n/defaults-pt_BR.js'/>"></script>
+
 
 </body>
 </html>

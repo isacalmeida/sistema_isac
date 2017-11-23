@@ -58,27 +58,28 @@
 				<li><a href="<c:url value='/usuario'/>"> Usuarios </a></li>
 				<li class="active"> Editar </li>
 			</ol>
-			<div class="row">
-				<div class="tab-pane">
-					<form role="form" method="post" action='<c:url value="/usuario/salvar"/>'>
-						<fieldset>
-							<input type="hidden" name="codigo" value="${user.codigo }">
+			<form role="form" method="post" action='<c:url value="/usuario/salvar"/>'>
+				<fieldset>
+					<div class="form-group row">
+						<div class="col-lg-1"></div>
+						<div class="col-lg-10">
+							<input type="hidden" name="usuario.codigo" value="${user.codigo }">
 							<div class="row">
 								<div class="form-group col-lg-12">
 									<label for="campoLogin">Login</label>
-									<input value="${user.usuario }" type="text" class="form-control" id="campoLogin" name="login">
+									<input value="${user.usuario }" type="text" class="form-control" id="campoLogin" name="usuario.usuario">
 								</div>
 							</div>
 							<div class="row">
 								<div class="form-group col-lg-12">
 									<label for="campoSenha">Senha</label>
-									<input value="${user.senha }" type="password" class="form-control" id="campoSenha" name="senha">
+									<input value="${user.senha }" type="password" class="form-control" id="campoSenha" name="usuario.senha">
 								</div>
 							</div>
 							<div class="row">
 								<div class="form-group col-lg-12">
 									<label for="campoPessoa">Pessoa</label>
-									<select class="form-control" name="pessoa">
+									<select id="campoPessoa" class="form-control" name="usuario.pessoa.codigo">
 										<c:forEach var="p" items="${pessoas }">
 											<c:choose>
 												<c:when test="${user.pessoa.codigo == p.codigo}">
@@ -93,9 +94,26 @@
 								</div>
 							</div>
 							<div class="row">
+								<div class="form-group col-lg-12">
+									<label for="campoPerfil">Perfil de Acesso</label>
+									<select id="campoPerfil" class="form-control" name="usuario.perfil.codigo">
+										<c:forEach var="pa" items="${perfis }">
+											<c:choose>
+												<c:when test="${user.perfil.codigo == pa.codigo}">
+													<option selected="selected" value="${pa.codigo  }">${pa.descricao }</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${pa.codigo  }">${pa.descricao }</option>
+												</c:otherwise>
+											</c:choose>	
+										</c:forEach>
+									</select>
+								</div>
+							</div>
+							<div class="row">
 								<div class="form-group col-lg-2">
 									<label for="campoAtivo">Ativo</label>
-									<select id="campoAtivo" name="ativo" class="form-control" >
+									<select id="campoAtivo" name="usuario.ativo" class="form-control" >
 										<c:choose>
 											<c:when test="${user.ativo == true }">
 												<option value="true" selected="selected">Sim</option>
@@ -109,32 +127,33 @@
 									</select>
 								</div>
 							</div>
-							<div class="box-actions">
-								<c:if test="${editar != 1 }">
-									<button type="submit" class="btn btn-success">Salvar</button>
-								</c:if>
-								<a href="<c:url value='/usuario'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
-								<c:if test="${excluir != 1 }">
-									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm"> Excluir </button>
-								</c:if>
-							</div>
-							<div class="modal fade" id="confirm" role="dialog">
-								<div class="modal-dialog modal-md">
-									<div class="modal-content">
-										<div class="modal-body">
-											<p> Tem certeza que deseja excluir? </p>
-										</div>
-										<div class="modal-footer">
-											<button type="button" data-dismiss="modal" class="btn btn-default"> Voltar </button>
-											<a href="<c:url value='/usuario/${user.codigo }/excluir'/>" ><button type="button" class="btn btn-primary" id="delete"> Confirmar </button></a>
-										</div>
-									</div>							
+						</div>
+						<div class="col-lg-1"></div>
+					</div>
+					<div class="box-actions">
+						<c:if test="${editar != 1 }">
+							<button type="submit" class="btn btn-success">Salvar</button>
+						</c:if>
+						<a href="<c:url value='/usuario'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
+						<c:if test="${excluir != 1 }">
+							<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm"> Excluir </button>
+						</c:if>
+					</div>
+					<div class="modal fade" id="confirm" role="dialog">
+						<div class="modal-dialog modal-md">
+							<div class="modal-content">
+								<div class="modal-body">
+									<p> Tem certeza que deseja excluir? </p>
 								</div>
-							</div>
-						</fieldset>
-					</form>
-				</div>
-			</div>
+								<div class="modal-footer">
+									<button type="button" data-dismiss="modal" class="btn btn-default"> Voltar </button>
+									<a href="<c:url value='/usuario/${user.codigo }/excluir'/>" ><button type="button" class="btn btn-primary" id="delete"> Confirmar </button></a>
+								</div>
+							</div>							
+						</div>
+					</div>
+				</fieldset>
+			</form>	
 		</div>
 	</div>
 </div>

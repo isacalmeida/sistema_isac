@@ -116,7 +116,7 @@ public class ConfiguracoesBean implements Serializable {
 
 		Programas prog7 = new Programas();
 		prog7.setDescricao("Geral");
-		prog7.setEndereco("/geral");
+		prog7.setEndereco("/configuracoes");
 		prog7.setGrupo(1L);
 		prog7.setCriacao(new DateTime());
 		prog7.setAlteracao(new DateTime());

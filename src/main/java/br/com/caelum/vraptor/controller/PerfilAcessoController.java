@@ -145,6 +145,7 @@ public class PerfilAcessoController {
 				if(acesso.getRemover() == null)
 					acesso.setRemover(false);
 			}
+			
 			result.redirectTo(this).index(padao.salvar(perfil),0,1);
 		}
 		else {

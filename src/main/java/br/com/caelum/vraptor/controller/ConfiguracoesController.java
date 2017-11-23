@@ -35,11 +35,11 @@ public class ConfiguracoesController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		if(usuarioSessao.getPermissao("Configuracoes", 1) == false) {
+		if(usuarioSessao.getPermissao("Geral", 1) == false) {
 			result.include("permissao", 1);
 		}
 		else {
-			if(usuarioSessao.getPermissao("Configuracoes", 2) == false) {
+			if(usuarioSessao.getPermissao("Geral", 2) == false) {
 				result.include("permissao", 2);
 			}		
 			Long cod = (long) 1;
@@ -116,10 +116,10 @@ public class ConfiguracoesController {
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		if(usuarioSessao.getPermissao("Configuracoes", 3) == false) {
+		if(usuarioSessao.getPermissao("Geral", 3) == false) {
 			result.include("editar", 1);
 		}
-		if(usuarioSessao.getPermissao("Configuracoes", 4) == false) {
+		if(usuarioSessao.getPermissao("Geral", 4) == false) {
 			result.include("excluir", 1);
 		}
 		

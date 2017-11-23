@@ -24,7 +24,7 @@ public class Acessos implements MinhaEntidade{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@OneToOne(targetEntity = Programas.class, optional=false)
+	@OneToOne(targetEntity = Programas.class)
 	@JoinColumn(name="codigo_programa", foreignKey=@ForeignKey(name="FK_acessos_programas"))
 	private Programas programa;
 	

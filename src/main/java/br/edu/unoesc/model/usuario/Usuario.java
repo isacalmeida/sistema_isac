@@ -1,7 +1,7 @@
 package br.edu.unoesc.model.usuario;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -9,8 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
@@ -32,28 +30,22 @@ import br.edu.unoesc.model.pessoa.Pessoa;
 	@NamedQuery(name="PESSOAS_EM_USUARIOS",
 				query="select u from Usuario u left join Pessoa p on u.pessoa.codigo = p.codigo")
 })*/
-@Table(uniqueConstraints = {
-		@UniqueConstraint(columnNames = {"codigo","codigo_pessoa"}, name = "FK_usuario_pessoa"),
-		@UniqueConstraint(columnNames = {"codigo","codigo_perfil"}, name = "FK_usuario_perfil")
-})
 public class Usuario implements MinhaEntidade{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@Column(nullable=false)
 	private String usuario;
 	
-	@Column(nullable=false)
 	private String senha;
 	
 	@OneToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name = "codigo_pessoa")
+	@JoinColumn(name = "codigo_pessoa", foreignKey=@ForeignKey(name="FK_usuario_pessoa"))
 	private Pessoa pessoa;
 	
 	@OneToOne(targetEntity = PerfilAcesso.class)
-	@JoinColumn(name = "codigo_perfil")
+	@JoinColumn(name = "codigo_perfil", foreignKey=@ForeignKey(name="FK_usuario_perfil"))
 	private PerfilAcesso perfil;
 	
 	private Boolean ativo;

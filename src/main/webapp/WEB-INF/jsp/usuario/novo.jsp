@@ -60,10 +60,11 @@
 						<li><a href="<c:url value='/usuario'/>"> Usuarios </a></li>
 						<li class="active"> Novo </li>
 					</ol>
-					<div class="row">
-						<div class="tab-pane">
-							<form role="form" method="post" action='<c:url value="/usuario/salvar"/>'>
-								<fieldset>
+					<form role="form" method="post" action='<c:url value="/usuario/salvar"/>'>
+						<fieldset>
+							<div class="form-group row">
+								<div class="col-lg-1"></div>
+								<div class="col-lg-10">
 									<div class="row">
 										<div class="form-group col-lg-12">
 											<label for="campoLogin">Login</label>
@@ -79,7 +80,7 @@
 									<div class="row">
 										<div class="form-group col-lg-12">
 											<label for="campoPessoa">Pessoa</label>
-											<select class="form-control" name="usuario.pessoa">
+											<select class="form-control" name="usuario.pessoa.codigo">
 												<c:forEach var="p" items="${pessoas }">
 													<option value="${p.codigo  }">${p.nome }</option>
 												</c:forEach>
@@ -87,22 +88,33 @@
 										</div>
 									</div>
 									<div class="row">
+										<div class="form-group col-lg-12">
+											<label for="campoPessoa">Perfil de Acesso</label>
+											<select class="form-control" name="usuario.perfil.codigo">
+												<c:forEach var="pa" items="${perfis }">
+													<option value="${pa.codigo }">${pa.descricao}</option>
+												</c:forEach>
+											</select>
+										</div>
+									</div>
+									<div class="row">
 										<div class="form-group col-lg-2">
 											<label for="campoAtivo">Ativo</label>
-											<select id="campoAtivo" name="ativo" class="form-control" >
+											<select id="campoAtivo" name="usuario.ativo" class="form-control" >
 												<option value="true" selected="selected">Sim</option>
 												<option value="false">Não</option>
 											</select>
 										</div>
 									</div>
-									<div class="box-actions">
-										<button type="submit" class="btn btn-success">Salvar</button>
-										<a href="<c:url value='/usuario'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
-									</div>
-								</fieldset>
-							</form>
-						</div>
-					</div>
+								</div>
+								<div class="col-lg-1"></div>
+							</div>
+							<div class="box-actions">
+								<button type="submit" class="btn btn-success">Salvar</button>
+								<a href="<c:url value='/usuario'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
+							</div>
+						</fieldset>
+					</form>
 				</c:when>
 				<c:otherwise>
 					<div class="alert alert-danger alert-dismissible" role="alert">

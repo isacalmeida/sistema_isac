@@ -13,11 +13,13 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
+import br.edu.unoesc.dao.PerfilAcessoDAO;
 import br.edu.unoesc.dao.PessoaDAO;
 import br.edu.unoesc.dao.UsuarioDAO;
 import br.edu.unoesc.exception.DAOException;
 import br.edu.unoesc.model.outros.Configuracoes;
 import br.edu.unoesc.model.pessoa.Pessoa;
+import br.edu.unoesc.model.usuario.PerfilAcesso;
 import br.edu.unoesc.model.usuario.Usuario;
 
 @Path("/usuario")
@@ -35,6 +37,9 @@ public class UsuarioController {
 	
 	@Inject
 	private ConfiguracoesDAO cdao;
+	
+	@Inject
+	private PerfilAcessoDAO padao;
 	
 	@Inject
 	private UsuarioBean usuarioSessao;
@@ -55,7 +60,7 @@ public class UsuarioController {
 			Long cod = (long) 1;
 			Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
 			
-			List<Usuario> usuarios = udao.listar(Usuario.class, "TODOS_USUARIOS_ATIVOS");
+			List<Usuario> usuarios = udao.listar(Usuario.class, "TODOS_USUARIOS");
 			int linhas = 10;
 			if(conf != null) {
 				linhas = conf.getTabela_linhas();
@@ -109,30 +114,44 @@ public class UsuarioController {
 			result.include("permissao", 1);
 		}
 		
-		List<Pessoa> pessoa = pdao.listar(Pessoa.class, "TODAS_PESSOAS");
-		result.include("pessoas", pessoa);
+		List<Pessoa> pessoas = pdao.listar(Pessoa.class, "TODAS_PESSOAS");
+		List<PerfilAcesso> perfis = padao.listar(PerfilAcesso.class, "TODOS_PERFIS");
+		
+		result.include("pessoas", pessoas);
+		result.include("perfis", perfis);
 	}
 	
 	@Post("/salvar")
-	public void salvar(String login, String senha, Long pessoa, Boolean ativo, Long codigo) throws DAOException {
+	public void salvar(Usuario usuario) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
-		Usuario user = new Usuario();
-		
-		user.setCodigo(codigo);
-		user.setUsuario(login);
-		user.setSenha(senha);
-		user.setPessoa(pdao.buscar(Pessoa.class, pessoa));
-		user.setCriacao(new DateTime());
-		user.setAtivo(ativo);
-		
-		if(codigo == null) {
-			result.redirectTo(this).index(udao.salvar(user),0,1);
+		if(usuario.getCodigo() == null) {
+			List<Pessoa> pessoa = pdao.buscar(Pessoa.class, usuario.getPessoa().getCodigo(), "PESSOA_POR_CODIGO");
+			List<PerfilAcesso> perfil = padao.buscar(PerfilAcesso.class, usuario.getPerfil().getCodigo(), "PERFIL_POR_CODIGO");
+			
+			usuario.setCriacao(new DateTime());
+			usuario.setAlteracao(new DateTime());
+			
+			usuario.setPessoa(pessoa.get(0));
+			usuario.setPerfil(perfil.get(0));
+			
+			result.redirectTo(this).index(udao.salvar(usuario),0,1);
 		}
 		else {
-			result.redirectTo(this).index(udao.salvar(user),1,1);
+			System.out.println("USUARIO: "+ usuario);
+			List<Pessoa> pessoa = pdao.buscar(Pessoa.class, usuario.getPessoa().getCodigo(), "PESSOA_POR_CODIGO");
+			List<PerfilAcesso> perfil = padao.buscar(PerfilAcesso.class, usuario.getPerfil().getCodigo(), "PERFIL_POR_CODIGO");
+			List<Usuario> user = udao.buscar(Usuario.class, usuario.getCodigo(), "USUARIO_POR_CODIGO");
+			
+			usuario.setCriacao(user.get(0).getCriacao());
+			usuario.setAlteracao(new DateTime());
+			
+			usuario.setPessoa(pessoa.get(0));
+			usuario.setPerfil(perfil.get(0));
+			
+			result.redirectTo(this).index(udao.salvar(usuario),1,1);
 		}
 	}
 	
@@ -150,7 +169,9 @@ public class UsuarioController {
 		}
 		
 		List<Pessoa> pessoas = pdao.listar(Pessoa.class, "TODAS_PESSOAS");
+		List<PerfilAcesso> perfis = padao.listar(PerfilAcesso.class, "TODOS_PERFIS");
 		result.include("pessoas", pessoas);
+		result.include("perfis", perfis);
 		result.include("user", udao.buscar(Usuario.class, cod));
 	}
 	

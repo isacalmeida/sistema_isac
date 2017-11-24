@@ -17,9 +17,11 @@ import br.edu.unoesc.dao.ConfiguracoesDAO;
 import br.edu.unoesc.dao.ContatoDAO;
 import br.edu.unoesc.dao.EnderecoDAO;
 import br.edu.unoesc.dao.PessoaDAO;
+import br.edu.unoesc.dao.ProgramasDAO;
 import br.edu.unoesc.dao.UsuarioDAO;
 import br.edu.unoesc.exception.DAOException;
 import br.edu.unoesc.model.outros.Configuracoes;
+import br.edu.unoesc.model.outros.Programas;
 import br.edu.unoesc.model.pessoa.Contato;
 import br.edu.unoesc.model.pessoa.Endereco;
 import br.edu.unoesc.model.pessoa.Pessoa;
@@ -48,6 +50,9 @@ public class PessoaController {
 	private ConfiguracoesDAO cdao;
 	
 	@Inject
+	private ProgramasDAO podao;
+	
+	@Inject
 	private UsuarioBean usuarioSessao;
 	
 	@Get("")
@@ -55,6 +60,7 @@ public class PessoaController {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
+		result.include("programas", podao.listar(Programas.class, "TODOS_PROGRAMAS"));
 		
 		if(usuarioSessao.getPermissao("Pessoa", 1) == false) {
 			result.include("permissao", 1);
@@ -119,6 +125,7 @@ public class PessoaController {
 		if(usuarioSessao.getPermissao("Pessoa", 2) == false) {
 			result.include("permissao", 1);
 		}
+		result.include("programas", podao.listar(Programas.class, "TODOS_PROGRAMAS"));
 	}
 	
 	@Post("/salvar")
@@ -138,7 +145,8 @@ public class PessoaController {
 				pessoa.setImagem(endImagem);
 			}
 			else {
-				//File savedPhoto = new File("/path/to/photo/repository", photo.getFileName());
+				String endImagem = new String("/imagem/pessoa/avatarpadrao.png");
+				pessoa.setImagem(endImagem);
 			}
 			
 			if(pessoa.getEndereco().size() > 0) {
@@ -224,6 +232,7 @@ public class PessoaController {
 		result.include("qtdendereco", pessoa.get(0).getEndereco().size());
 		result.include("qtdcontato", pessoa.get(0).getContato().size());
 		result.include("pessoa", pessoa.get(0));
+		result.include("programas", podao.listar(Programas.class, "TODOS_PROGRAMAS"));
 	}
 	
 	@Get("/{cod}/excluir")

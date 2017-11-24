@@ -37,6 +37,8 @@ public class MenuController {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
+		
+		result.include("programas", pdao.listar(Programas.class, "TODOS_PROGRAMAS"));
 	}
 	
 	@Get("/configuracoes")
@@ -44,5 +46,7 @@ public class MenuController {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
+		
+		result.include("programas", pdao.listar(Programas.class, "TODOS_PROGRAMAS"));
 	}
 }

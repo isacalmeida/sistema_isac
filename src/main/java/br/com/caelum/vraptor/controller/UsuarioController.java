@@ -15,9 +15,11 @@ import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
 import br.edu.unoesc.dao.PerfilAcessoDAO;
 import br.edu.unoesc.dao.PessoaDAO;
+import br.edu.unoesc.dao.ProgramasDAO;
 import br.edu.unoesc.dao.UsuarioDAO;
 import br.edu.unoesc.exception.DAOException;
 import br.edu.unoesc.model.outros.Configuracoes;
+import br.edu.unoesc.model.outros.Programas;
 import br.edu.unoesc.model.pessoa.Pessoa;
 import br.edu.unoesc.model.usuario.PerfilAcesso;
 import br.edu.unoesc.model.usuario.Usuario;
@@ -42,6 +44,9 @@ public class UsuarioController {
 	private PerfilAcessoDAO padao;
 	
 	@Inject
+	private ProgramasDAO podao;
+	
+	@Inject
 	private UsuarioBean usuarioSessao;
 	
 	@Get("")
@@ -49,6 +54,7 @@ public class UsuarioController {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
+		result.include("programas", podao.listar(Programas.class, "TODOS_PROGRAMAS"));
 		
 		if(usuarioSessao.getPermissao("Usuario", 1) == false) {
 			result.include("permissao", 1);
@@ -119,6 +125,7 @@ public class UsuarioController {
 		
 		result.include("pessoas", pessoas);
 		result.include("perfis", perfis);
+		result.include("programas", podao.listar(Programas.class, "TODOS_PROGRAMAS"));
 	}
 	
 	@Post("/salvar")
@@ -173,6 +180,7 @@ public class UsuarioController {
 		result.include("pessoas", pessoas);
 		result.include("perfis", perfis);
 		result.include("usuario", udao.buscar(Usuario.class, cod));
+		result.include("programas", podao.listar(Programas.class, "TODOS_PROGRAMAS"));
 	}
 	
 	@Get("/{cod}/excluir")

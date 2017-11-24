@@ -14,11 +14,13 @@ import br.com.caelum.vraptor.Result;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.AcessosDAO;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
+import br.edu.unoesc.dao.PerfilAcessoDAO;
 import br.edu.unoesc.dao.ProgramasDAO;
 import br.edu.unoesc.exception.DAOException;
 import br.edu.unoesc.model.outros.Configuracoes;
 import br.edu.unoesc.model.outros.Programas;
 import br.edu.unoesc.model.usuario.Acessos;
+import br.edu.unoesc.model.usuario.PerfilAcesso;
 
 @Path("/programas")
 @Controller
@@ -37,6 +39,9 @@ public class ProgramasController {
 	private AcessosDAO acdao;
 	
 	@Inject
+	private PerfilAcessoDAO padao;
+	
+	@Inject
 	private UsuarioBean usuarioSessao;
 	
 	@Get("")
@@ -44,6 +49,7 @@ public class ProgramasController {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
+		result.include("programas", podao.listar(Programas.class, "TODOS_PROGRAMAS"));
 		
 		if(usuarioSessao.getPermissao("Programas", 1) == false) {
 			result.include("permissao", 1);
@@ -86,11 +92,11 @@ public class ProgramasController {
 				tpag--;
 			}
 			if(programas.size() == 0) {
-				result.include("programas", null);
+				result.include("progs", null);
 				colunas = 1;
 			}
 			else {
-				result.include("programas", mprog[tpag]);
+				result.include("progs", mprog[tpag]);
 			}
 			result.include("colunas", colunas);
 			result.include("pag", tpag);
@@ -108,6 +114,7 @@ public class ProgramasController {
 		if(usuarioSessao.getPermissao("Programas", 2) == false) {
 			result.include("permissao", 1);
 		}
+		result.include("programas", podao.listar(Programas.class, "TODOS_PROGRAMAS"));
 	}
 	
 	@Post("/salvar")
@@ -120,7 +127,27 @@ public class ProgramasController {
 			programa.setCriacao(new DateTime());
 			programa.setAlteracao(new DateTime());
 			
-			result.redirectTo(this).index(podao.salvar(programa),0,1);
+			List<PerfilAcesso> perfis = padao.listar(PerfilAcesso.class, "TODOS_PERFIS");
+			List<Acessos> acessos = null;
+			
+			Acessos acesso = new Acessos();
+			acesso.setPrograma(programa);
+			acesso.setVisualizar(false);
+			acesso.setIncluir(false);
+			acesso.setAlterar(false);
+			acesso.setRemover(false);
+			
+			Integer var = podao.salvar(programa);
+			
+			for(PerfilAcesso perfil : perfis) {
+				acesso.setPerfilacesso(perfil);
+				acessos = perfil.getAcessos();
+				acessos.add(acesso);
+				perfil.setAlteracao(new DateTime());
+				padao.salvar(perfil);
+			}
+			
+			result.redirectTo(this).index(var,0,1);
 		}
 		else {
 			List<Programas> progs = podao.buscar(Programas.class, programa.getCodigo(), "PROGRAMA_POR_CODIGO");
@@ -147,6 +174,7 @@ public class ProgramasController {
 		}
 		
 		result.include("programa", podao.buscar(Programas.class, cod));
+		result.include("programas", podao.listar(Programas.class, "TODOS_PROGRAMAS"));
 	}
 	
 	@Get("/{cod}/excluir")
@@ -163,6 +191,7 @@ public class ProgramasController {
 			Programas prog = null;
 			
 			for (Acessos acesso : acessos) {
+				System.out.println("Acesso: "+ acesso);
 				if(acesso.getPrograma().getCodigo() == cod) {
 					prog = acesso.getPrograma();
 				}

@@ -15,8 +15,10 @@ import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
 import br.edu.unoesc.dao.CorDAO;
 import br.edu.unoesc.dao.ProdutoDAO;
+import br.edu.unoesc.dao.ProgramasDAO;
 import br.edu.unoesc.exception.DAOException;
 import br.edu.unoesc.model.outros.Configuracoes;
+import br.edu.unoesc.model.outros.Programas;
 import br.edu.unoesc.model.produto.Cor;
 import br.edu.unoesc.model.produto.Produto;
 
@@ -37,6 +39,9 @@ public class CorController {
 	private ProdutoDAO prdao;
 	
 	@Inject
+	private ProgramasDAO pdao;
+	
+	@Inject
 	private UsuarioBean usuarioSessao;
 	
 	@Get("")
@@ -44,6 +49,7 @@ public class CorController {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
+		result.include("programas", pdao.listar(Programas.class, "TODOS_PROGRAMAS"));
 		
 		if(usuarioSessao.getPermissao("Cor", 1) == false) {
 			result.include("permissao", 1);
@@ -108,6 +114,8 @@ public class CorController {
 		if(usuarioSessao.getPermissao("Cor", 2) == false) {
 			result.include("permissao", 1);
 		}
+		
+		result.include("programas", pdao.listar(Programas.class, "TODOS_PROGRAMAS"));
 	}
 	
 	@Post("/salvar")
@@ -149,6 +157,7 @@ public class CorController {
 		List<Cor> cor = crdao.buscar(Cor.class,cod,"COR_POR_CODIGO");
 		
 		result.include("cor", cor.get(0));
+		result.include("programas", pdao.listar(Programas.class, "TODOS_PROGRAMAS"));
 	}
 	
 	@Get("/{cod}/excluir")

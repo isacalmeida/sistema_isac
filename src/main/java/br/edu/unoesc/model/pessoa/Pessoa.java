@@ -29,9 +29,11 @@ import br.edu.unoesc.model.MinhaEntidade;
 	@NamedQuery(name="PESSOA_POR_CODIGO",
 				query="select p from Pessoa p where p.codigo = :codigo"),
 	@NamedQuery(name="PESSOA_ENDERECO_CONTATO",
-				query="SELECT p FROM Pessoa p "
-						+ "JOIN p.endereco e JOIN p.contato c "
-						+ "WHERE p.codigo = :codigo")
+				query="select p from Pessoa p "
+						+ "join p.endereco e join p.contato c "
+						+ "where p.codigo = :codigo"),
+	@NamedQuery(name="PESSOA_FORNECEDOR", 
+				query="select p from Pessoa p where p.fornecedor = TRUE")
 })
 public class Pessoa implements MinhaEntidade{
 	

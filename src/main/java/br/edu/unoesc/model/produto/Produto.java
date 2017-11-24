@@ -3,7 +3,6 @@ package br.edu.unoesc.model.produto;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
@@ -37,6 +36,8 @@ public class Produto implements MinhaEntidade{
 	
 	private String descricao;
 	
+	private String imagem;
+	
 	@OneToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name="codigo_pessoa", foreignKey=@ForeignKey(name="FK_produto_pessoa"))
 	private Pessoa fornecedor;
@@ -45,7 +46,7 @@ public class Produto implements MinhaEntidade{
 	@JoinColumn(name="codigo_departamento", foreignKey=@ForeignKey(name="FK_produto_departamento"))
 	private Departamento departamento;
 	
-	@OneToMany(targetEntity = Cor.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(targetEntity = Cor.class, fetch = FetchType.EAGER)
 	private List<Cor> cor = new ArrayList<>();
 	
 	private String codigo_barras;
@@ -72,6 +73,14 @@ public class Produto implements MinhaEntidade{
 
 	public String getDescricao() {
 		return descricao;
+	}
+
+	public String getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
 	}
 
 	public void setDescricao(String descricao) {
@@ -136,8 +145,8 @@ public class Produto implements MinhaEntidade{
 
 	@Override
 	public String toString() {
-		return "Produto [codigo=" + codigo + ", descricao=" + descricao + ", fornecedor=" + fornecedor
-				+ ", departamento=" + departamento + ", cor=" + cor + ", codigo_barras=" + codigo_barras + ", ativo="
-				+ ativo + ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
+		return "Produto [codigo=" + codigo + ", descricao=" + descricao + ", imagem=" + imagem + ", fornecedor="
+				+ fornecedor + ", departamento=" + departamento + ", cor=" + cor + ", codigo_barras=" + codigo_barras
+				+ ", ativo=" + ativo + ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
 	}
 }

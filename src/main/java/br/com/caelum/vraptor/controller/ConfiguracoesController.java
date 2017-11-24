@@ -13,8 +13,10 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
+import br.edu.unoesc.dao.ProgramasDAO;
 import br.edu.unoesc.exception.DAOException;
 import br.edu.unoesc.model.outros.Configuracoes;
+import br.edu.unoesc.model.outros.Programas;
 
 @Path("/configuracoes")
 @Controller
@@ -27,6 +29,9 @@ public class ConfiguracoesController {
 	private ConfiguracoesDAO cdao;
 	
 	@Inject
+	private ProgramasDAO pdao;
+	
+	@Inject
 	private UsuarioBean usuarioSessao;
 	
 	@Get("")
@@ -34,6 +39,7 @@ public class ConfiguracoesController {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
+		result.include("programas", pdao.listar(Programas.class, "TODOS_PROGRAMAS"));
 		
 		if(usuarioSessao.getPermissao("Geral", 1) == false) {
 			result.include("permissao", 1);
@@ -125,5 +131,6 @@ public class ConfiguracoesController {
 		}
 		
 		result.include("configuracao", cdao.buscar(Configuracoes.class, cod));
+		result.include("programas", pdao.listar(Programas.class, "TODOS_PROGRAMAS"));
 	}
 }

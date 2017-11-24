@@ -14,7 +14,6 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/dashboard.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/select/dist/css/bootstrap-select.min.css' />" />
 
-
 <style type="text/css">
 .btn-default.btn-on.active{background-color: #5BB75B;color: white;}
 .btn-default.btn-off.active{background-color: #DA4F49;color: white;}
@@ -50,9 +49,13 @@
 		<div class="col-sm-3 col-md-2 sidebar">
 			<ul class="nav nav-sidebar">
 				<li>
-					<form class="navbar-form" method="GET" action="<c:url value='/menu'/>" >
-						<input type="text" class="form-control" placeholder="Pesquisar ...">
-					</form>
+					<div class="navbar-form">
+						<select id="campoPesquisa" class="selectpicker form-control" data-live-search="true" data-size="auto" title="Pesquisar..." onchange="location = this.value;">
+							<c:forEach var="prog" items="${programas }">
+								<option value="/lista${prog.endereco  }">${prog.descricao }</option>
+							</c:forEach>
+						</select>
+					</div>
 				</li>
 				<li><a href="<c:url value='/menu'/>"> Inicio </a></li>
 				<li><a href="<c:url value='/menu/cadastros'/>"> Cadastros </a></li>

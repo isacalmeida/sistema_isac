@@ -37,7 +37,7 @@ public class PerfilAcessoController {
 	private PerfilAcessoDAO padao;
 	
 	@Inject
-	private ProgramasDAO podao;
+	private ProgramasDAO pdao;
 	
 	@Inject
 	private UsuarioDAO udao;
@@ -50,6 +50,7 @@ public class PerfilAcessoController {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
+		result.include("programas", pdao.listar(Programas.class, "TODOS_PROGRAMAS"));
 		
 		if(usuarioSessao.getPermissao("Perfil de Acesso", 1) == false) {
 			result.include("permissao", 1);
@@ -115,7 +116,7 @@ public class PerfilAcessoController {
 			result.include("permissao", 1);
 		}
 		
-		List<Programas> programas = podao.listar(Programas.class, "TODOS_PROGRAMAS");
+		List<Programas> programas = pdao.listar(Programas.class, "TODOS_PROGRAMAS");
 		result.include("programas", programas);
 	}
 	
@@ -133,7 +134,7 @@ public class PerfilAcessoController {
 			
 			List<Programas> prog = null;
 			for(Acessos acesso : perfil.getAcessos()) {
-				prog = podao.buscar(Programas.class, acesso.getPrograma().getCodigo(), "PROGRAMA_POR_CODIGO");
+				prog = pdao.buscar(Programas.class, acesso.getPrograma().getCodigo(), "PROGRAMA_POR_CODIGO");
 				acesso.setPerfilacesso(perfil);
 				acesso.setPrograma(prog.get(0));
 				if(acesso.getVisualizar() == null)
@@ -191,6 +192,7 @@ public class PerfilAcessoController {
 		List<PerfilAcesso> perfil = padao.buscar(PerfilAcesso.class,cod,"PERFIL_POR_CODIGO");
 
 		result.include("perfil", perfil.get(0));
+		result.include("programas", pdao.listar(Programas.class, "TODOS_PROGRAMAS"));
 	}
 	
 	@Get("/{cod}/excluir")

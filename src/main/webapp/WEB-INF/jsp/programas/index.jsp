@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/css/bootstrap.min.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/navbar-fixed-top.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/dashboard.css' />" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/select/dist/css/bootstrap-select.min.css' />" />
 
 </head>
 <body>
@@ -41,9 +42,13 @@
 		<div class="col-sm-3 col-md-2 sidebar">
 			<ul class="nav nav-sidebar">
 				<li>
-					<form class="navbar-form" method="GET" action="<c:url value='/menu'/>" >
-						<input type="text" class="form-control" placeholder="Pesquisar ...">
-					</form>
+					<div class="navbar-form">
+						<select id="campoPesquisa" class="selectpicker form-control" data-live-search="true" data-size="auto" title="Pesquisar..." onchange="location = this.value;">
+							<c:forEach var="prog" items="${programas }">
+								<option value="/lista${prog.endereco  }">${prog.descricao }</option>
+							</c:forEach>
+						</select>
+					</div>
 				</li>
 				<li><a href="<c:url value='/menu'/>"> Inicio </a></li>
 				<li><a href="<c:url value='/menu/cadastros'/>"> Cadastros</a></li>
@@ -127,7 +132,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="p" items="${programas }">
+									<c:forEach var="p" items="${progs }">
 										<c:if test="${!empty(p)}" >
 											<tr>
 												<td>${p.codigo }</td>
@@ -257,6 +262,8 @@
 <script src="<c:url value='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js' />"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="<c:url value='/bootstrap/js/bootstrap.min.js'/>"></script>
+<script src="<c:url value='/bootstrap/select/dist/js/bootstrap-select.min.js'/>"></script>
+<script src="<c:url value='/bootstrap/select/dist/js/i18n/defaults-pt_BR.js'/>"></script>
 
 </body>
 </html>

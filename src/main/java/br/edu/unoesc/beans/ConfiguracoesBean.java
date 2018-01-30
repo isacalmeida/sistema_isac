@@ -54,7 +54,7 @@ public class ConfiguracoesBean implements Serializable {
 		pess.setFornecedor(false);
 		pess.setAtivo(true);
 		pess.setFinalidade('C');
-		pess.setImagem("/imagem/pessoa/avatarpadrao.png");
+		pess.setImagem("/imagem/pessoa/avatar_default-160x160.png");
 		pess.setCriacao(new DateTime());
 		pess.setAlteracao(new DateTime());
 		
@@ -241,6 +241,8 @@ public class ConfiguracoesBean implements Serializable {
 		user.setAlteracao(new DateTime());
 		user.setPerfil(perfil);
 		user.setPessoa(pess);
+		user.setFoto(pess.getImagem());
+		user.setColaborador("01/01/2018");
 		user.setAtivo(true);
 
 		this.setConfs(confs);

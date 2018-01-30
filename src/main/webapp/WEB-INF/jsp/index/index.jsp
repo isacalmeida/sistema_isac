@@ -3,12 +3,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title> Index </title>
+<title> Sistema Isac </title>
 
-<link rel="icon" href="<c:url value='/bootstrap/img/icon.png' />" />
+<jsp:include page="../defaults/header.jsp"></jsp:include>
 
 </head>
 <body>
+
+<jsp:include page="../defaults/footer.jsp"></jsp:include>
 
 </body>
 </html>

@@ -47,11 +47,11 @@ public class Produto implements MinhaEntidade{
 	private Departamento departamento;
 	
 	@OneToMany(targetEntity = Cor.class, fetch = FetchType.EAGER)
-	private List<Cor> cor = new ArrayList<>();
+	private List<Cor> cor = new ArrayList<Cor>();
 	
 	private String codigo_barras;
 	
-	private Boolean ativo;
+	private boolean ativo;
 
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime criacao;
@@ -119,11 +119,11 @@ public class Produto implements MinhaEntidade{
 		this.codigo_barras = codigo_barras;
 	}
 
-	public Boolean getAtivo() {
+	public boolean getAtivo() {
 		return ativo;
 	}
 
-	public void setAtivo(Boolean ativo) {
+	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
 

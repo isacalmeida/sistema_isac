@@ -75,7 +75,7 @@ public class Configuracoes implements MinhaEntidade {
 		this.contador_contato = contador_contato;
 	}
 
-	public boolean isAtivo() {
+	public boolean getAtivo() {
 		return ativo;
 	}
 

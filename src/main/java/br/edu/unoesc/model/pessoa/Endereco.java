@@ -41,7 +41,7 @@ public class Endereco implements MinhaEntidade{
 	
 	private String complemento;
 	
-	private Boolean principal;
+	private boolean principal;
 	
 	public Endereco() {
 		super();

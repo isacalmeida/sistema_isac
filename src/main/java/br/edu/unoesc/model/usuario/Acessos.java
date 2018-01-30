@@ -32,13 +32,13 @@ public class Acessos implements MinhaEntidade{
 	@JoinColumn(name="codigo_perfil", foreignKey=@ForeignKey(name="FK_acessos_perfilacesso"))
 	private PerfilAcesso perfilacesso;
 	
-	private Boolean visualizar;
+	private boolean visualizar;
 	
-	private Boolean incluir;
+	private boolean incluir;
 	
-	private Boolean alterar;
+	private boolean alterar;
 	
-	private Boolean remover;
+	private boolean remover;
 
 	public Acessos() {
 		super();
@@ -60,35 +60,35 @@ public class Acessos implements MinhaEntidade{
 		this.programa = programa;
 	}
 
-	public Boolean getVisualizar() {
+	public boolean getVisualizar() {
 		return visualizar;
 	}
 
-	public void setVisualizar(Boolean visualizar) {
+	public void setVisualizar(boolean visualizar) {
 		this.visualizar = visualizar;
 	}
 
-	public Boolean getIncluir() {
+	public boolean getIncluir() {
 		return incluir;
 	}
 
-	public void setIncluir(Boolean incluir) {
+	public void setIncluir(boolean incluir) {
 		this.incluir = incluir;
 	}
 
-	public Boolean getAlterar() {
+	public boolean getAlterar() {
 		return alterar;
 	}
 
-	public void setAlterar(Boolean alterar) {
+	public void setAlterar(boolean alterar) {
 		this.alterar = alterar;
 	}
 
-	public Boolean getRemover() {
+	public boolean getRemover() {
 		return remover;
 	}
 
-	public void setRemover(Boolean remover) {
+	public void setRemover(boolean remover) {
 		this.remover = remover;
 	}
 

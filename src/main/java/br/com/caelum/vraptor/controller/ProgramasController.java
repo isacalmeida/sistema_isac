@@ -13,11 +13,9 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.AcessosDAO;
-import br.edu.unoesc.dao.ConfiguracoesDAO;
 import br.edu.unoesc.dao.PerfilAcessoDAO;
 import br.edu.unoesc.dao.ProgramasDAO;
 import br.edu.unoesc.exception.DAOException;
-import br.edu.unoesc.model.outros.Configuracoes;
 import br.edu.unoesc.model.outros.Programas;
 import br.edu.unoesc.model.usuario.Acessos;
 import br.edu.unoesc.model.usuario.PerfilAcesso;
@@ -28,9 +26,6 @@ public class ProgramasController {
 
 	@Inject
 	private Result result;
-	
-	@Inject
-	private ConfiguracoesDAO cdao;
 	
 	@Inject
 	private ProgramasDAO podao;
@@ -45,164 +40,155 @@ public class ProgramasController {
 	private UsuarioBean usuarioSessao;
 	
 	@Get("")
-	public void index(Integer var, Integer acao, Integer tpag) {
+	public void index(Integer var, Integer acao) {
+		if(usuarioSessao.equals(null))
+			result.redirectTo(LoginController.class).index(null);
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
-		result.include("usuario_nome", usuarioSessao.getNome());
-		result.include("programas", podao.listar(Programas.class, "TODOS_PROGRAMAS"));
-		
-		if(usuarioSessao.getPermissao("Programas", 1) == false) {
-			result.include("permissao", 1);
-		}
 		else {
-			if(usuarioSessao.getPermissao("Programas", 2) == false) {
-				result.include("permissao", 2);
+			result.include("usuario_nome", usuarioSessao.getNome());
+			result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
+			result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
+			result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
+			
+			if(usuarioSessao.getPermissao("Programas", 1) == false) {
+				result.include("permissao", 1);
 			}
-			Long cod = (long) 1;
-			Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
-			
-			List<Programas> programas = podao.listar(Programas.class, "TODOS_PROGRAMAS");
-			int linhas = 10;
-			if(conf != null) {
-				linhas = conf.getTabela_linhas();
-			}
-			int colunas = programas.size()/linhas;
-			
-			if(programas.size()%linhas > 0) {
-				colunas++;
-			}
-			
-			Programas[][] mprog = new Programas[colunas][linhas];
-			
-			int linha = 0;
-			int coluna = 0;
-			for(Programas prog : programas) {
-				mprog[coluna][linha] = prog;
-				linha ++;
-				if(linha == linhas) {
-					linha = 0;
-					coluna ++;
+			else {
+				if(usuarioSessao.getPermissao("Programas", 2) == false) {
+					result.include("permissao", 2);
 				}
+				List<Programas> programas = podao.listar(Programas.class, "TODOS_PROGRAMAS");
+				result.include("progs", programas);
+				
+				result.include("var", var);
+				result.include("acao", acao);
 			}
-			
-			if(tpag == null) {
-				tpag = 0;
-			}
-			else {
-				tpag--;
-			}
-			if(programas.size() == 0) {
-				result.include("progs", null);
-				colunas = 1;
-			}
-			else {
-				result.include("progs", mprog[tpag]);
-			}
-			result.include("colunas", colunas);
-			result.include("pag", tpag);
-			result.include("var", var);
-			result.include("acao", acao);
 		}
 	}
 	
 	@Get("/novo")
 	public void novo() {
+		if(usuarioSessao.equals(null))
+			result.redirectTo(LoginController.class).index(null);
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
-		result.include("usuario_nome", usuarioSessao.getNome());
-		
-		if(usuarioSessao.getPermissao("Programas", 2) == false) {
-			result.include("permissao", 1);
-		}
-		result.include("programas", podao.listar(Programas.class, "TODOS_PROGRAMAS"));
+		else {
+			result.include("usuario_nome", usuarioSessao.getNome());
+			result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
+			result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
+			result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
+			
+			if(usuarioSessao.getPermissao("Programas", 2) == false) {
+				result.include("permissao", 1);
+			}
+		}	
 	}
 	
 	@Post("/salvar")
-	public void salvar(Programas programa) throws DAOException {
+	public void salvar(Programas programa, Integer submit) throws DAOException {
+		if(usuarioSessao.equals(null))
+			result.redirectTo(LoginController.class).index(null);
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
-		result.include("usuario_nome", usuarioSessao.getNome());
-		
-		if(programa.getCodigo() == null) {
-			programa.setCriacao(new DateTime());
-			programa.setAlteracao(new DateTime());
-			
-			List<PerfilAcesso> perfis = padao.listar(PerfilAcesso.class, "TODOS_PERFIS");
-			List<Acessos> acessos = null;
-			
-			Acessos acesso = new Acessos();
-			acesso.setPrograma(programa);
-			acesso.setVisualizar(false);
-			acesso.setIncluir(false);
-			acesso.setAlterar(false);
-			acesso.setRemover(false);
-			
-			Integer var = podao.salvar(programa);
-			
-			for(PerfilAcesso perfil : perfis) {
-				acesso.setPerfilacesso(perfil);
-				acessos = perfil.getAcessos();
-				acessos.add(acesso);
-				perfil.setAlteracao(new DateTime());
-				padao.salvar(perfil);
-			}
-			
-			result.redirectTo(this).index(var,0,1);
-		}
 		else {
-			List<Programas> progs = podao.buscar(Programas.class, programa.getCodigo(), "PROGRAMA_POR_CODIGO");
-			Programas prog = progs.get(0);
+			result.include("usuario_nome", usuarioSessao.getNome());
 			
-			programa.setCriacao(prog.getCriacao());
-			programa.setAlteracao(new DateTime());
-
-			result.redirectTo(this).index(podao.salvar(programa),1,1);
+			if(programa.getCodigo() == null) {
+				programa.setCriacao(new DateTime());
+				programa.setAlteracao(new DateTime());
+				
+				List<PerfilAcesso> perfis = padao.listar(PerfilAcesso.class, "TODOS_PERFIS");
+				List<Acessos> acessos = null;
+				
+				Acessos acesso = new Acessos();
+				acesso.setPrograma(programa);
+				acesso.setVisualizar(false);
+				acesso.setIncluir(false);
+				acesso.setAlterar(false);
+				acesso.setRemover(false);
+				
+				Integer var = podao.salvar(programa);
+				
+				for(PerfilAcesso perfil : perfis) {
+					acesso.setPerfilacesso(perfil);
+					acessos = perfil.getAcessos();
+					acessos.add(acesso);
+					perfil.setAlteracao(new DateTime());
+					padao.salvar(perfil);
+				}
+				
+				result.redirectTo(this).index(var,0);
+			}
+			else {
+				List<Programas> progs = podao.buscar(Programas.class, programa.getCodigo(), "PROGRAMA_POR_CODIGO");
+				Programas prog = progs.get(0);
+				
+				programa.setCriacao(prog.getCriacao());
+				programa.setAlteracao(new DateTime());
+				
+				if(submit == 1)
+					result.redirectTo(this).index(podao.salvar(programa),1);
+				else if(submit == 2)
+					result.redirectTo(this).editar(programa.getCodigo(),podao.salvar(programa));
+			}
 		}
 	}
 	
 	@Get("/{cod}/editar")
-	public void editar(Long cod) throws DAOException {
+	public void editar(Long cod, Integer var) throws DAOException {
+		if(usuarioSessao.equals(null))
+			result.redirectTo(LoginController.class).index(null);
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
-		result.include("usuario_nome", usuarioSessao.getNome());
-		
-		if(usuarioSessao.getPermissao("Programas", 3) == false) {
-			result.include("editar", 1);
+		else {
+			result.include("usuario_nome", usuarioSessao.getNome());
+			result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
+			result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
+			result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
+			
+			
+			if(usuarioSessao.getPermissao("Programas", 3) == false) {
+				result.include("editar", 1);
+			}
+			if(usuarioSessao.getPermissao("Programas", 4) == false) {
+				result.include("excluir", 1);
+			}
+			
+			result.include("var", var);
+			result.include("programa", podao.buscar(Programas.class, cod));
 		}
-		if(usuarioSessao.getPermissao("Programas", 4) == false) {
-			result.include("excluir", 1);
-		}
-		
-		result.include("programa", podao.buscar(Programas.class, cod));
-		result.include("programas", podao.listar(Programas.class, "TODOS_PROGRAMAS"));
 	}
 	
 	@Get("/{cod}/excluir")
 	public void excluir(Long cod) throws DAOException {
+		if(usuarioSessao.equals(null))
+			result.redirectTo(LoginController.class).index(null);
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
-		result.include("usuario_nome", usuarioSessao.getNome());
-		
-		if(usuarioSessao.getPermissao("Programas", 4) == false) {
-			result.redirectTo(this).index(1,2,1);
-		}
 		else {
-			List<Acessos> acessos = acdao.listar(Acessos.class, "TODOS_ACESSOS");
-			Programas prog = null;
-			
-			for (Acessos acesso : acessos) {
-				System.out.println("Acesso: "+ acesso);
-				if(acesso.getPrograma().getCodigo() == cod) {
-					prog = acesso.getPrograma();
-				}
-			}
-			
-			if(prog == null){
-				prog = podao.buscar(Programas.class, cod);
-				result.redirectTo(this).index(podao.excluir(prog),2,1);
+			result.include("usuario_nome", usuarioSessao.getNome());
+		
+			if(usuarioSessao.getPermissao("Programas", 4) == false) {
+				result.redirectTo(this).index(1,2);
 			}
 			else {
-				result.redirectTo(this).index(0,2,1);
+				List<Acessos> acessos = acdao.listar(Acessos.class, "TODOS_ACESSOS");
+				Programas prog = null;
+				
+				for (Acessos acesso : acessos) {
+					if(acesso.getPrograma().getCodigo() == cod) {
+						prog = acesso.getPrograma();
+					}
+				}
+				
+				if(prog == null){
+					prog = podao.buscar(Programas.class, cod);
+					result.redirectTo(this).index(podao.excluir(prog),2);
+				}
+				else {
+					result.redirectTo(this).index(0,2);
+				}
 			}
 		}
 	}

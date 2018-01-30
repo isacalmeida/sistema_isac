@@ -1,58 +1,62 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>    
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Login</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title> Sistema Isac </title>
 
-<link rel="icon" href="<c:url value='/bootstrap/img/icon.png' />" />
+<jsp:include page="../defaults/header.jsp"></jsp:include>
 
-<link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/css/bootstrap.min.css' />" />
-<link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/login.css' />" />
-
+<style type="text/css">
+body {
+background-color: #eee;
+}
+</style>
 </head>
-<body>
+<body class="hold-transition login-page">
 
-<div class="container">
-	<form class="form-signin" method="post" action='<c:url value="/login/logar"/>'>
-		<h2 class="form-signin-heading">Bem vindo!</h2>
-		<label for="inputEmail" class="sr-only">Usuário</label>
-		<input type="text" name="user" id="inputEmail" class="form-control" placeholder="Usuário" required autofocus>
-		<label for="inputPassword" class="sr-only">Senha</label>
-		<input type="password" name="pass" id="inputPassword" class="form-control" placeholder="Senha" required>
-	<%-- <div class="checkbox">
-			<label>
-				<input type="checkbox" value="remember-me"> Lembrar-me
-			</label>
-		</div> --%>
+<div class="login-box">
+	<div class="login-logo">
+		<b>Sistema </b> Isac
+	</div>
+	<div class="login-box-body">
+		<p class="login-box-msg">Faça seu login para começar sua sessão</p>
+		<form method="post" action='<c:url value="/login/logar"/>'>
+			<div class="form-group has-feedback">
+				<input type="text" class="form-control" name="user" placeholder="Login" autofocus>
+				<span class="glyphicon glyphicon-user form-control-feedback"></span>
+			</div>
+			<div class="form-group has-feedback">
+				<input type="password" class="form-control" name="pass" placeholder="Senha">
+				<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+			</div>
+			<div class="row">
+				<div class="col-xs-8">
+					<div class="checkbox icheck">
+						<input id="loginCheck" type="checkbox" /> 
+						<label>Lembrar-Me</label>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
+				</div>
+			</div>
+		</form>
+		
+		<a href="<c:url value='/login/senha' />" >Esqueci minha senha</a><br>
+		
 		<br>
-		<button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
-	
-	<c:if test="${var == 'N' }">
-		<br>
-		<div>
-			 Usuário ou senha inválidos 
-		</div>
-		<div>
-			<a href="senha"> Lembrar a senha! </a>
-		</div>
-	</c:if>
-	
-	<c:if test="${var == 'D' }">
-		<br>
-		<div>
-			 Deslogado com sucesso 
-		</div>
-	</c:if>
-	</form>
+		<c:if test="${var == 'N' }">
+			Usuário ou senha inválidos 
+		</c:if>
+		
+		<c:if test="${var == 'D' }">
+			Deslogado com sucesso 
+		</c:if>
+	</div>
 </div>
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="<c:url value='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js' />"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="<c:url value='/bootstrap/js/bootstrap.min.js'/>"></script>
+<jsp:include page="../defaults/footer.jsp"></jsp:include>
 
 </body>
 </html>

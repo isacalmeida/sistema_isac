@@ -73,9 +73,6 @@ public class LoginController {
 			usuarioSessao.login(carregado);
 			result.redirectTo(MenuController.class).index();
 		}
-		else if (user.equals("admin") && pass.equals("admin")) {
-			result.redirectTo(MenuController.class).index();
-		}
 		else {
 			result.redirectTo(this).index("N");
 		}

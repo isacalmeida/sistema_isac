@@ -9,7 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
-
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
@@ -31,7 +30,7 @@ import br.edu.unoesc.model.pessoa.Pessoa;
 				query="select u from Usuario u left join Pessoa p on u.pessoa.codigo = p.codigo")
 })*/
 public class Usuario implements MinhaEntidade{
-
+		
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
@@ -44,6 +43,10 @@ public class Usuario implements MinhaEntidade{
 	@JoinColumn(name = "codigo_pessoa", foreignKey=@ForeignKey(name="FK_usuario_pessoa"))
 	private Pessoa pessoa;
 	
+	private String foto;
+	
+	private String colaborador;
+
 	@OneToOne(targetEntity = PerfilAcesso.class)
 	@JoinColumn(name = "codigo_perfil", foreignKey=@ForeignKey(name="FK_usuario_perfil"))
 	private PerfilAcesso perfil;
@@ -91,6 +94,22 @@ public class Usuario implements MinhaEntidade{
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
 	}
+	
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+	
+	public String getColaborador() {
+		return this.colaborador;
+	}
+
+	public void setColaborador(String colaborador) {
+		this.colaborador = colaborador;
+	}
 
 	public PerfilAcesso getPerfil() {
 		return perfil;
@@ -127,6 +146,8 @@ public class Usuario implements MinhaEntidade{
 	@Override
 	public String toString() {
 		return "Usuario [codigo=" + codigo + ", usuario=" + usuario + ", senha=" + senha + ", pessoa=" + pessoa
-				+ ", perfil=" + perfil + ", ativo=" + ativo + ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
+				+ ", foto=" + foto + ", perfil=" + perfil + ", ativo=" + ativo + ", criacao=" + criacao + ", alteracao="
+				+ alteracao + "]";
 	}
+
 }

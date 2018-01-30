@@ -7,8 +7,6 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
 import br.edu.unoesc.beans.UsuarioBean;
-import br.edu.unoesc.dao.ProgramasDAO;
-import br.edu.unoesc.model.outros.Programas;
 
 @Path("/menu")
 @Controller
@@ -18,35 +16,47 @@ public class MenuController {
 	private Result result;
 	
 	@Inject
-	private ProgramasDAO pdao;
-	
-	@Inject
 	private UsuarioBean usuarioSessao;
 	
 	@Get("")
 	public void index() {
+		if(usuarioSessao.equals(null))
+			result.redirectTo(LoginController.class).index(null);
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
-		result.include("usuario_nome", usuarioSessao.getNome());
-		
-		result.include("programas", pdao.listar(Programas.class, "TODOS_PROGRAMAS"));
+		else {
+			result.include("usuario_nome", usuarioSessao.getNome());
+			result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
+			result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
+			result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
+		}
 	}
 	
 	@Get("/cadastros")
 	public void cadastros() {
+		if(usuarioSessao.equals(null))
+			result.redirectTo(LoginController.class).index(null);
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
-		result.include("usuario_nome", usuarioSessao.getNome());
-		
-		result.include("programas", pdao.listar(Programas.class, "TODOS_PROGRAMAS"));
+		else {
+			result.include("usuario_nome", usuarioSessao.getNome());
+			result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
+			result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
+			result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
+		}
 	}
 	
 	@Get("/configuracoes")
 	public void configuracoes() {
+		if(usuarioSessao.equals(null))
+			result.redirectTo(LoginController.class).index(null);
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
-		result.include("usuario_nome", usuarioSessao.getNome());
-		
-		result.include("programas", pdao.listar(Programas.class, "TODOS_PROGRAMAS"));
+		else {
+			result.include("usuario_nome", usuarioSessao.getNome());
+			result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
+			result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
+			result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
+		}
 	}
 }

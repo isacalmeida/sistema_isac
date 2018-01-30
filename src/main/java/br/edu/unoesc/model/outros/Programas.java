@@ -31,7 +31,7 @@ public class Programas implements MinhaEntidade{
 	
 	private Long grupo;
 	
-	private Boolean ativo;
+	private boolean ativo;
 	
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime criacao;
@@ -75,11 +75,11 @@ public class Programas implements MinhaEntidade{
 		this.grupo = grupo;
 	}
 
-	public Boolean getAtivo() {
+	public boolean getAtivo() {
 		return ativo;
 	}
 
-	public void setAtivo(Boolean ativo) {
+	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
 

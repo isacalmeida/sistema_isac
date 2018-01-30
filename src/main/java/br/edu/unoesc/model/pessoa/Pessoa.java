@@ -74,11 +74,11 @@ public class Pessoa implements MinhaEntidade{
 	
 	private Character finalidade;
 	
-	private Boolean cliente;
+	private boolean cliente;
 	
-	private Boolean fornecedor;
+	private boolean fornecedor;
 	
-	private Boolean ativo;
+	private boolean ativo;
 	
 	@OneToMany(mappedBy="pessoa", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Endereco> endereco = new ArrayList<Endereco>();
@@ -225,27 +225,27 @@ public class Pessoa implements MinhaEntidade{
 		this.finalidade = finalidade;
 	}
 
-	public Boolean getCliente() {
+	public boolean getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(Boolean cliente) {
+	public void setCliente(boolean cliente) {
 		this.cliente = cliente;
 	}
 
-	public Boolean getFornecedor() {
+	public boolean getFornecedor() {
 		return fornecedor;
 	}
 
-	public void setFornecedor(Boolean fornecedor) {
+	public void setFornecedor(boolean fornecedor) {
 		this.fornecedor = fornecedor;
 	}
 
-	public Boolean getAtivo() {
+	public boolean getAtivo() {
 		return ativo;
 	}
 
-	public void setAtivo(Boolean ativo) {
+	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
 

@@ -1,515 +1,586 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1" %>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title> Novo </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title> Sistema Isac </title>
 
-<link rel="icon" href="<c:url value='/bootstrap/img/icon.png' />" />
-
-<link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/css/bootstrap.min.css' />" />
-<link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/navbar-fixed-top.css' />" />
-<link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/styles/dashboard.css' />" />
-<link rel="stylesheet" type="text/css" href="<c:url value='/bootstrap/select/dist/css/bootstrap-select.min.css' />" />
-
-<style type="text/css">
-.btn-default.btn-on.active{background-color: #5BB75B;color: white;}
-.btn-default.btn-off.active{background-color: #DA4F49;color: white;}
-</style>
-
-<%-- jQuery (necessary for Bootstrap's JavaScript plugins) --%>
-<script src="<c:url value='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js' />"></script>
-<script src="<c:url value='/bootstrap/js/jquery.maskedinput.min.js' />"></script>
-<script src="<c:url value='/bootstrap/js/validator.min.js' />"></script>
-
-
-<script type="text/javascript">
-$(document).ready(function() {
-	$('#campoTipo').on('change', function() {
-		var tipo = this.value;
-		
-		$('#campoNome, #campoCpf').each(function() {
-			if(tipo == 'F') this.required = true;
-			else this.required = false;
-		});
-		$('#campoRazao, #campoCnpj').each(function() {
-			if(tipo == 'J') this.required = true;
-			else this.required = false;
-		});
-	});
-});
-
-function fisicaJuridica(fisica, juridica, fisica1, juridica1) {
-	var display1 = document.getElementById(fisica).style.display;
-	var display2 = document.getElementById(juridica).style.display;
-	
-	if(display1 == "none"){
-		document.getElementById(fisica).style.display = 'block';
-		document.getElementById(juridica).style.display = 'none';
-		document.getElementById(fisica1).style.display = 'block';
-		document.getElementById(juridica1).style.display = 'none';
-	}
-	else{
-		document.getElementById(fisica).style.display = 'none';
-		document.getElementById(juridica).style.display = 'block';
-		document.getElementById(fisica1).style.display = 'none';
-		document.getElementById(juridica1).style.display = 'block';
-	}
-}
-</script>
-
-<script type="text/javascript">
-$(function () {
-	var divContent = $('#formendereco');
-	var botaoAdicionar = $('a[data-id="2"]');
-	var i = 1;
-	
-	$(botaoAdicionar).click(function () {
-		if(i == 0){
-			$('<div class="enderecoIndividual row"><div class="row"><div class="form-group col-lg-4" style="margin-top: 5px;"><br><a data-toggle="tab" href="#endereco" class="removerEndereco" ><button class="btn btn-warning" type="button">Remover Endereço</button></a></div><div class="form-group col-lg-4"></div><div class="form-group col-lg-4"><div class="form-group row"><div class="col-lg-12"><label for="campoPrincipal">Principal</label></div><div id="campoPrincipal" class="col-lg-12"><div class="btn-group" data-toggle="buttons"><label class="btn btn-default btn-on active"><input type="radio" value="true" name="pessoa.endereco['+i+'].principal" checked="checked">Sim</label><label class="btn btn-default btn-off"><input type="radio" value="false" name="pessoa.endereco['+i+'].principal">Não</label></div></div></div></div><div class="row"><div class="form-group col-lg-4"><label for="campoTipoEndereco">Tipo*</label><select id="campoTipoEndereco" name="pessoa.endereco['+i+'].tipo_endereco" class="form-control"><option value="" selected="selected">Selecione</option><option value="C">Comercial</option><option value="R">Residencial</option></select></div><div class="form-group col-lg-4"><label for="campoTipoMoradia">Tipo Moradia</label><select id="campoTipoMoradia" name="pessoa.endereco['+i+'].tipo_moradia" class="form-control"><option value="" selected="selected">Selecione</option><option value="P">Própria</option><option value="A">Alugada</option><option value="F">Financiada</option><option value="O">Outros</option></select></div><div class="form-group col-lg-4"><label for="campoCep">CEP*</label><input type="text" id="campoCep" class="form-control" name="pessoa.endereco['+i+'].cep" required></div></div><div class="row"><div class="form-group col-lg-4"><label for="campoCidade">Cidade*</label><input type="text" id="campoCidade" class="form-control" name="pessoa.endereco['+i+'].cidade" required></div><div class="form-group col-lg-4"><label for="campoBairro">Bairro*</label><input type="text" id="campoBairro" class="form-control" name="pessoa.endereco['+i+'].bairro" required></div><div class="form-group col-lg-4"><label for="campoUf">UF*</label><input type="text" id="campoUf" class="form-control" name="pessoa.endereco['+i+'].uf" required></div></div><div class="row"><div class="form-group col-lg-8"><label for="campoLogradouro">Logradouro*</label><input type="text" id="campoLogradouro" class="form-control" name="pessoa.endereco['+i+'].logradouro" required></div><div class="form-group col-lg-4"><label for="campoNumero">Número*</label><input type="text" id="campoNumero" class="form-control" name="pessoa.endereco['+i+'].numero" required></div></div><div class="row"><div class="form-group col-lg-12"><label for="campoComplemento">Complemento</label><textarea id="campoComplemento" class="form-control" name="pessoa.endereco['+i+'].complemento"></textarea></div></div></div>').appendTo(divContent);    	
-		}
-		else{
-			$('<div class="enderecoIndividual row"><div class="row"><div class="form-group col-lg-4" style="margin-top: 5px;"><br><a data-toggle="tab" href="#endereco" class="removerEndereco" ><button class="btn btn-warning" type="button">Remover Endereço</button></a></div><div class="form-group col-lg-4"></div><div class="form-group col-lg-4"><div class="form-group row"><div class="col-lg-12"><label for="campoPrincipal">Principal</label></div><div id="campoPrincipal" class="col-lg-12"><div class="btn-group" data-toggle="buttons"><label class="btn btn-default btn-on"><input type="radio" value="true" name="pessoa.endereco['+i+'].principal">Sim</label><label class="btn btn-default btn-off active"><input type="radio" value="false" name="pessoa.endereco['+i+'].principal" checked="checked">Não</label></div></div></div></div><div class="row"><div class="form-group col-lg-4"><label for="campoTipoEndereco">Tipo*</label><select id="campoTipoEndereco" name="pessoa.endereco['+i+'].tipo_endereco" class="form-control"><option value="" selected="selected">Selecione</option><option value="C">Comercial</option><option value="R">Residencial</option></select></div><div class="form-group col-lg-4"><label for="campoTipoMoradia">Tipo Moradia</label><select id="campoTipoMoradia" name="pessoa.endereco['+i+'].tipo_moradia" class="form-control"><option value="" selected="selected">Selecione</option><option value="P">Própria</option><option value="A">Alugada</option><option value="F">Financiada</option><option value="O">Outros</option></select></div><div class="form-group col-lg-4"><label for="campoCep">CEP*</label><input type="text" id="campoCep" class="form-control" name="pessoa.endereco['+i+'].cep"></div></div><div class="row"><div class="form-group col-lg-4"><label for="campoCidade">Cidade</label><input type="text" id="campoCidade" class="form-control" name="pessoa.endereco['+i+'].cidade"></div><div class="form-group col-lg-4"><label for="campoBairro">Bairro</label><input type="text" id="campoBairro" class="form-control" name="pessoa.endereco['+i+'].bairro"></div><div class="form-group col-lg-4"><label for="campoUf">UF</label><input type="text" id="campoUf" class="form-control" name="pessoa.endereco['+i+'].uf"></div></div><div class="row"><div class="form-group col-lg-8"><label for="campoLogradouro">Logradouro</label><input type="text" id="campoLogradouro" class="form-control" name="pessoa.endereco['+i+'].logradouro"></div><div class="form-group col-lg-4"><label for="campoNumero">Número</label><input type="text" id="campoNumero" class="form-control" name="pessoa.endereco['+i+'].numero"></div></div><div class="row"><div class="form-group col-lg-12"><label for="campoComplemento">Complemento</label><textarea id="campoComplemento" class="form-control" name="pessoa.endereco['+i+'].complemento"></textarea></div></div></div>').appendTo(divContent);    	
-		}
-		$('#removehidden').remove();
-		i++;
-	});
-	
-	$('#formendereco').on('click', '.removerEndereco', function () {
-		$(this).parents('.enderecoIndividual').remove();
-		i--;
-	});
-});
-</script>
-
-<script type="text/javascript">
-$(function () {
-	var divContent = $('#formcontato');
-	var botaoAdicionar = $('a[data-id="1"]');
-	var i = 1;
-	
-	$(botaoAdicionar).click(function () {
-		if(i == 0){
-			$('<div class="contatoIndividual row"><div class="form-group col-lg-4"><label for="campoTipoContato">Tipo Contato*</label><select id="campoTipoContato" name="pessoa.contato['+i+'].tipo_contato" class="form-control"><option value="" selected="selected">Selecione</option><option value="R">Telefone Residencial</option><option value="C">Telefone Comercial</option><option value="F">Celular</option><option value="E">Email</option></select></div><div class="form-group col-lg-6"><label for="campoContato">Contato*</label><input type="text" id="campoContato" name="pessoa.contato['+i+'].valor_contato" class="form-control" required></div><div class="form-group col-lg-2" style="margin-top: 5px;"><br><a data-toggle="tab" href="#contato" class="removerContato"><button class="btn btn-warning" type="button">Remover</button></a></div></div>').appendTo(divContent);
-		}
-		else{
-			$('<div class="contatoIndividual row"><div class="form-group col-lg-4"><label for="campoTipoContato">Tipo Contato</label><select id="campoTipoContato" name="pessoa.contato['+i+'].tipo_contato" class="form-control"><option value="" selected="selected">Selecione</option><option value="R">Telefone Residencial</option><option value="C">Telefone Comercial</option><option value="F">Celular</option><option value="E">Email</option></select></div><div class="form-group col-lg-6"><label for="campoContato">Contato</label><input type="text" id="campoContato" name="pessoa.contato['+i+'].valor_contato" class="form-control"></div><div class="form-group col-lg-2" style="margin-top: 5px;"><br><a data-toggle="tab" href="#contato" class="removerContato"><button class="btn btn-warning" type="button">Remover</button></a></div></div>').appendTo(divContent);
-		}
-		$('#removehidden').remove();
-		i++;
-	});
-
-	$('#formcontato').on('click', '.removerContato', function () {
-		$(this).parents('.contatoIndividual').remove();
-		i--;
-	});
-});
-</script>
+<jsp:include page="../defaults/header.jsp"></jsp:include>
 
 </head>
-<body>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+<body class="hold-transition skin-blue sidebar-mini">
+
+<div class="wrapper">
+	<header class="main-header">
+		<a href="<c:url value='/menu' />" class="logo">
+			<span class="logo-mini"><b>S</b>I</span>
+			<span class="logo-lg"><b>Sistema </b> Isac</span>
+		</a>
+    	<nav class="navbar navbar-static-top">
+			<a href="" class="sidebar-toggle" data-toggle="push-menu" role="button">
 				<span class="sr-only">Toggle navigation</span>
 				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="<c:url value='/menu'/>" >Trabalho Isac</a>
-		</div>
-		<div id="navbar" class="navbar-collapse collapse">
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span><c:out value="${usuario_nome } " /></span> <span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="<c:url value='/login/sair'/>">Sair</a></li>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
+			<div class="navbar-custom-menu">
+				<ul class="nav navbar-nav">
+          			<li class="dropdown notifications-menu">
+          				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          					<i class="fa fa-bell-o"></i>
+          					<span class="label label-warning">10</span>
+          				</a>
+          				<ul class="dropdown-menu">
+          					<li class="header">You have 10 notifications</li>
+          					<li>
+          						<!-- inner menu: contains the actual data -->
+								<ul class="menu">
+									<li>
+										<a href="#">
+											<i class="fa fa-users text-aqua"></i> 5 new members joined today
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li class="footer"><a href="#">View all</a></li>
+						</ul>
+					</li>
+					<li class="dropdown user user-menu">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<img src="<c:url value='${usuario_foto }' />" class="user-image" alt="User Image">
+							<span class="hidden-xs"><c:out value="${usuario_nome }" /></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="user-header">
+								<img src="<c:url value='${usuario_foto }' />" class="img-circle" alt="User Image">
+								<p>
+									<c:out value="${usuario_nome }" /> - <c:out value="${usuario_perfil }" />
+									<small>Colaborador desde <c:out value="${usuario_colaborador }" /></small>
+								</p>
+							</li>
+							<li class="user-footer">
+								<div class="pull-left">
+									<a href="" class="btn btn-default btn-flat">Perfil</a>
+								</div>
+								<div class="pull-right">
+									<a href="<c:url value='/login/sair'/>" class="btn btn-default btn-flat">Sair</a>
+								</div>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+	<aside class="main-sidebar">
+		<section class="sidebar">
+			<form action="<c:url value='/busca' />" method="get" class="sidebar-form">
+				<div class="input-group">
+					<input type="text" name="q" class="form-control" placeholder="Pesquisar ...">
+					<span class="input-group-btn">
+						<button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+						</button>
+					</span>
+				</div>
+			</form>
+			<ul class="sidebar-menu" data-widget="tree">
+				<li class="header">MENU PRINCIPAL</li>
+				<li class="treeview">
+					<a href="<c:url value='/menu' />" >
+						<i class="fa fa-folder"></i>
+						<span>Início</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<li><a href="<c:url value='/menu' />" ><i class="fa fa-dashboard"></i> Dashboard</a></li>
+						<li><a href="<c:url value='/menu/cadastros' />" ><i class="fa fa-pencil-square-o"></i> Cadastros</a></li>
+						<li><a href="<c:url value='/menu/configuracoes' />" ><i class="fa fa-gear"></i> Configurações</a></li>
+					</ul>
+				</li>
+				<li class="treeview">
+					<a href="<c:url value='/menu/cadastros' />" >
+						<i class="fa fa-pencil-square-o"></i>
+						<span>Cadastros</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<li><a href="<c:url value='/pessoa' />" ><i class="fa fa-user"></i> Pessoa</a></li>
+						<li><a href="<c:url value='/produto' />" ><i class="fa fa-glass"></i> Produto</a></li>
+					</ul>
+				</li>
+				<li class="treeview">
+					<a href="<c:url value='/menu/configuracoes' />">
+						<i class="fa fa-gear"></i>
+						<span>Configurações</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<li class="treeview">
+							<a href=""><i class="fa fa-circle-o"></i> Pessoa
+								<span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+								</span>
+							</a>
+							<ul class="treeview-menu">
+								<li>
+									<a href="<c:url value='/perfil_acesso' />">
+										<i class="fa fa-sliders"></i>
+										Perfil de Acesso
+									</a>
+								</li>
+								<li>
+									<a href="<c:url value='/usuario' />">
+										<i class="fa fa-users"></i>
+										Usuário
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li class="treeview">
+							<a href=""><i class="fa fa-circle-o"></i> Produto
+								<span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+								</span>
+							</a>
+							<ul class="treeview-menu">
+								<li>
+									<a href="<c:url value='/cor' />">
+										<i class="fa fa-sliders"></i>
+										Cor
+									</a>
+								</li>
+								<li>
+									<a href="<c:url value='/departamento' />">
+										<i class="fa fa-users"></i>
+										Departamento
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li class="treeview">
+							<a href=""><i class="fa fa-circle-o"></i> Outros
+								<span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+								</span>
+							</a>
+							<ul class="treeview-menu">
+								<li>
+									<a href="<c:url value='/acessos' />">
+										<i class="fa fa-sliders"></i>
+										Acessos
+									</a>
+								</li>
+								<li>
+									<a href="<c:url value='/configuracoes' />">
+										<i class="fa fa-users"></i>
+										Geral
+									</a>
+								</li>
+								<li>
+									<a href="<c:url value='/programas' />">
+										<i class="fa fa-users"></i>
+										Programas
+									</a>
+								</li>
+							</ul>
+						</li>
 					</ul>
 				</li>
 			</ul>
-		</div>
-	</div>
-</nav>
+		</section>
+	</aside>
 
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-sm-3 col-md-2 sidebar">
-			<ul class="nav nav-sidebar">
-				<li>
-					<div class="navbar-form">
-						<select id="campoPesquisa" class="selectpicker form-control" data-live-search="true" data-size="auto" title="Pesquisar..." onchange="location = this.value;">
-							<c:forEach var="prog" items="${programas }">
-								<option value="/lista${prog.endereco  }">${prog.descricao }</option>
-							</c:forEach>
-						</select>
+	<div class="content-wrapper">
+		<section class="content-header">
+			<h1>
+				Pessoa
+				<small>Cadastro de pessoa física e jurídica</small>
+			</h1>
+			<ol class="breadcrumb">
+				<li><a href="<c:url value='/menu' />" ><i class="fa fa-dashboard"></i> Início</a></li>
+				<li><a href="<c:url value='/menu/cadastros' />" >Cadastros</a></li>
+				<li><a href="<c:url value='/pessoa' />" >Pessoa</a></li>
+				<li class="active">Novo</li>
+			</ol>
+		</section>
+		<section class="content">
+			<c:if test="${permissao == 1 }">
+				<div class="box">
+					<div class="box-header">
+						<i class="fa fa-bullhorn"></i>
+						<h3 class="box-title">Alertas</h3>
+						<div class="box-tools pull-right">
+							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+							<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+						</div>
 					</div>
-				</li>
-				<li><a href="<c:url value='/menu'/>"> Inicio </a></li>
-				<li class="active"><a href="<c:url value='/menu/cadastros'/>"> Cadastros <span class="sr-only">(current)</span></a></li>
-				<li><a href="<c:url value='/menu/configuracoes'/>"> Configurações </a></li>
-			</ul>
-		</div>
-		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-			<h3><span class="glyphicon glyphicon-chevron-right"></span> Pessoas </h3><hr>
-			<c:choose>
-				<c:when test="${permissao != 1}">
-					<ol class="breadcrumb">
-						<li><a href="<c:url value='/pessoa'/>"> Pessoas </a></li>
-						<li class="active"> Novo </li>
-					</ol>
-					<form id="formPessoa" role="form" data-toggle="validator" method="post" action='<c:url value="/pessoa/salvar"/>'>
-						<div class="row">
-							<div class="col-lg-3">
-								<div class="col-lg-1"></div>
-								<div class="col-lg-9">
-									<img class="img-thumbnail" id="imagemPessoa" src="<c:url value="/imagem/pessoa/avatarpadrao.png" />">
-								</div>
-								<div class="col-lg-2"></div>
+					<div class="box-body">
+						<div class="callout callout-danger">
+							<h4><i class="icon fa fa-ban"></i> Ops!</h4>
+							<p>Você não possui permissão para visualizar este programa</p>
+						</div>
+					</div>
+				</div>
+			</c:if>
+			<c:if test="${permissao != 1 }">
+				<c:if test="${erros != null }">
+					<div class="box">
+						<div class="box-header">
+							<i class="fa fa-bullhorn"></i>
+							<h3 class="box-title">Alertas</h3>
+							<div class="box-tools pull-right">
+								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+								<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
 							</div>
-							<div class="form-group col-lg-6">
-								<div class="row">
+						</div>
+						<div class="box-body">
+							<div class="alert alert-danger alert-dismissible">
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+								<h4><i class="icon fa fa-ban"></i> Ops!</h4>
+								<c:forEach var="erro" items="${erros }">
+									<c:out value="${erro }" />
+								</c:forEach>
+							</div>
+						</div>
+					</div>
+				</c:if>
+				<div class="box">
+					<form role="form" method="post" action='<c:url value="/pessoa/salvar"/>'>
+						<div class="box-header with-border">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<div class="form-group col-xs-12 col-sm-2 col-md-2 col-lg-2">	
+									<img class="img-thumbnail" id="imagemProduto" src="<c:url value="/imagem/pessoa/avatar_default-160x160.png" />">
+								</div>
+								<div class="form-group col-xs-12 col-sm-10 col-md-10 col-lg-10">
 									<label for="campoImagem">Imagem</label>
 									<input id="campoImagem" class="form-control" type="file" data-max-size="10485760" name="pessoa.imagem">
 								</div>
-								<br>
-								<div class="row">
+								<div class="form-group col-xs-12 col-sm-10 col-md-10 col-lg-10">
 									<label for="campoCodigo">Codigo</label>
 									<input type="text" id="campoCodigo" class="form-control" name="pessoa.codigo" disabled>
 								</div>
 							</div>
-							<div class="col-lg-3"></div>
 						</div>
-						<fieldset>
-							<br>
-							<ul class="nav nav-tabs responsive">
-								<li class="active"><a data-toggle="tab" href="#basico">Basico</a></li>
-								<li><a data-toggle="tab" href="#adicional">Adicional</a></li>
-								<li><a data-toggle="tab" href="#endereco">Endereco</a></li>
-								<li><a data-toggle="tab" href="#contato">Contato</a></li>
-							</ul>
-							<div class="tab-content responsive">
-								<br>
-								<div id="basico" class="tab-pane active">
-									<div class="row">
-										<div class="col-sm-1"></div>
-										<div class="col-sm-10">
-											<div class="row">
-												<div class="form-group col-lg-12">
-													<label for="campoTipo">Tipo de Pessoa</label>
-													<select id="campoTipo" class="selectpicker form-control" name="pessoa.tipo" onchange="fisicaJuridica('fisica','juridica','fisica1','juridica1');">
-														<option value="F" selected="selected">Física</option>
-														<option value="J">Jurídica</option>
+						<div class="box-body">
+							<div class="nav-tabs-custom">
+								<ul class="nav nav-tabs">
+									<li class="active"><a data-toggle="tab" href="#basico">Basico</a></li>
+									<li><a data-toggle="tab" href="#adicional">Adicional</a></li>
+									<li><a data-toggle="tab" href="#endereco">Endereco</a></li>
+									<li><a data-toggle="tab" href="#contato">Contato</a></li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="basico">
+										<div class="row">
+											<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+												<label for="campoTipo">Tipo de Pessoa</label>
+												<div class="input-group">
+													<span class="input-group-btn">
+														<button class="btn btn-default btn-flat" type="button" data-select2-open="campoTipo">
+															<span class="glyphicon glyphicon-search"></span>
+														</button>
+													</span>
+													<select id="campoTipo" class="form-control select2" name="pessoa.tipo" onchange="fisicaJuridica('fisica','juridica','fisica1','juridica1');">
+														<c:choose>
+															<c:when test="${pessoa.tipo.toString() eq 'F'}">
+																<option value="F" selected="selected">Física</option>
+																<option value="J">Jurídica</option>
+															</c:when>
+															<c:when test="${pessoa.tipo.toString() eq 'J'}">
+																<option value="F">Física</option>
+																<option value="J" selected="selected">Jurídica</option>
+															</c:when>
+															<c:otherwise>
+																<option value="F" selected="selected">Física</option>
+																<option value="J">Jurídica</option>
+															</c:otherwise>
+														</c:choose>
 													</select>
 												</div>
 											</div>
-											<div id="fisica" style="display: block">
-												<div class="row" >
-													<div class="form-group col-lg-12">
-														<label for="campoNome">Nome Completo*</label>
-														<input type="text" id="campoNome" class="form-control" name="pessoa.nome" required>
-													</div>
+											<div id="fisica" <c:choose><c:when test="${pessoa.tipo.toString() eq 'J'}"> style="display: none" </c:when><c:when test="${pessoa.tipo.toString() eq 'F'}"> style="display: block" </c:when><c:otherwise> style="display: block" </c:otherwise></c:choose>>
+												<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<label for="campoNome">Nome Completo*</label>
+													<input type="text" id="campoNome" class="form-control" name="pessoa.nome" value="${pessoa.nome }">
 												</div>
-												<div class="row">
-													<div class="form-group col-lg-12">
-														<label for="campoCpf">CPF*</label>
-														<input type="text" id="campoCpf" class="form-control cpf-mask" name="pessoa.cpf" required>
-													</div>
+												<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<label for="campoCpf">CPF*</label>
+													<input type="text" id="campoCpf" class="form-control cpf-mask" name="pessoa.cpf" value="${pessoa.cpf }">
 												</div>
-												<div class="row">
-													<div class="form-group col-lg-12">
-														<label for="campoIdentidade">Identidade</label>
-														<input type="text" id="campoIdentidade" class="form-control" name="pessoa.identidade">
-													</div>
+												<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<label for="campoIdentidade">Identidade</label>
+													<input type="text" id="campoIdentidade" class="form-control" name="pessoa.identidade" value="${pessoa.identidade }">
 												</div>
-												<div class="row">
-													<div class="form-group col-lg-12">
-														<label for="campoEmisIden">Data Emissão Identidade</label>
-														<input type="text" id="campoEmisIden" class="form-control" name="pessoa.data_emissao">
-													</div>
+												<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<label for="campoEmisIden">Data Emissão Identidade</label>
+													<input type="text" id="campoEmisIden" class="form-control" name="pessoa.data_emissao" value="${pessoa.data_emissao }">
 												</div>
 											</div>
-											<div id="juridica" style="display: none">
-												<div class="row">
-													<div class="form-group col-lg-12">
-														<label for="campoRazao">Razão Social*</label>
-														<input type="text" id="campoRazao" class="form-control" name="pessoa.razao">
+											<div id="juridica" <c:choose><c:when test="${pessoa.tipo.toString() eq 'F'}"> style="display: none" </c:when><c:when test="${pessoa.tipo.toString() eq 'J'}"> style="display: block" </c:when><c:otherwise> style="display: none" </c:otherwise></c:choose>>
+												<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<label for="campoRazao">Razão Social*</label>
+													<input type="text" id="campoRazao" class="form-control" name="pessoa.razao" value="${pessoa.razao }">
+												</div>
+												<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<label for="campoFantasia">Nome Fantasia</label>
+													<input type="text" id="campoFantasia" class="form-control" name="pessoa.fantasia" value="${pessoa.fantasia }">
+												</div>
+												<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<label for="campoCnpj">CNPJ*</label>
+													<input type="text" id="campoCnpj" class="form-control" name="pessoa.cnpj" value="${pessoa.cnpj }">
+												</div>
+												<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<label for="campoIe">Inscrição Estadual</label>
+													<input type="text" id="campoIe" class="form-control" name="pessoa.inscricao_estadual" value="${pessoa.inscricao_estadual }">
+												</div>
+											</div>
+											<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+												<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+													<label for="campoCliente">Cliente</label>
+													<div id="campoCliente">
+														<input id="checkSwitch" name="pessoa.cliente" checked="checked" type="checkbox" data-on-text="Sim" data-off-text="Não" data-on-color="success" data-off-color="danger">
 													</div>
 												</div>
-												<div class="row">
-													<div class="form-group col-lg-12">
-														<label for="campoFantasia">Nome Fantasia</label>
-														<input type="text" id="campoFantasia" class="form-control" name="pessoa.fantasia">
+												<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+													<label for="campoFornecedor">Fornecedor</label>
+													<div id="campoFornecedor">
+														<input id="checkSwitch" name="pessoa.fornecedor" type="checkbox" data-on-text="Sim" data-off-text="Não" data-on-color="success" data-off-color="danger">
 													</div>
 												</div>
-												<div class="row">
-													<div class="form-group col-lg-12">
-														<label for="campoCnpj">CNPJ*</label>
-														<input type="text" id="campoCnpj" class="form-control" name="pessoa.cnpj">
+												<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+													<label for="campoAtivo">Ativo</label>
+													<div id="campoAtivo">
+														<input id="checkSwitch" name="pessoa.ativo" checked="checked" type="checkbox" data-on-text="Sim" data-off-text="Não" data-on-color="success" data-off-color="danger">
 													</div>
-												</div>
-												<div class="row">
-													<div class="form-group col-lg-12">
-														<label for="campoIe">Inscrição Estadual</label>
-														<input type="text" id="campoIe" class="form-control" name="pessoa.inscricao_estadual">
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-1"></div>
-									</div>
-									<div class="row">
-										<div class="col-sm-2"></div>
-										<div class="col-sm-3">
-											<div class="col-sm-12">
-												<label for="campoCliente">Cliente</label>
-											</div>
-											<div id="campoCliente" class="col-xs-12 col-sm-8">
-												<div class="btn-group" data-toggle="buttons">
-													<label class="btn btn-default btn-on active">
-													<input type="radio" value="true" name="pessoa.cliente" checked="checked">Sim</label>
-													<label class="btn btn-default btn-off">
-													<input type="radio" value="false" name="pessoa.cliente">Não</label>
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-3">
-											<div class="col-sm-12">
-												<label for="campoFornecedor">Fornecedor</label>
-											</div>
-											<div id="campoFornecedor" class="col-xs-12 col-sm-8">
-												<div class="btn-group" data-toggle="buttons">
-													<label class="btn btn-default btn-on">
-													<input type="radio" value="true" name="pessoa.fornecedor">Sim</label>
-													<label class="btn btn-default btn-off active">
-													<input type="radio" value="false" name="pessoa.fornecedor" checked="checked">Não</label>
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-3">
-											<div class="col-sm-12">
-												<label for="campoAtivo">Ativo</label>
-											</div>
-											<div id="campoAtivo" class="col-xs-12 col-sm-8">
-												<div class="btn-group" data-toggle="buttons">
-													<label class="btn btn-default btn-on active">
-													<input type="radio" value="true" name="pessoa.ativo" checked="checked">Sim</label>
-													<label class="btn btn-default btn-off">
-													<input type="radio" value="false" name="pessoa.ativo">Não</label>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-								<div id="adicional" class="tab-pane">
-									<div class="col-sm-1"></div>
-									<div class="col-sm-10">
-										<div id="fisica1" style="display: block">
-											<div class="row">
-												<div class="form-group col-lg-12">
+									<div class="tab-pane" id="adicional">
+										<div class="row">
+											<div id="fisica1" <c:choose><c:when test="${pessoa.tipo.toString() eq 'J'}"> style="display: none" </c:when><c:when test="${pessoa.tipo.toString() eq 'F'}"> style="display: block" </c:when><c:otherwise> style="display: block" </c:otherwise></c:choose>>
+												<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 													<label for="campoDataNascimento">Data de Nascimento</label>
-													<input type="text" id="campoDataNascimento" class="form-control" name="pessoa.data_nascimento">
+													<input type="text" id="campoDataNascimento" class="form-control" name="pessoa.data_nascimento" value="${pessoa.data_nascimento }">
 												</div>
-											</div>
-											<div class="row" >
-												<div class="form-group col-lg-12">
+												<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 													<label for="campoSexo">Sexo</label>
-													<select id="campoSexo" name="pessoa.sexo" class="selectpicker form-control">
-														<option value="" selected="selected">Selecione</option>
-														<option value="M">Masculino</option>
-														<option value="F">Feminino</option>
-													</select>
-												</div>
-											</div>
-											<div class="row">
-												<div class="form-group col-lg-12">
-													<label for="campoEstCivil">Estado Civil</label>
-													<select id="campoEstCivil" name="pessoa.estado_civil" class="selectpicker form-control">
-														<option value="" selected="selected">Selecione</option>
-														<option value="S">Solteiro(a)</option>
-														<option value="C">Casado(a)</option>
-														<option value="D">Divorciado(a)</option>
-														<option value="V">Viúvo(a)</option>
-														<option value="U">União Estável</option>
-														<option value="O">Outros</option>
-													</select>
-												</div>
-											</div>
-										</div>
-										<div id="juridica1" style="display: none">
-											<div class="row">
-												<div class="form-group col-lg-12">
-													<label for="campoDataFundacao">Data de Fundação</label>
-													<input type="date" id="campoDataFundacao" class="form-control" name="pessoa.data_fundacao">
-												</div>
-											</div>
-											<div class="row">
-												<div class="form-group col-lg-12">
-													<label for="campoFinalidade">Finalidade</label>
-													<select id="campoFinalidade" name="pessoa.finalidade" class="selectpicker form-control">
-														<option value="C" selected="selected">Consumidor</option>
-														<option value="R">Revendedor</option>
-													</select>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-1"></div>
-								</div>
-								<div id="endereco" class="tab-pane">
-									<div class="col-sm-1">
-										<div class="form-group col-lg-12" style="margin-top: 5px;">
-											<br>
-											<a data-toggle="tab" href="#endereco" data-id="2" id="adicionarEndereco" ><button class="btn btn-default" type="button">Novo</button></a>
-										</div>
-									</div>
-									<div class="col-sm-10">
-										<div id="formendereco">
-											<div class="enderecoIndividual row">
-												<div class="row">
-													<div class="form-group col-lg-4" style="margin-top: 5px;">
-														<br>
-														<a data-toggle="tab" href="#endereco" class="removerEndereco" ><button class="btn btn-warning" type="button">Remover Endereço</button></a>
-													</div>
-													<div class="form-group col-lg-4"></div>
-													<div class="form-group col-lg-4">
-														<div class="form-group row">
-															<div class="col-lg-12">
-																<label for="campoPrincipal">Principal</label>
-															</div>
-															<div id="campoPrincipal" class="col-lg-12">
-																<div class="btn-group" data-toggle="buttons">
-																	<label class="btn btn-default btn-on active">
-																	<input type="radio" value="true" name="pessoa.endereco[0].principal" checked="checked">Sim</label>
-																	<label class="btn btn-default btn-off">
-																	<input type="radio" value="false" name="pessoa.endereco[0].principal">Não</label>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="form-group col-lg-4">
-														<label for="campoTipoEndereco">Tipo*</label>
-														<select id="campoTipoEndereco" name="pessoa.endereco[0].tipo_endereco" class="selectpicker form-control">
+													<div class="input-group">
+														<span class="input-group-btn">
+															<button class="btn btn-default btn-flat" type="button" data-select2-open="campoSexo">
+																<span class="glyphicon glyphicon-search"></span>
+															</button>
+														</span>
+														<select id="campoSexo" name="pessoa.sexo" class="form-control select2 ">
 															<option value="" selected="selected">Selecione</option>
-															<option value="C">Comercial</option>
-															<option value="R">Residencial</option>
+															<option value="M">Masculino</option>
+															<option value="F">Feminino</option>
 														</select>
 													</div>
-													<div class="form-group col-lg-4">
-														<label for="campoTipoMoradia">Tipo Moradia</label>
-														<select id="campoTipoMoradia" name="pessoa.endereco[0].tipo_moradia" class="selectpicker form-control">
+												</div>
+												<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<label for="campoEstCivil">Estado Civil</label>
+													<div class="input-group">
+														<span class="input-group-btn">
+															<button class="btn btn-default btn-flat" type="button" data-select2-open="campoEstCivil">
+																<span class="glyphicon glyphicon-search"></span>
+															</button>
+														</span>
+														<select id="campoEstCivil" name="pessoa.estado_civil" class="form-control select2">
 															<option value="" selected="selected">Selecione</option>
-															<option value="P">Própria</option>
-															<option value="A">Alugada</option>
-															<option value="F">Financiada</option>
+															<option value="S">Solteiro(a)</option>
+															<option value="C">Casado(a)</option>
+															<option value="D">Divorciado(a)</option>
+															<option value="V">Viúvo(a)</option>
+															<option value="U">União Estável</option>
 															<option value="O">Outros</option>
 														</select>
 													</div>
-													<div class="form-group col-lg-4">
-														<label for="campoCep">CEP</label>
-														<input type="text" id="campoCep" class="form-control" name="pessoa.endereco[0].cep">
-													</div>
 												</div>
-												<div class="row">
-													<div class="form-group col-lg-4">
-														<label for="campoCidade">Cidade</label>
-														<input type="text" id="campoCidade" class="form-control" name="pessoa.endereco[0].cidade">
-													</div>
-													<div class="form-group col-lg-4">
-														<label for="campoBairro">Bairro</label>
-														<input type="text" id="campoBairro" class="form-control" name="pessoa.endereco[0].bairro">
-													</div>
-													<div class="form-group col-lg-4">
-														<label for="campoUf">UF</label>
-														<input type="text" id="campoUf" class="form-control" name="pessoa.endereco[0].uf">
-													</div>
+											</div>
+											<div id="juridica1" <c:choose><c:when test="${pessoa.tipo.toString() eq 'F'}"> style="display: none" </c:when><c:when test="${pessoa.tipo.toString() eq 'J'}"> style="display: block" </c:when><c:otherwise> style="display: none" </c:otherwise></c:choose>>
+												<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<label for="campoDataFundacao">Data de Fundação</label>
+													<input type="date" id="campoDataFundacao" class="form-control" name="pessoa.data_fundacao" value="${pessoa.data_fundacao }">
 												</div>
-												<div class="row">
-													<div class="form-group col-lg-8">
-														<label for="campoLogradouro">Logradouro</label>
-														<input type="text" id="campoLogradouro" class="form-control" name="pessoa.endereco[0].logradouro">
-													</div>
-													<div class="form-group col-lg-4">
-														<label for="campoNumero">Número</label>
-														<input type="text" id="campoNumero" class="form-control" name="pessoa.endereco[0].numero">
-													</div>
-												</div>
-												<div class="row">
-													<div class="form-group col-lg-12">
-														<label for="campoComplemento">Complemento</label>
-														<textarea id="campoComplemento" class="form-control" name="pessoa.endereco[0].complemento"></textarea>
+												<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<label for="campoFinalidade">Finalidade</label>
+													<div class="input-group">
+														<span class="input-group-btn">
+															<button class="btn btn-default btn-flat" type="button" data-select2-open="campoFinalidade">
+																<span class="glyphicon glyphicon-search"></span>
+															</button>
+														</span>
+														<select id="campoFinalidade" name="pessoa.finalidade" class="form-control select2">
+															<option value="C" selected="selected">Consumidor</option>
+															<option value="R">Revendedor</option>
+														</select>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-									<div class="col-sm-1"></div>
-								</div>
-								<div id="contato" class="tab-pane">	
-									<div class="col-sm-1">
-										<div class="form-group col-lg-12" style="margin-top: 5px;">
-											<br>
-											<a data-toggle="tab" href="#contato" data-id="1" id="adicionarContato"><button class="btn btn-default" type="button">Novo</button></a>
-										</div>
-									</div>
-									<div class="col-sm-10">
-										<div id="formcontato">
-											<div class="contatoIndividual row">
-												<div class="form-group col-lg-4">
-													<label for="campoTipoContato">Tipo Contato</label>
-													<select id="campoTipoContato" name="pessoa.contato[0].tipo_contato" class="selectpicker form-control">
-														<option value="" selected="selected">Selecione</option>
-														<option value="R">Telefone Residencial</option>
-														<option value="C">Telefone Comercial</option>
-														<option value="F">Celular</option>
-														<option value="E">Email</option>
-													</select>
-												</div>
-												<div class="form-group col-lg-6">
-													<label for="campoContato">Contato</label>
-													<input type="text" id="campoContato" name="pessoa.contato[0].valor_contato" class="form-control">
-												</div>
-												<div class="form-group col-lg-2" style="margin-top: 5px;">
+									<div class="tab-pane" id="endereco">
+										<div class="row">
+											<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
+												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 													<br>
-													<a data-toggle="tab" href="#contato" class="removerContato" ><button class="btn btn-warning" type="button">Remover</button></a>
+													<a data-toggle="tab" href="#endereco" data-id="2" id="adicionarEndereco" ><button class="btn btn-default btn-flat" type="button">Novo</button></a>
+												</div>
+											</div>
+											<div class="col-xs-9 col-sm-10 col-md-11 col-lg-11">
+												<div id="formendereco">
+													<div class="enderecoIndividual">
+														<div class="form-group col-xs-12 col-sm-2 col-md-2 col-lg-2">
+															<br>
+															<a data-toggle="tab" href="#endereco" class="removerEndereco" ><button class="btn btn-warning btn-flat" type="button">Remover Endereço</button></a>
+														</div>
+														<div class="col-xs-hidden col-sm-7 col-md-7 col-lg-7"></div>
+														<div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+															<label for="campoPrincipal">Principal</label>
+															<div id="campoPrincipal">
+																<input id="checkSwitch" name="pessoa.endereco[0].principal" checked="checked" type="checkbox" data-on-text="Sim" data-off-text="Não" data-on-color="success" data-off-color="danger">
+															</div>
+														</div>
+														<div class="form-group col-xs-12 col-sm-4 col-md-4 col-lg-4">
+															<label for="campoTipoEndereco0">Tipo*</label>
+															<div class="input-group">
+																<span class="input-group-btn">
+																	<button class="btn btn-default btn-flat" type="button" data-select2-open="campoTipoEndereco0">
+																		<span class="glyphicon glyphicon-search"></span>
+																	</button>
+																</span>
+																<select id="campoTipoEndereco0" name="pessoa.endereco[0].tipo_endereco" class="form-control select2">
+																	<option value="" selected="selected">Selecione</option>
+																	<option value="C">Comercial</option>
+																	<option value="R">Residencial</option>
+																</select>
+															</div>
+														</div>
+														<div class="form-group col-xs-12 col-sm-4 col-md-4 col-lg-4">
+															<label for="campoTipoMoradia0">Tipo Moradia</label>
+															<div class="input-group">
+																<span class="input-group-btn">
+																	<button class="btn btn-default btn-flat" type="button" data-select2-open="campoTipoMoradia0">
+																		<span class="glyphicon glyphicon-search"></span>
+																	</button>
+																</span>
+																<select id="campoTipoMoradia0" name="pessoa.endereco[0].tipo_moradia" class="form-control select2">
+																	<option value="" selected="selected">Selecione</option>
+																	<option value="P">Própria</option>
+																	<option value="A">Alugada</option>
+																	<option value="F">Financiada</option>
+																	<option value="O">Outros</option>
+																</select>
+															</div>
+														</div>
+														<div class="form-group col-xs-12 col-sm-4 col-md-4 col-lg-4">
+															<label for="campoCep">CEP</label>
+															<input type="text" id="campoCep" class="form-control" name="pessoa.endereco[0].cep">
+														</div>
+														<div class="form-group col-xs-12 col-sm-4 col-md-4 col-lg-4">
+															<label for="campoCidade">Cidade</label>
+															<input type="text" id="campoCidade" class="form-control" name="pessoa.endereco[0].cidade">
+														</div>
+														<div class="form-group col-xs-12 col-sm-4 col-md-4 col-lg-4">
+															<label for="campoBairro">Bairro</label>
+															<input type="text" id="campoBairro" class="form-control" name="pessoa.endereco[0].bairro">
+														</div>
+														<div class="form-group col-xs-12 col-sm-4 col-md-4 col-lg-4">
+															<label for="campoUf">UF</label>
+															<input type="text" id="campoUf" class="form-control" name="pessoa.endereco[0].uf">
+														</div>
+														<div class="form-group col-xs-12 col-sm-8 col-md-8 col-lg-8">
+															<label for="campoLogradouro">Logradouro</label>
+															<input type="text" id="campoLogradouro" class="form-control" name="pessoa.endereco[0].logradouro">
+														</div>
+														<div class="form-group col-xs-12 col-sm-4 col-md-4 col-lg-4">
+															<label for="campoNumero">Número</label>
+															<input type="text" id="campoNumero" class="form-control" name="pessoa.endereco[0].numero">
+														</div>
+														<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+															<label for="campoComplemento">Complemento</label>
+															<textarea id="campoComplemento" class="form-control" name="pessoa.endereco[0].complemento"></textarea>
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>
-										<div class="col-sm-1"></div>
 									</div>
-								</div>
-								<div class="row">
-									<div class="box-actions col-lg-12">
-										<br>
-										<br>
-										<button type="submit" class="btn btn-success">Salvar</button>
-										<a href="<c:url value='/pessoa'/>" ><button type="button" class="btn btn-default"> Voltar </button></a>
+									<div class="tab-pane" id="contato">
+										<div class="row">
+											<div class="col-xs-3 col-sm-3 col-md-1 col-lg-1">
+												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 5px;">
+													<br>
+													<a data-toggle="tab" href="#contato" data-id="1" id="adicionarContato"><button class="btn btn-default btn-flat" type="button">Novo</button></a>
+												</div>
+											</div>
+											<div class="col-xs-9 col-sm-9 col-md-11 col-lg-11">
+												<div id="formcontato">
+													<div class="contatoIndividual">
+														<div class="form-group col-xs-12 col-sm-4 col-md-4 col-lg-4">
+															<label for="campoTipoContato0">Tipo Contato*</label>
+															<div class="input-group">
+																<span class="input-group-btn">
+																	<button class="btn btn-default btn-flat" type="button" data-select2-open="campoTipoContato0">
+																		<span class="glyphicon glyphicon-search"></span>
+																	</button>
+																</span>
+																<select id="campoTipoContato0" name="pessoa.contato[0].tipo_contato" class="form-control select2">
+																	<option value="" selected="selected">Selecione</option>
+																	<option value="R">Telefone Residencial</option>
+																	<option value="C">Telefone Comercial</option>
+																	<option value="F">Celular</option>
+																	<option value="E">Email</option>
+																</select>
+															</div>
+														</div>
+														<div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
+															<label for="campoContato">Contato*</label>
+															<input type="text" id="campoContato" name="pessoa.contato[0].valor_contato" class="form-control">
+														</div>
+														<div class="form-group col-xs-12 col-sm-2 col-md-2 col-lg-2" style="margin-top: 5px;">
+															<br>
+															<a data-toggle="tab" href="#contato" class="removerContato" ><button class="btn btn-warning btn-flat" type="button">Remover</button></a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
-						</fieldset>
+						</div>
+						<div class="box-footer">
+							<div class="col-xs-12 col-sm-10 col-md-8 col-lg-8">
+								<button name="submit" value="1" type="submit" class="btn btn-success btn-flat">Salvar</button>
+								<a href="<c:url value='/pessoa' />"><button type="button" class="btn btn-default btn-flat">Voltar</button></a>
+							</div>
+						</div>
 					</form>
-				</c:when>
-				<c:otherwise>
-					<div class="alert alert-danger alert-dismissible" role="alert">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	       				<strong>Ops!</strong> Sem permissão para visualizar o programa.
-	      			</div>
-				</c:otherwise>
-			</c:choose>
-		</div>
+				</div>
+			</c:if>
+		</section>
 	</div>
+	
+	<footer class="main-footer">
+		<div class="pull-right hidden-xs">
+			<b>Versão</b> <c:out value="${versao_sistema }" />
+		</div>
+		<strong>Copyright &copy; 2018 <a href="">Isac Sistemas</a>.</strong>
+		Todos direitos reservados.
+	</footer>
 </div>
-<br>
-<br>
 
-<%-- Include all compiled plugins (below), or include individual files as needed --%>
-<script src="<c:url value='/bootstrap/js/bootstrap.min.js'/>"></script>
-<script src="<c:url value='/bootstrap/select/dist/js/bootstrap-select.min.js'/>"></script>
-<script src="<c:url value='/bootstrap/select/dist/js/i18n/defaults-pt_BR.js'/>"></script>
+<jsp:include page="../defaults/footer.jsp"></jsp:include>
 
 </body>
 </html>

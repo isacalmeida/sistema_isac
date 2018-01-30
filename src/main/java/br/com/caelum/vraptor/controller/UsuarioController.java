@@ -12,14 +12,10 @@ import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.edu.unoesc.beans.UsuarioBean;
-import br.edu.unoesc.dao.ConfiguracoesDAO;
 import br.edu.unoesc.dao.PerfilAcessoDAO;
 import br.edu.unoesc.dao.PessoaDAO;
-import br.edu.unoesc.dao.ProgramasDAO;
 import br.edu.unoesc.dao.UsuarioDAO;
 import br.edu.unoesc.exception.DAOException;
-import br.edu.unoesc.model.outros.Configuracoes;
-import br.edu.unoesc.model.outros.Programas;
 import br.edu.unoesc.model.pessoa.Pessoa;
 import br.edu.unoesc.model.usuario.PerfilAcesso;
 import br.edu.unoesc.model.usuario.Usuario;
@@ -38,23 +34,19 @@ public class UsuarioController {
 	private PessoaDAO pdao;
 	
 	@Inject
-	private ConfiguracoesDAO cdao;
-	
-	@Inject
 	private PerfilAcessoDAO padao;
-	
-	@Inject
-	private ProgramasDAO podao;
 	
 	@Inject
 	private UsuarioBean usuarioSessao;
 	
 	@Get("")
-	public void index(Integer var, Integer acao, Integer tpag) {
+	public void index(Integer var, Integer acao) {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
-		result.include("programas", podao.listar(Programas.class, "TODOS_PROGRAMAS"));
+		result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
+		result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
+		result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
 		
 		if(usuarioSessao.getPermissao("Usuario", 1) == false) {
 			result.include("permissao", 1);
@@ -63,48 +55,10 @@ public class UsuarioController {
 			if(usuarioSessao.getPermissao("Usuario", 2) == false) {
 				result.include("permissao", 2);
 			}
-			Long cod = (long) 1;
-			Configuracoes conf = cdao.buscar(Configuracoes.class, cod);
-			
 			List<Usuario> usuarios = udao.listar(Usuario.class, "TODOS_USUARIOS");
-			int linhas = 10;
-			if(conf != null) {
-				linhas = conf.getTabela_linhas();
-			}
-			int colunas = usuarios.size()/linhas;
 			
-			if(usuarios.size()%linhas > 0) {
-				colunas++;
-			}
+			result.include("usuarios", usuarios);
 			
-			Usuario[][] muser = new Usuario[colunas][linhas];
-			
-			int linha = 0;
-			int coluna = 0;
-			for(Usuario usuario : usuarios) {
-				muser[coluna][linha] = usuario;
-				linha ++;
-				if(linha == linhas) {
-					linha = 0;
-					coluna ++;
-				}
-			}
-			
-			if(tpag == null) {
-				tpag = 0;
-			}
-			else {
-				tpag--;
-			}
-			if(usuarios.size() == 0) {
-				result.include("usuarios", null);
-				colunas = 1;
-			}
-			else {
-				result.include("usuarios", muser[tpag]);
-			}
-			result.include("colunas", colunas);
-			result.include("pag", tpag);
 			result.include("var", var);
 			result.include("acao", acao);
 		}
@@ -115,6 +69,9 @@ public class UsuarioController {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
+		result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
+		result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
+		result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
 		
 		if(usuarioSessao.getPermissao("Usuario", 2) == false) {
 			result.include("permissao", 1);
@@ -125,11 +82,10 @@ public class UsuarioController {
 		
 		result.include("pessoas", pessoas);
 		result.include("perfis", perfis);
-		result.include("programas", podao.listar(Programas.class, "TODOS_PROGRAMAS"));
 	}
 	
 	@Post("/salvar")
-	public void salvar(Usuario usuario) throws DAOException {
+	public void salvar(Usuario usuario, Integer submit) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
@@ -143,11 +99,11 @@ public class UsuarioController {
 			
 			usuario.setPessoa(pessoa.get(0));
 			usuario.setPerfil(perfil.get(0));
+			usuario.setFoto(pessoa.get(0).getImagem());
 			
-			result.redirectTo(this).index(udao.salvar(usuario),0,1);
+			result.redirectTo(this).index(udao.salvar(usuario),0);
 		}
 		else {
-			System.out.println("USUARIO: "+ usuario);
 			List<Pessoa> pessoa = pdao.buscar(Pessoa.class, usuario.getPessoa().getCodigo(), "PESSOA_POR_CODIGO");
 			List<PerfilAcesso> perfil = padao.buscar(PerfilAcesso.class, usuario.getPerfil().getCodigo(), "PERFIL_POR_CODIGO");
 			List<Usuario> user = udao.buscar(Usuario.class, usuario.getCodigo(), "USUARIO_POR_CODIGO");
@@ -157,16 +113,23 @@ public class UsuarioController {
 			
 			usuario.setPessoa(pessoa.get(0));
 			usuario.setPerfil(perfil.get(0));
+			usuario.setFoto(pessoa.get(0).getImagem());
 			
-			result.redirectTo(this).index(udao.salvar(usuario),1,1);
+			if(submit == 1)
+				result.redirectTo(this).index(udao.salvar(usuario),1);
+			else if(submit == 2)
+				result.redirectTo(this).editar(usuario.getCodigo(),udao.salvar(usuario));
 		}
 	}
 	
 	@Get("/{cod}/editar")
-	public void editar(Long cod) throws DAOException {
+	public void editar(Long cod, Integer var) throws DAOException {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		result.include("usuario_nome", usuarioSessao.getNome());
+		result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
+		result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
+		result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
 		
 		if(usuarioSessao.getPermissao("Usuario", 3) == false) {
 			result.include("editar", 1);
@@ -179,8 +142,8 @@ public class UsuarioController {
 		List<PerfilAcesso> perfis = padao.listar(PerfilAcesso.class, "TODOS_PERFIS");
 		result.include("pessoas", pessoas);
 		result.include("perfis", perfis);
+		result.include("var", var);
 		result.include("usuario", udao.buscar(Usuario.class, cod));
-		result.include("programas", podao.listar(Programas.class, "TODOS_PROGRAMAS"));
 	}
 	
 	@Get("/{cod}/excluir")
@@ -190,10 +153,10 @@ public class UsuarioController {
 		result.include("usuario_nome", usuarioSessao.getNome());
 		
 		if(usuarioSessao.getPermissao("Usuario", 4) == false) {
-			result.redirectTo(this).index(1,2,1);
+			result.redirectTo(this).index(1,2);
 		}
 		else {
-			result.redirectTo(this).index(udao.excluir(udao.buscar(Usuario.class, cod)),2,1);
+			result.redirectTo(this).index(udao.excluir(udao.buscar(Usuario.class, cod)),2);
 		}
 	}
 }

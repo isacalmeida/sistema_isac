@@ -46,7 +46,7 @@ public class IndexController {
 	public void index() throws DAOException{
 		if(cdao.buscar(Configuracoes.class, 1L) == null) {
 			ConfiguracoesBean confs = new ConfiguracoesBean();
-			
+			System.out.println("TESTE: "+ confs);
 			cdao.salvar(confs.getConfs());
 			pdao.salvar(confs.getPess());
 			for(Programas prog : confs.getProgramas()) {

@@ -9,33 +9,33 @@
 <body>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="<c:url value='/bower_components/jquery/dist/jquery.min.js' />"></script>
-<script src="<c:url value='/bower_components/jquery-ui/jquery-ui.min.js' />"></script>
+<script src="<c:url value='/assets/jquery/jquery.min.js' />"></script>
+<script src="<c:url value='/assets/jquery-ui/jquery-ui.min.js' />"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="<c:url value='/bower_components/bootstrap/dist/js/bootstrap.min.js'/>"></script>
-<script src="<c:url value='/bower_components/select2/dist/js/select2.full.min.js'/>"></script>
-<script src="<c:url value='/bower_components/select2/dist/js/i18n/pt-BR.js'/>"></script>
-<script src="<c:url value='/bower_components/datatables.net/js/jquery.dataTables.min.js'/>"></script>
-<script src="<c:url value='/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js'/>"></script>
-<script src="<c:url value='/bower_components/raphael/raphael.min.js' />"></script>
-<script src="<c:url value='/bower_components/morris.js/morris.min.js' />"></script>
-<script src="<c:url value='/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js' />"></script>
-<script src="<c:url value='/bower_components/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'/>"></script>
-<script src="<c:url value='/bower_components/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'/>"></script>
-<script src="<c:url value='/bower_components/jquery-knob/dist/jquery.knob.min.js'/>"></script>
-<script src="<c:url value='/bower_components/moment/min/moment.min.js'/>"></script>
-<script src="<c:url value='/bower_components/bootstrap-daterangepicker/daterangepicker.js'/>"></script>
-<script src="<c:url value='/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js'/>"></script>
-<script src="<c:url value='/bower_components/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js'/>"></script>
-<script src="<c:url value='/bower_components/jquery-slimscroll/jquery.slimscroll.min.js'/>"></script>
-<script src="<c:url value='/bower_components/fastclick/lib/fastclick.js'/>"></script>
-<script src="<c:url value='/bower_components/defaults/js/adminlte.min.js'/>"></script>
-<script src="<c:url value='/bower_components/defaults/js/demo.js'/>"></script>
-<script src="<c:url value='/bower_components/jquery-toast/dist/jquery.toast.min.js'/>"></script>
+<script src="<c:url value='/assets/bootstrap/js/bootstrap.min.js'/>"></script>
+<script src="<c:url value='/assets/select2/js/select2.full.min.js'/>"></script>
+<script src="<c:url value='/assets/select2/js/i18n/pt-BR.js'/>"></script>
+<script src="<c:url value='/assets/datatables.net/js/jquery.dataTables.min.js'/>"></script>
+<script src="<c:url value='/assets/datatables.net-bs/js/dataTables.bootstrap.min.js'/>"></script>
+<script src="<c:url value='/assets/raphael/raphael.min.js' />"></script>
+<script src="<c:url value='/assets/morris/morris.min.js' />"></script>
+<script src="<c:url value='/assets/jquery-knob/jquery.knob.min.js'/>"></script>
+<script src="<c:url value='/assets/jquery-slimscroll/jquery.slimscroll.min.js'/>"></script>
+<script src="<c:url value='/assets/jquery-sparkline/jquery.sparkline.min.js' />"></script>
+<script src="<c:url value='/assets/jquery-toast/jquery.toast.min.js'/>"></script>
+<script src="<c:url value='/assets/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'/>"></script>
+<script src="<c:url value='/assets/plugins/jvectormap/jquery-jvectormap-brazil.js'/>"></script>
+<script src="<c:url value='/assets/moment/min/moment.min.js'/>"></script>
+<script src="<c:url value='/assets/bootstrap-datepicker/js/bootstrap-datepicker.min.js'/>"></script>
+<script src="<c:url value='/assets/bootstrap-daterangepicker/daterangepicker.js'/>"></script>
+<script src="<c:url value='/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js'/>"></script>
+<script src="<c:url value='/assets/fastclick/fastclick.js'/>"></script>
+<script src="<c:url value='/assets/defaults/js/adminlte.min.js'/>"></script>
+<script src="<c:url value='/assets/defaults/js/demo.js'/>"></script>
 
 <script>
   $(function () {
@@ -102,7 +102,7 @@ function toastDanger() {
 </script>
 
 <script src="<c:url value='/assets/scripts/checkbox_button.js' />"></script>
-<script src="<c:url value='/bower_components/plugins/iCheck/icheck.min.js' />"></script>
+<script src="<c:url value='/assets/plugins/iCheck/icheck.min.js' />"></script>
 <script>
   $(function () {
     $("[id='loginCheck']").iCheck({
@@ -113,7 +113,7 @@ function toastDanger() {
   });
 </script>
 
-<script src="<c:url value='/bower_components/bootstrap-switch/dist/js/bootstrap-switch.js'/>"></script>
+<script src="<c:url value='/assets/bootstrap-switch/js/bootstrap-switch.js'/>"></script>
 <script>
 $("[id='checkSwitch']").bootstrapSwitch();
 </script>

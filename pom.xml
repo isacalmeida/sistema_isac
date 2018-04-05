@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<artifactId>lista-isac</artifactId>
-	<description>Trabalho lista isac</description>
-	<groupId>lista</groupId>
-	<version>1.0.0</version>
+	<artifactId>sistema-isac</artifactId>
+	<description>Sistema Isac</description>
+	<groupId>admin</groupId>
+	<version>0.0.1</version>
 	<packaging>war</packaging>
 
 	<properties>
@@ -42,6 +42,7 @@
 		<log4j12.version>1.7.25</log4j12.version>
 		<lombok.version>1.16.8</lombok.version>
 		<bean.version>1.0.1</bean.version>
+		<moip.version>4.1.1</moip.version>
 		
 	</properties>
 
@@ -183,12 +184,18 @@
 			<artifactId>bean-manager-locator</artifactId>
 			<version>${bean.version}</version>
 		</dependency> -->
+		
+		<dependency>
+			<groupId>br.com.moip</groupId>
+			<artifactId>java-sdk</artifactId>
+			<version>${moip.version}</version>
+		</dependency>
 		<!-- Extras -->
 		
 	</dependencies>
 
 	<build>
-		<finalName>lista</finalName>
+		<finalName>admin</finalName>
 		<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
 		<plugins>
 			<plugin>

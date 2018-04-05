@@ -9,9 +9,12 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.edu.unoesc.beans.LicencaBean;
 import br.edu.unoesc.beans.UsuarioBean;
+import br.edu.unoesc.dao.LicencaDAO;
 import br.edu.unoesc.dao.UsuarioDAO;
 import br.edu.unoesc.exception.DAOException;
+import br.edu.unoesc.model.outros.Licenca;
 import br.edu.unoesc.model.usuario.Usuario;
 
 @Path("/login")
@@ -23,6 +26,11 @@ public class LoginController {
 	
 	@Inject 
 	private UsuarioDAO udao;
+	
+	@Inject LicencaDAO lidao;
+	
+	@Inject
+	private LicencaBean licencaSessao;
 	
 	@Inject
 	private UsuarioBean usuarioSessao;
@@ -59,6 +67,9 @@ public class LoginController {
 	
 	@Post("/logar")
 	public void logar(String user, String pass) {
+		List<Licenca> licenca = lidao.buscar(Licenca.class, 1L, "LICENCA_POR_CODIGO");
+		licencaSessao.setLicenca(licenca.get(0));
+		
 		List<Usuario> usuarios = udao.listar(Usuario.class, "TODOS_USUARIOS");
 		Usuario carregado = null;
 		int aux = 0;

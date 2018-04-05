@@ -1,12 +1,17 @@
 package br.com.caelum.vraptor.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
+import br.edu.unoesc.beans.LicencaBean;
 import br.edu.unoesc.beans.UsuarioBean;
+import br.edu.unoesc.dao.ProgramasDAO;
+import br.edu.unoesc.model.outros.Programas;
 
 @Path("/busca")
 @Controller
@@ -14,6 +19,12 @@ public class BuscaController {
 	
 	@Inject
 	private Result result;
+	
+	@Inject
+	private ProgramasDAO podao;
+	
+	@Inject
+	private LicencaBean licencaSessao;
 	
 	@Inject
 	private UsuarioBean usuarioSessao;
@@ -29,8 +40,27 @@ public class BuscaController {
 			result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
 			result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
 			result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
+			result.include("versao_sistema", licencaSessao.getLicenca().getVersao());
+			result.include("licenciamento", licencaSessao.getLicenca().getLicenciamento());
 			
-			result.include("resultado", q);
+			if(q != null) {
+				List<Programas> programas = podao.buscar(Programas.class, q, "PROGRAMA_POR_DESCRICAO");
+				result.include("programas", programas);
+				System.out.println(programas);
+				result.include("resultado", q);
+			}
+			else {
+				result.include("programas", null);
+				result.include("resultado", q);
+			}
+			
 		}
+	}
+	
+	@Get("/buscar")
+	public List<Programas> buscar(String desc) {
+		List<Programas> programas = podao.buscar(Programas.class, desc, "PROGRAMA_POR_DESCRICAO");
+		System.out.println("TESTANDO /BUSCAR");
+		return programas;
 	}
 }

@@ -6,6 +6,7 @@ import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
+import br.edu.unoesc.beans.LicencaBean;
 import br.edu.unoesc.beans.UsuarioBean;
 
 @Path("/menu")
@@ -14,6 +15,9 @@ public class MenuController {
 	
 	@Inject
 	private Result result;
+	
+	@Inject
+	private LicencaBean licencaSessao;
 	
 	@Inject
 	private UsuarioBean usuarioSessao;
@@ -29,6 +33,8 @@ public class MenuController {
 			result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
 			result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
 			result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
+			result.include("versao_sistema", licencaSessao.getLicenca().getVersao());
+			result.include("licenciamento", licencaSessao.getLicenca().getLicenciamento());
 		}
 	}
 	
@@ -43,6 +49,8 @@ public class MenuController {
 			result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
 			result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
 			result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
+			result.include("versao_sistema", licencaSessao.getLicenca().getVersao());
+			result.include("licenciamento", licencaSessao.getLicenca().getLicenciamento());
 		}
 	}
 	
@@ -57,6 +65,8 @@ public class MenuController {
 			result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
 			result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
 			result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
+			result.include("versao_sistema", licencaSessao.getLicenca().getVersao());
+			result.include("licenciamento", licencaSessao.getLicenca().getLicenciamento());
 		}
 	}
 }

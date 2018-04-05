@@ -9,6 +9,7 @@ import br.com.caelum.vraptor.Result;
 import br.edu.unoesc.beans.ConfiguracoesBean;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
+import br.edu.unoesc.dao.LicencaDAO;
 import br.edu.unoesc.dao.PerfilAcessoDAO;
 import br.edu.unoesc.dao.PessoaDAO;
 import br.edu.unoesc.dao.ProgramasDAO;
@@ -26,6 +27,9 @@ public class IndexController {
 	
 	@Inject
 	private ConfiguracoesDAO cdao;
+	
+	@Inject
+	private LicencaDAO lidao;
 	
 	@Inject
 	private PessoaDAO pdao;
@@ -48,6 +52,7 @@ public class IndexController {
 			ConfiguracoesBean confs = new ConfiguracoesBean();
 			System.out.println("TESTE: "+ confs);
 			cdao.salvar(confs.getConfs());
+			lidao.salvar(confs.getLicenca());
 			pdao.salvar(confs.getPess());
 			for(Programas prog : confs.getProgramas()) {
 				podao.salvar(prog);

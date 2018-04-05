@@ -11,6 +11,8 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
+import org.hibernate.criterion.MatchMode;
+
 import br.edu.unoesc.exception.DAOException;
 import br.edu.unoesc.model.MinhaEntidade;
 
@@ -84,6 +86,22 @@ public abstract class HibernateDAO<T extends MinhaEntidade>  {
 		this.conectar();
 		try {
 			return em.find(classe, codigo);
+		} finally {
+			this.finalizar();
+		}
+	}
+	
+	public List<T> buscar(Class<T> classe, String desc, String named) {
+		this.conectar();
+		try {
+			// String hql = "from "+classe.getName()+" a where upper(a.nome)
+			// like ?";
+			// TypedQuery<T> query = em.createQuery(hql, classe);
+			// TypedQuery<T> query = em.createNativeQuery("SELECT * FROM ALUNO",
+			// classe);
+			TypedQuery<T> query = em.createNamedQuery(named, classe);
+			query.setParameter("descricao", MatchMode.ANYWHERE.toMatchString(desc.toLowerCase()));
+			return query.getResultList();
 		} finally {
 			this.finalizar();
 		}

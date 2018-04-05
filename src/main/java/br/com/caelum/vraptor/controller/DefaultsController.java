@@ -25,7 +25,40 @@ public class DefaultsController {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		else {
-			
+			result.redirectTo(MenuController.class).index();
+		}
+	}
+	
+	@Get("/main")
+	public void main(){
+		if(usuarioSessao.equals(null))
+			result.redirectTo(LoginController.class).index(null);
+		if(usuarioSessao.isLogado() == false)
+			result.redirectTo(LoginController.class).index(null);
+		else {
+			result.redirectTo(MenuController.class).index();
+		}
+	}
+	
+	@Get("/menu")
+	public void menu(){
+		if(usuarioSessao.equals(null))
+			result.redirectTo(LoginController.class).index(null);
+		if(usuarioSessao.isLogado() == false)
+			result.redirectTo(LoginController.class).index(null);
+		else {
+			result.redirectTo(MenuController.class).index();
+		}
+	}
+	
+	@Get("/copyright")
+	public void copyright(){
+		if(usuarioSessao.equals(null))
+			result.redirectTo(LoginController.class).index(null);
+		if(usuarioSessao.isLogado() == false)
+			result.redirectTo(LoginController.class).index(null);
+		else {
+			result.redirectTo(MenuController.class).index();
 		}
 	}
 	
@@ -36,7 +69,7 @@ public class DefaultsController {
 		if(usuarioSessao.isLogado() == false)
 			result.redirectTo(LoginController.class).index(null);
 		else {
-			
+			result.redirectTo(MenuController.class).index();
 		}
 	}
 }

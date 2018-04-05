@@ -9,6 +9,7 @@ import javax.enterprise.context.ApplicationScoped;
 import org.joda.time.DateTime;
 
 import br.edu.unoesc.model.outros.Configuracoes;
+import br.edu.unoesc.model.outros.Licenca;
 import br.edu.unoesc.model.outros.Programas;
 import br.edu.unoesc.model.pessoa.Pessoa;
 import br.edu.unoesc.model.usuario.Acessos;
@@ -24,6 +25,7 @@ public class ConfiguracoesBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Configuracoes confs;
+	private Licenca licenca;
 	private Pessoa pess;
 	private PerfilAcesso perfil;
 	private Usuario user;
@@ -44,6 +46,11 @@ public class ConfiguracoesBean implements Serializable {
 		confs.setTabela_linhas(10);
 		confs.setContador_endereco(1L);
 		confs.setContador_contato(1L);
+		
+		Licenca lice = new Licenca();
+		lice.setCodigo(1L);
+		lice.setVersao("0.0.1");
+		lice.setLicenciamento("Sistema Isac");
 		
 		Pessoa pess = new Pessoa();
 		pess.setCodigo(1L);
@@ -246,6 +253,7 @@ public class ConfiguracoesBean implements Serializable {
 		user.setAtivo(true);
 
 		this.setConfs(confs);
+		this.setLicenca(lice);
 		this.setPess(pess);
 		this.setProgramas(programas);
 		this.setAcessos(acessos);
@@ -259,6 +267,14 @@ public class ConfiguracoesBean implements Serializable {
 
 	public void setConfs(Configuracoes confs) {
 		this.confs = confs;
+	}
+	
+	public Licenca getLicenca() {
+		return licenca;
+	}
+	
+	public void setLicenca(Licenca licenca) {
+		this.licenca = licenca;
 	}
 
 	public Pessoa getPess() {

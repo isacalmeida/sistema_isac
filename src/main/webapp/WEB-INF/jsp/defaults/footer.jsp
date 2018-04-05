@@ -307,6 +307,17 @@ $(function () {
 });
 </script>
 
+<script type="text/javascript">
+
+function buscar(){
+	var procura = document.getElementById('busca');
+	
+	//alert(procura.value);
+	$.get("/busca/buscar", {desc: procura.value}, function(resposta){
+		   alert(resposta);
+	});
+}
+</script>
 
 
 

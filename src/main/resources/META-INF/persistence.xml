@@ -14,12 +14,15 @@
 		<class>br.edu.unoesc.model.pessoa.Endereco</class>
 		<class>br.edu.unoesc.model.usuario.Usuario</class>
 		<class>br.edu.unoesc.model.usuario.PerfilAcesso</class>
+		<class>br.edu.unoesc.model.usuario.Acessos</class>
 		<class>br.edu.unoesc.model.outros.Configuracoes</class>
 		<class>br.edu.unoesc.model.outros.Programas</class>
+		<class>br.edu.unoesc.model.outros.Licenca</class>
 		<class>br.edu.unoesc.model.produto.Produto</class>
 		<class>br.edu.unoesc.model.produto.Departamento</class>
 		<class>br.edu.unoesc.model.produto.Cor</class>
-		<class>br.edu.unoesc.model.usuario.Acessos</class>
+		
+		
 		
 		<properties>
 		

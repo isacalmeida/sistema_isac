@@ -11,6 +11,7 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.edu.unoesc.beans.LicencaBean;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
 import br.edu.unoesc.exception.DAOException;
@@ -27,6 +28,9 @@ public class ConfiguracoesController {
 	private ConfiguracoesDAO cdao;
 	
 	@Inject
+	private LicencaBean licencaSessao;
+	
+	@Inject
 	private UsuarioBean usuarioSessao;
 	
 	@Get("")
@@ -40,6 +44,8 @@ public class ConfiguracoesController {
 			result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
 			result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
 			result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
+			result.include("versao_sistema", licencaSessao.getLicenca().getVersao());
+			result.include("licenciamento", licencaSessao.getLicenca().getLicenciamento());
 			
 			if(usuarioSessao.getPermissao("Geral", 1) == false) {
 				result.include("permissao", 1);
@@ -67,9 +73,6 @@ public class ConfiguracoesController {
 			result.redirectTo(LoginController.class).index(null);
 		else {
 			result.include("usuario_nome", usuarioSessao.getNome());
-			result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
-			result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
-			result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
 			
 			if(configuracao.getCodigo() == null) {
 				configuracao.setCriacao(new DateTime());
@@ -104,6 +107,8 @@ public class ConfiguracoesController {
 			result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
 			result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
 			result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
+			result.include("versao_sistema", licencaSessao.getLicenca().getVersao());
+			result.include("licenciamento", licencaSessao.getLicenca().getLicenciamento());
 			
 			if(usuarioSessao.getPermissao("Geral", 3) == false) {
 				result.include("editar", 1);
@@ -128,6 +133,8 @@ public class ConfiguracoesController {
 			result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
 			result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
 			result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
+			result.include("versao_sistema", licencaSessao.getLicenca().getVersao());
+			result.include("licenciamento", licencaSessao.getLicenca().getLicenciamento());
 			
 			if(usuarioSessao.getPermissao("Geral", 4) == false) {
 				result.redirectTo(this).index(1,2);

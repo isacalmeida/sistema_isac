@@ -13,6 +13,7 @@ import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.observer.upload.UploadedFile;
+import br.edu.unoesc.beans.LicencaBean;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.components.ValidaCpfCnpj;
 import br.edu.unoesc.dao.ConfiguracoesDAO;
@@ -50,6 +51,9 @@ public class PessoaController {
 	private ConfiguracoesDAO cdao;
 	
 	@Inject
+	private LicencaBean licencaSessao;
+	
+	@Inject
 	private UsuarioBean usuarioSessao;
 	
 	@Get("")
@@ -63,6 +67,8 @@ public class PessoaController {
 			result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
 			result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
 			result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
+			result.include("versao_sistema", licencaSessao.getLicenca().getVersao());
+			result.include("licenciamento", licencaSessao.getLicenca().getLicenciamento());
 			
 			if(usuarioSessao.getPermissao("Pessoa", 1) == false) {
 				result.include("permissao", 1);
@@ -91,6 +97,8 @@ public class PessoaController {
 			result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
 			result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
 			result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
+			result.include("versao_sistema", licencaSessao.getLicenca().getVersao());
+			result.include("licenciamento", licencaSessao.getLicenca().getLicenciamento());
 			
 			if(usuarioSessao.getPermissao("Pessoa", 2) == false) {
 				result.include("permissao", 1);
@@ -236,6 +244,8 @@ public class PessoaController {
 			result.include("usuario_foto", usuarioSessao.getUsuario().getFoto());
 			result.include("usuario_colaborador", usuarioSessao.getUsuario().getColaborador());
 			result.include("usuario_perfil", usuarioSessao.getUsuario().getPerfil().getDescricao());
+			result.include("versao_sistema", licencaSessao.getLicenca().getVersao());
+			result.include("licenciamento", licencaSessao.getLicenca().getLicenciamento());
 			
 			if(usuarioSessao.getPermissao("Pessoa", 3) == false) {
 				result.include("editar", 1);

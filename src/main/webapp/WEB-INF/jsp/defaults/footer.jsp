@@ -307,16 +307,74 @@ $(function () {
 });
 </script>
 
+<script src="<c:url value='/assets/scripts/jquery.autocomplete.min.js'/>"></script>
 <script type="text/javascript">
 
-function buscar(){
-	var procura = document.getElementById('busca');
+$("#busca").autocomplete('${pageContext.request.contextPath}/busca/buscar', {
+	dataType: "json",
+	parse: function(programas){
+		return $.map(programas, function(programa) {
+			return  {
+				data: programa,
+				value: programa.descricao,
+				result: programa.descricao 
+			};
+		});
+	},
+	formatItem: function(programa) {
+		return programa.descricao + "(" + programa.endereco + ")";
+	}
+});
+
+//function buscar(){
+//	var procura = document.getElementById('busca');
 	
-	//alert(procura.value);
-	$.get("/busca/buscar", {desc: procura.value}, function(resposta){
-		   alert(resposta);
-	});
-}
+	
+	
+	//$.getJSON("${pageContext.request.contextPath}/busca/buscar", {desc: procura.value}, function(source){
+	//	$(function() {
+//			alert("TESTE 1");
+			//$("#busca").hide();
+		    //$("#busca").autocomplete({
+		     //   source: source,
+		    //    select: function( event, ui ) { 
+		    //        window.location.href = ui.item.value;
+		    //        alert("TESTE 2");
+		    //    }
+		    //});
+	//	});
+	//});
+		
+	//	var lista = new Array(2);
+	//	var i = 0;
+	//	$.each(programas, function() {
+	//	    lista[i][0] = this.descricao;
+	//	    lista[i][1] = this.endereco;
+	//	    
+	//	});
+	//	alert(lista);
+	//})
+
+
+	//var options = {
+	//    url: "${pageContext.request.contextPath}/busca/buscar?desc=procura.value",
+		
+	//    getValue: "descricao",
+	
+	//    template: {
+	//        type: "links",
+	//        fields: {
+	//            link: "endereco"
+	//        }
+	//    },
+	
+	//    theme: "square"
+	//};
+	//alert(options);
+
+	//$("#busca").easyAutocomplete(options);
+//}
+
 </script>
 
 

@@ -14,8 +14,7 @@
 			<div class="input-group ui-widget">
 				<input type="text" id="busca" name="q" class="form-control" placeholder="Pesquisar ..." autocomplete="off">
 				<span class="input-group-btn">
-					<button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-					</button>
+					<button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
 				</span>
 			</div>
 		</form>

@@ -22,13 +22,14 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/assets/defaults/css/AdminLTE.min.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/assets/defaults/css/skins/_all-skins.min.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/assets/defaults/css/skins/skin-black-light.min.css' />" />
-<link rel="stylesheet" type="text/css" href="<c:url value='/assets/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' />" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/assets/bootstrap-datepicker/css/bootstrap-datepicker.min.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/assets/bootstrap-daterangepicker/daterangepicker.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/assets/bootstrap-switch/css/bootstrap3/bootstrap-switch.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/assets/datatables.net-bs/css/dataTables.bootstrap.min.css' />" />
 <%-- <link rel="stylesheet" type="text/css" href="<c:url value='/assets/autocomplete/easy-autocomplete.min.css' />" />
-<link rel="stylesheet" type="text/css" href="<c:url value='/assets/autocomplete/easy-autocomplete.themes.min.css' />" /> --%>
-<link rel="stylesheet" type="text/css" href="<c:url value='/assets/scripts/jquery.autocomplete.css' />" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/assets/autocomplete/easy-autocomplete.themes.min.css' />" /> 
+<link rel="stylesheet" type="text/css" href="<c:url value='/assets/scripts/jquery.autocomplete.css' />" /> --%>
+<link rel="stylesheet" type="text/css" href="<c:url value='/assets/jquery-ui/themes/base/autocomplete.css' />" />
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

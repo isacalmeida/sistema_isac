@@ -10,7 +10,8 @@
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="<c:url value='/assets/jquery/jquery.min.js' />"></script>
-<script src="<c:url value='/assets/jquery-ui/jquery-ui.min.js' />"></script>
+<%-- <script src="<c:url value='/assets/jquery-ui/jquery-ui.min.js' />"></script> --%>
+<script src="<c:url value='/assets/java-ui-12/jquery-ui.min.js' />"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button);
@@ -307,24 +308,60 @@ $(function () {
 });
 </script>
 
-<script src="<c:url value='/assets/scripts/jquery.autocomplete.min.js'/>"></script>
+<%-- <script src="<c:url value='/assets/scripts/jquery.autocomplete.min.js'/>"></script> 
+<script src="<c:url value='/assets/jquery-ui/ui/autocomplete.js'/>"></script> --%>
 <script type="text/javascript">
-
-$("#busca").autocomplete('${pageContext.request.contextPath}/busca/buscar', {
-	dataType: "json",
-	parse: function(programas){
-		return $.map(programas, function(programa) {
-			return  {
-				data: programa,
-				value: programa.descricao,
-				result: programa.descricao 
-			};
-		});
-	},
-	formatItem: function(programa) {
-		return programa.descricao + "(" + programa.endereco + ")";
+$(document).ready(function(){
+	//var procura = document.getElementById('busca');
+	function retonoObjeto(){
+	    var xhr = new XMLHttpRequest();
+	    xhr.open('GET', '${pageContext.request.contextPath}/busca/buscar?term=a');
+	    xhr.send();
+	    xhr.onreadystatechange=function(){
+	        if (xhr.readyState==4 && xhr.status==200){
+	            mensagens = JSON.parse(xhr.responseText);
+	        }
+	    }
 	}
+
+	var mensagens = retonoObjeto();
+	//alert(mensagens);
+	//$("#busca").autocomplete({
+	//	//dataType: "json",
+    //    source: "${pageContext.request.contextPath}/busca/buscar",
+    //    select: function( event, ui ) { 
+    //        alert("TESTE")
+    //        //alert(ui.item.value);
+    //        //window.location.href = ui.item.value;
+    //    }
+    //});
 });
+	
+//$("#busca").autocomplete('${pageContext.request.contextPath}/busca/buscar', {
+//	dataType: "json",
+//	parse: function(programas){
+//		return $.map(programas, function(programa) {
+//			return  {
+//				select: function(event, page) {
+//					window.open(page.item.url)
+//				}
+//			};
+//		});
+//	}
+	//parse: function(programas){
+	//	return $.map(programas, function(programa) {
+	//		return  {
+	//			data: programa,
+	//			value: programa.descricao,
+	//			result: programa.descricao 
+	//			
+	//		};
+	//	});
+	//},
+	//formatItem: function(programa) {
+	//	return programa.descricao + "(" + programa.endereco + ")";
+	//}
+//});
 
 //function buscar(){
 //	var procura = document.getElementById('busca');

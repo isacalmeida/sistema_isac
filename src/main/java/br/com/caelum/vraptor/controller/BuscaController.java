@@ -60,7 +60,7 @@ public class BuscaController {
 		}
 	}
 	
-	@Consumes(value="application/json", options=WithoutRoot.class)
+	/* @Consumes(value="application/json", options=WithoutRoot.class)
 	@Get("/buscar")
 	public void buscar(String term) {
 		System.out.println("PARAMETRO: "+ term);
@@ -68,18 +68,18 @@ public class BuscaController {
 		//List<Programas> programas = podao.listar(Programas.class, "TODOS_PROGRAMAS");
 		System.out.println("RESULTADO: "+ programas);
 		result.use(Results.json()).withoutRoot().from(programas).exclude("codigo","grupo","ativo","criacao","alteracao").serialize();
-	}
+	} */
 	
-	/*@Consumes(value="application/json", options=WithoutRoot.class)
+	@Consumes(value="application/json", options=WithoutRoot.class)
 	@Get("/buscar")
-	public void buscar(String desc) {
-		if(desc != null) {
-			List<Programas> programas = podao.buscar(Programas.class, desc, "PROGRAMA_POR_DESCRICAO");
-			System.out.println("RESULTADO: "+ programas);
+	public void buscar(String term) {
+		if(term != null) {
+			List<Programas> programas = podao.buscar(Programas.class, term, "PROGRAMA_POR_DESCRICAO");
 			result.use(Results.json()).withoutRoot().from(programas).exclude("codigo","grupo","ativo","criacao","alteracao").serialize();
 		}
 		else {
-			System.out.println("RESULTADO: NULL");
+			List<Programas> programas = podao.buscar(Programas.class, "zzzzzzzzzzzzzzzzzzzzz", "PROGRAMA_POR_DESCRICAO");
+			result.use(Results.json()).withoutRoot().from(programas).serialize();
 		}
-	}*/
+	}
 }

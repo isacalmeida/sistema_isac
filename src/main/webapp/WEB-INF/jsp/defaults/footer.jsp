@@ -308,23 +308,47 @@ $(function () {
 });
 </script>
 
-<%-- <script src="<c:url value='/assets/scripts/jquery.autocomplete.min.js'/>"></script> 
-<script src="<c:url value='/assets/jquery-ui/ui/autocomplete.js'/>"></script> --%>
+<script src="<c:url value='/assets/scripts/autocomplete.js'/>"></script>
 <script type="text/javascript">
-$(document).ready(function(){
-	//var procura = document.getElementById('busca');
-	function retonoObjeto(){
-	    var xhr = new XMLHttpRequest();
-	    xhr.open('GET', '${pageContext.request.contextPath}/busca/buscar?term=a');
-	    xhr.send();
-	    xhr.onreadystatechange=function(){
-	        if (xhr.readyState==4 && xhr.status==200){
-	            mensagens = JSON.parse(xhr.responseText);
-	        }
-	    }
-	}
 
-	var mensagens = retonoObjeto();
+$('input[name=\'q\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: '${pageContext.request.contextPath}/busca/buscar?term='+  $('input[name=\'q\']').val(),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['descricao'],
+						value: item['endereco']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'q\']').val(item['label']);
+	}
+});
+
+</script>
+
+<script type="text/javascript">
+//$(document).ready(function(){	
+	
+	//var procura = document.getElementById('busca');
+	//function retonoObjeto(){
+	//    var xhr = new XMLHttpRequest();
+	//    xhr.open('GET', '${pageContext.request.contextPath}/busca/buscar?term=a');
+	//    xhr.send();
+	//    xhr.onreadystatechange=function(){
+	//        if (xhr.readyState==4 && xhr.status==200){
+	//            mensagens = JSON.parse(xhr.responseText);
+	//        }
+	//    }
+	//}
+
+	//var mensagens = retonoObjeto();
 	//alert(mensagens);
 	//$("#busca").autocomplete({
 	//	//dataType: "json",
@@ -335,7 +359,7 @@ $(document).ready(function(){
     //        //window.location.href = ui.item.value;
     //    }
     //});
-});
+//});
 	
 //$("#busca").autocomplete('${pageContext.request.contextPath}/busca/buscar', {
 //	dataType: "json",

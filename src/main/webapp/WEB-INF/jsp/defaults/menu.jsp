@@ -19,12 +19,12 @@
 			</div>
 		</form>
 		<%-- <div class="input-group">
-			<input id="busca" type="text" name="q" class="form-control" placeholder="Pesquisar ..." onkeypress="setTimeout(buscar,1000);">
+			<input id="busca" type="text" name="q" class="form-control" placeholder="Pesquisar ..." autocomplete="off">
 			<span class="input-group-btn">
 				<button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
 				</button>
 			</span>
-		</div>--%>
+		</div> --%>
 		<ul class="sidebar-menu" data-widget="tree">
 			<li class="header">MENU PRINCIPAL</li>
 			<li class="treeview">

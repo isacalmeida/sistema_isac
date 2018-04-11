@@ -89,6 +89,11 @@
 											<option value="${d.codigo }">${d.descricao }</option>
 										</c:forEach>
 									</select>
+									<span class="input-group-btn">
+										<button class="btn btn-default btn-flat" type="button" data-toggle="modal" data-target="#departamento">
+											<span class="glyphicon glyphicon-plus"></span>
+										</button>
+									</span>
 								</div>
 							</div>
 							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -129,6 +134,11 @@
 											<option value="${c.codigo  }">${c.descricao }</option>
 										</c:forEach>
 									</select>
+									<span class="input-group-btn">
+										<button id="btncor" class="btn btn-default btn-flat" data-toggle="modal" data-target="#myModal">
+											<span class="glyphicon glyphicon-plus"></span>
+										</button>
+									</span>
 								</div>
 							</div>
 							<div class="form-group">
@@ -153,6 +163,21 @@
 	</div>
 		
 	<jsp:include page="../defaults/copyright.jsp"></jsp:include>
+</div>
+
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> 
+   <div class="modal-dialog" style="width: 100%; height: 90%;">
+     <div class="modal-content" style="width: 100%; height: 90%;" >
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	  </div>
+	  <div class="modal-body" style="width: 100%; height: 80%; margin: 0px; padding: 0px;">
+	  	<iframe src="/admin/modal/cor/novo" style="border: 0px; width: 100%; height: 80%;"></iframe>
+	  </div>
+	</div>
+  </div> 
 </div>
 
 <jsp:include page="../defaults/footer.jsp"></jsp:include>

@@ -19,7 +19,7 @@ import br.edu.unoesc.model.MinhaEntidade;
 		@NamedQuery(name="PROGRAMA_POR_CODIGO",
 					query="select p from Programas p where p.codigo = :codigo"),
 		@NamedQuery(name="PROGRAMA_POR_DESCRICAO",
-					query="select p from Programas p where lower(p.descricao) like :descricao")
+					query="select p from Programas p where lower(p.descricao) like :descricao order by p.descricao")
 })
 public class Programas implements MinhaEntidade{
 	

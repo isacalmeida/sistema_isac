@@ -7,9 +7,9 @@ $element.popover({html:true,placement:'right',trigger:'manual',content:function(
 this.show=function(){var pos=$this.position();$dropdown.css({top:pos.top+$this.outerHeight(),left:pos.left});$dropdown.show();}
 this.hide=function(){$dropdown.hide();}
 this.request=function(){clearTimeout(this.timer);this.timer=setTimeout(function(object){object.source($(object).val(),$.proxy(object.response,object));},200,this);}
-this.response=function(json){var html='';var category={};var name;var i=0,j=0;if(json.length){for(i=0;i<json.length;i++){this.items[json[i]['value']]=json[i];if(!json[i]['category']){html+='<a href="'+json[i]['value']+'" style="color:#000"><li>'+json[i]['label']+'</li></a>';}else{name=json[i]['category'];if(!category[name]){category[name]=[];}
+this.response=function(json){var html='';var category={};var name;var i=0,j=0;if(json.length){for(i=0;i<json.length;i++){this.items[json[i]['value']]=json[i];if(!json[i]['category']){html+="<a href='"+json[i]['value']+"' style='color:#000;'><li style='font-size: 12pt; padding: 6px 12px;'>"+json[i]['label']+"</li></a>";}else{name=json[i]['category'];if(!category[name]){category[name]=[];}
 category[name].push(json[i]);}}
-for(name in category){html+='<li class="dropdown-header">'+name+'</li>';for(j=0;j<category[name].length;j++){html+='<li><a href="'+category[name][j]['value']+'" style="color:#000">&nbsp;&nbsp;&nbsp;'+category[name][j]['label']+'</a></li>';}}}
+for(name in category){html+='<li class="dropdown-header">'+name+'</li>';for(j=0;j<category[name].length;j++){html+='<li><a href="<c:url value="'+category[name][j]['value']+'" />" style="color:#000">&nbsp;&nbsp;&nbsp;'+category[name][j]['label']+'</a></li>';}}}
 if(html){this.show();}else{this.hide();}
 $dropdown.html(html);}
 $dropdown.on('click','> li > a',$.proxy(this.click,this));$this.after($dropdown);});}})(window.jQuery);

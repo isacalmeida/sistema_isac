@@ -320,7 +320,7 @@ $('input[name=\'q\']').autocomplete({
 				response($.map(json, function(item) {
 					return {
 						label: item['descricao'],
-						value: item['endereco']
+						value: '${pageContext.request.contextPath}'+ item['endereco']
 					}
 				}));
 			}
@@ -438,6 +438,13 @@ $('input[name=\'q\']').autocomplete({
 
 </script>
 
+<script type="text/javascript">
+//$('#btncor').on('click', function(e) {
+//	e.preventDefault();
+//	var url = $(this).attr('href');
+//	$(".modal-body").html('');
+//});
+</script>
 
 
 </body>

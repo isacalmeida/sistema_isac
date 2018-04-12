@@ -16,7 +16,9 @@ import br.edu.unoesc.model.MinhaEntidade;
 	@NamedQuery(name="TODAS_CORES", 
 				query="select c from Cor c order by c.codigo"),
 	@NamedQuery(name="COR_POR_CODIGO",
-				query="select c from Cor c where c.codigo = :codigo")
+				query="select c from Cor c where c.codigo = :codigo"),
+	@NamedQuery(name="ULTIMA_COR_INCLUIDA",
+				query="select max(c.codigo) from Cor c")
 })
 public class Cor implements MinhaEntidade{
 	

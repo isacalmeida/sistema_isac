@@ -9,6 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.criterion.MatchMode;
@@ -128,6 +129,16 @@ public abstract class HibernateDAO<T extends MinhaEntidade>  {
 		try {
 			TypedQuery<T> query = em.createNamedQuery(named, entidade);
 			return query.getResultList();
+		} finally {
+			this.finalizar();
+		}
+	}
+	
+	public Long buscar(Class<T> entidade, String named) {
+		this.conectar();
+		try {
+			Query query = em.createNamedQuery(named);
+			return (Long) query.getSingleResult();
 		} finally {
 			this.finalizar();
 		}

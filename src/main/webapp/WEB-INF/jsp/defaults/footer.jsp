@@ -440,69 +440,37 @@ $('input[name=\'q\']').autocomplete({
 
 <script type="text/javascript">
 $('#submit-cor').on('click', function(e) {
-	var cor = {
-			codigo : null,
-			descricao : $('input[name=\'cor.descricao\']').val()
-	};
-	
-	var produto = {
-		produto : {
-			codigo : $('input[name=\'produto.codigo\']').val(),
-			descricao : $('input[name=\'produto.descricao\']').val(),
-			imagem : $('input[name=\'produto.imagem\']').val(),
-			codigo_barras : $('input[name=\'produto.codigo_barras\']').val(),
-			departamento : $('input[name=\'produto.departamento.codigo\']').val(),
-			fornecedor : $('input[name=\'produto.fornecedor.codigo\']').val(),
-			//cor : $('input[name=\'produto.cor.codigo\']').val(),
-			ativo : $('input[name=\'produto.ativo\']').val()
-		}
-	}
-	
 	$.ajax({
 	    type : 'POST',
 	    contentType : 'application/json',
 	    url : '${pageContext.request.contextPath}/cor/gravar',
-	    //data : JSON.stringify($.extend(cor, produto)),
-	    //data : $.extend(cor, produto),
-	    data: cor,
 	    dataType: 'json',
-	    beforeSend : function() {
-	        alert('antes de enviar');
-	    },
-	    success : function(txt) {
-	        alert('envio sucesso');
+	    //data: JSON.stringify($.extend(cor, produto)),
+	    data: JSON.stringify({
+			"cor" : {
+				"codigo" : ( $('input[name=\'cor.codigo\']').val() != "" ? $('input[name=\'cor.codigo\']').val() : null ),
+				"descricao" : $('input[name=\'cor.descricao\']').val()
+			}
+		}),
+	    success : function(json) {
+	    	toastSuccess();
+	    	$('select[name=\'produto.cor.codigo\']').append('<option value="'+ json.codigo +'">'+ json.descricao +'</option>');
 	    },
 	    error : function(txt) {
-	        alert('erro envio');
+	    	toastDanger();
 	    }
 	});
-	//JSON.stringify());
-	//e.preventDefault();
-	//$("#myModal").modal('toggle'); 
-	//$('#form-cor').
+	$("#modalCadCor").modal('toggle');
+	$('input[name=\'cor.descricao\']').val("");
 });
-//$('#submit-cor').on('click', function(e) {
-	
-//	$.ajax({
-//	    type : 'POST',
-//	    contentType : 'application/json',
-//	    url : '${pageContext.request.contextPath}/cor/gravar',
-//	    data : JSON.stringify(tipoApoio),
-//	    dataType: 'json',
-//	    beforeSend : function() {
-//	        alert('antes de enviar');
-//	    },
-//	    success : function(txt) {
-//	        alert('envio sucesso');
-//	    },
-//	    error : function(txt) {
-//	        alert('erro envio');
-//	    }
-//	});
-
-//});
 </script>
 
+<script type="text/javascript">
+$('#seleciona-cor').on('click', function(e) {
+	alert($('#seleciona-cor').val());
+	$("#modalPesqCor").modal('toggle');
+});
+</script>
 
 </body>
 </html>

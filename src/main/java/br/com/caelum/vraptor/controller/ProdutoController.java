@@ -79,7 +79,7 @@ public class ProdutoController {
 	}
 	
 	@Get("/novo")
-	public void novo() {
+	public void novo(Produto prod) {
 		if(usuarioSessao.equals(null))
 			result.redirectTo(LoginController.class).index(null);
 		if(usuarioSessao.isLogado() == false)
@@ -100,6 +100,9 @@ public class ProdutoController {
 			List<Departamento> departamentos = dpdao.listar(Departamento.class, "TODOS_DEPARTAMENTOS");
 			List<Pessoa> fornecedores = pedao.listar(Pessoa.class, "PESSOA_FORNECEDOR");
 			
+			if(prod != null) {
+				result.include("produto", prod);
+			}
 			result.include("cores", cores);
 			result.include("departamentos", departamentos);
 			result.include("fornecedores", fornecedores);

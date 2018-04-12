@@ -439,10 +439,67 @@ $('input[name=\'q\']').autocomplete({
 </script>
 
 <script type="text/javascript">
-//$('#btncor').on('click', function(e) {
-//	e.preventDefault();
-//	var url = $(this).attr('href');
-//	$(".modal-body").html('');
+$('#submit-cor').on('click', function(e) {
+	var cor = {
+			codigo : null,
+			descricao : $('input[name=\'cor.descricao\']').val()
+	};
+	
+	var produto = {
+		produto : {
+			codigo : $('input[name=\'produto.codigo\']').val(),
+			descricao : $('input[name=\'produto.descricao\']').val(),
+			imagem : $('input[name=\'produto.imagem\']').val(),
+			codigo_barras : $('input[name=\'produto.codigo_barras\']').val(),
+			departamento : $('input[name=\'produto.departamento.codigo\']').val(),
+			fornecedor : $('input[name=\'produto.fornecedor.codigo\']').val(),
+			//cor : $('input[name=\'produto.cor.codigo\']').val(),
+			ativo : $('input[name=\'produto.ativo\']').val()
+		}
+	}
+	
+	$.ajax({
+	    type : 'POST',
+	    contentType : 'application/json',
+	    url : '${pageContext.request.contextPath}/cor/gravar',
+	    //data : JSON.stringify($.extend(cor, produto)),
+	    //data : $.extend(cor, produto),
+	    data: cor,
+	    dataType: 'json',
+	    beforeSend : function() {
+	        alert('antes de enviar');
+	    },
+	    success : function(txt) {
+	        alert('envio sucesso');
+	    },
+	    error : function(txt) {
+	        alert('erro envio');
+	    }
+	});
+	//JSON.stringify());
+	//e.preventDefault();
+	//$("#myModal").modal('toggle'); 
+	//$('#form-cor').
+});
+//$('#submit-cor').on('click', function(e) {
+	
+//	$.ajax({
+//	    type : 'POST',
+//	    contentType : 'application/json',
+//	    url : '${pageContext.request.contextPath}/cor/gravar',
+//	    data : JSON.stringify(tipoApoio),
+//	    dataType: 'json',
+//	    beforeSend : function() {
+//	        alert('antes de enviar');
+//	    },
+//	    success : function(txt) {
+//	        alert('envio sucesso');
+//	    },
+//	    error : function(txt) {
+//	        alert('erro envio');
+//	    }
+//	});
+
 //});
 </script>
 

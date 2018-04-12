@@ -6,11 +6,14 @@ import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 
+import br.com.caelum.vraptor.Consumes;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.serialization.*;
+import br.com.caelum.vraptor.serialization.gson.WithoutRoot;
 import br.edu.unoesc.beans.LicencaBean;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.CorDAO;
@@ -115,6 +118,31 @@ public class CorController {
 				else if(submit == 2) 
 					result.redirectTo(this).editar(cor.getCodigo(),crdao.salvar(cor));
 			}
+		}
+	}
+	
+	@Consumes(value="application/json", options=WithoutRoot.class)
+	@Post("/gravar")
+	//public void gravar(Cor cor, Produto prod) throws DAOException {
+	public void gravar(Cor cor) throws DAOException {
+		if(usuarioSessao.equals(null))
+			result.redirectTo(LoginController.class).index(null);
+		if(usuarioSessao.isLogado() == false)
+			result.redirectTo(LoginController.class).index(null);
+		else {
+			result.include("usuario_nome", usuarioSessao.getNome());
+			
+			System.out.println("TESTE COR: "+ cor);
+			//System.out.println("TESTE PRODUTO:"+ prod);
+			//if(cor.getCodigo() == null) {
+			//	cor.setCriacao(new DateTime());
+			//	cor.setAlteracao(new DateTime());
+				
+				//result.redirectTo(this).index(crdao.salvar(cor),0);
+				
+			//	crdao.salvar(cor);
+			//	result.redirectTo(ProdutoController.class).novo(prod);	
+			//}
 		}
 	}
 	

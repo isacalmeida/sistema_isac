@@ -75,6 +75,18 @@
 								</c:forEach>
 							</select>
 						</div>
+						<div class="form-group col-lg-12">
+							<label for="campoFabricante">Fabricante*</label>
+							<select id="campoFabricante" class="form-control select2" name="produto.fabricante.codigo" required>
+								<c:forEach var="f" items="${fabricantes }">
+									<option value="${f.codigo  }"
+										<c:forEach var="fa" items="${produto.fabricante }">
+											<c:if test="${f.codigo == fa.codigo }">selected="selected"</c:if>
+										</c:forEach>
+									>${f.descricao }</option>
+								</c:forEach>
+							</select>
+						</div>
 						<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 							<label for="campoFornecedor">Fornecedor*</label>
 							<select id="campoFornecedor" class="form-control select2" name="produto.fornecedor.codigo" required>

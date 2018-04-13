@@ -97,6 +97,26 @@
 								</div>
 							</div>
 							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<label for="campoFabricante">Fabricante*</label>
+								<div class="input-group">
+									<span class="input-group-btn">
+										<button class="btn btn-default btn-flat" type="button" data-toggle="modal" data-target="#modalPesqFabricante">
+											<span class="glyphicon glyphicon-search"></span>
+										</button>
+									</span>
+									<select id="campoFabricante" class="form-control select2" name="produto.fabricante.codigo" required>
+										<c:forEach var="f" items="${fabricantes }">
+											<option value="${f.codigo  }">${f.descricao }</option>
+										</c:forEach>
+									</select>
+									<span class="input-group-btn">
+										<button id="btnfabricante" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modalCadFabricante">
+											<span class="glyphicon glyphicon-plus"></span>
+										</button>
+									</span>
+								</div>
+							</div>
+							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<label for="campoFornecedor">Fornecedor*</label>
 								<div class="input-group">
 									<span class="input-group-btn">
@@ -176,12 +196,6 @@
 								Cor
 								<small>Cadastro de cores dos produtos</small>
 							</h1>
-							<ol class="breadcrumb">
-								<li><i class="fa fa-dashboard"></i> Início</li>
-								<li>Produto</li>
-								<li>Cor</li>
-								<li class="active">Novo</li>
-							</ol>
 						</section>
 						<section class="content">
 							<c:if test="${permissao == 1 }">
@@ -245,12 +259,6 @@
 								Cor
 								<small>Cadastro de cores dos produtos</small>
 							</h1>
-							<ol class="breadcrumb">
-								<li><i class="fa fa-dashboard"></i> Início</li>
-								<li>Produto</li>
-								<li>Cor</li>
-								<li class="active">Pesquisar</li>
-							</ol>
 						</section>
 						<section class="content">
 							<c:if test="${permissao == 1 || (var >= 0 && var <= 2) || (acao >= 0 && acao <= 2) }">
@@ -302,6 +310,69 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="modal fade in" id="modalCadFabricante" tabindex="-1" role="dialog" aria-labelledby="CadastroDeFabricante" aria-hidden="true"> 
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="wrapper">
+					<div class="content-wrapper" style="margin: 0;">
+						<section class="content-header">
+							<h1>
+								Fabricante
+								<small>Cadastro de fabricantes dos produtos</small>
+							</h1>
+						</section>
+						<section class="content">
+							<c:if test="${permissao == 1 }">
+								<div class="box">
+									<div class="box-header">
+										<i class="fa fa-bullhorn"></i>
+										<h3 class="box-title">Alertas</h3>
+										<div class="box-tools pull-right">
+											<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+											<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+										</div>
+									</div>
+									<div class="box-body">
+										<div class="callout callout-danger">
+											<h4><i class="icon fa fa-ban"></i> Ops!</h4>
+											<p>Você não possui permissão para visualizar este programa</p>
+										</div>
+									</div>
+								</div>
+							</c:if>
+							<c:if test="${permissao != 1 }">
+								<div class="box">
+									<form id="form-cor" method="post" action='<c:url value="/fabricante/gravar"/>'>
+										<div class="box-header with-border">
+											<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+												<label for="campoCodigo">Codigo</label>
+												<input type="text" class="form-control" id="campoCodigo" name="fabricante.codigo" disabled>
+											</div>
+										</div>
+										<div class="box-body">
+											<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+												<label for="campoDescricao">Descricao*</label>
+												<input type="text" class="form-control" id="campoDescricao" name="fabricante.descricao" required>
+											</div>
+										</div>
+										<div class="box-footer">
+											<div class="col-xs-12 col-sm-10 col-md-8 col-lg-8">
+												<button id="submit-fabricante" type="button" class="btn btn-success btn-flat" data-dimiss="modal">Salvar</button>
+												<button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Voltar</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</c:if>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> 
 </div>
 
 <jsp:include page="../defaults/footer.jsp"></jsp:include>

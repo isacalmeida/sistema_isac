@@ -19,13 +19,13 @@
 	<div class="content-wrapper">
 		<section class="content-header">
 			<h1>
-				Produto
-				<small>Cadastro de produtos</small>
+				Fabricante
+				<small>Cadastro de fabricantes dos produtos</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="<c:url value='/menu' />" ><i class="fa fa-dashboard"></i> Início</a></li>
-				<li><a href="<c:url value='/menu/cadastros' />" >Cadastros</a></li>
-				<li class="active">Produto</li>
+				<li><a href="<c:url value='/menu/configuracoes' />" >Configurações</a></li>
+				<li class="active">Fabricante</li>
 			</ol>
 		</section>
 		<section class="content">
@@ -58,7 +58,7 @@
 									<c:when test="${acao == 2 }">
 										<div class="callout callout-danger">
 											<h4><i class="icon fa fa-ban"></i> Ops!</h4>
-											<p>Produto com relacionamentos ativos.</p>
+											<p>Fabricante com relacionamentos ativos.</p>
 										</div>
 									</c:when>
 								</c:choose>
@@ -100,9 +100,9 @@
 					<div class="box-header with-border">
 						<div class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
 							<c:if test="${permissao != 2 }">
-								<a href="<c:url value='/produto/novo'/>" ><button type="button" class="btn btn-primary btn-flat">Novo</button></a>
+								<a href="<c:url value='/fabricante/novo'/>" ><button type="button" class="btn btn-primary btn-flat">Novo</button></a>
 							</c:if>
-							<a href="<c:url value='/menu/cadastros' />"><button type="button" class="btn btn-info btn-flat">Voltar</button></a>
+							<a href="<c:url value='/menu/configuracoes' />"><button type="button" class="btn btn-info btn-flat">Voltar</button></a>
 						</div>
 					</div>
 					<div class="box-body">
@@ -111,31 +111,16 @@
 								<tr>
 									<th>#</th>
 									<th>Descrição</th>
-									<th>Departamento</th>
-									<th>Fabricante</th>
-									<th>Fornecedor</th>
 									<th>Data de Cadastro</th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="p" items="${produtos }">
-									<c:if test="${!empty(p)}" >
+								<c:forEach var="f" items="${fabricantes }">
+									<c:if test="${!empty(f)}" >
 										<tr>
-											<td>${p.codigo }</td>
-											<td><a href="<c:url value='/produto/${p.codigo }/editar' />" >${p.descricao }</a></td>
-											<td>${p.departamento.descricao }</td>
-											<td>${p.fabricante.descricao }</td>
-											<td>
-											<c:choose>
-												<c:when test="${p.fornecedor.nome != null }">
-													${p.fornecedor.nome }
-												</c:when>
-												<c:when test="${p.fornecedor.razao != null }">
-													${p.fornecedor.razao }
-												</c:when>
-											</c:choose>
-											</td>
-											<td>${p.criacao }</td>
+											<td>${f.codigo }</td>
+											<td><a href="<c:url value='/fabricante/${f.codigo }/editar' />" >${f.descricao }</a></td>
+											<td>${f.criacao }</td>
 										</tr>
 									</c:if>
 								</c:forEach>
@@ -149,7 +134,7 @@
 
 	<jsp:include page="../defaults/copyright.jsp"></jsp:include>
 </div>
-
+ 
 <jsp:include page="../defaults/footer.jsp"></jsp:include>
 
 </body>

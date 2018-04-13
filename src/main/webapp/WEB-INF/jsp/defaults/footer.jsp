@@ -441,27 +441,52 @@ $('input[name=\'q\']').autocomplete({
 <script type="text/javascript">
 $('#submit-cor').on('click', function(e) {
 	$.ajax({
-	    type : 'POST',
-	    contentType : 'application/json',
-	    url : '${pageContext.request.contextPath}/cor/gravar',
-	    dataType: 'json',
-	    //data: JSON.stringify($.extend(cor, produto)),
-	    data: JSON.stringify({
+		type : 'POST',
+		contentType : 'application/json',
+		url : '${pageContext.request.contextPath}/cor/gravar',
+		dataType: 'json',
+		data: JSON.stringify({
 			"cor" : {
 				"codigo" : ( $('input[name=\'cor.codigo\']').val() != "" ? $('input[name=\'cor.codigo\']').val() : null ),
 				"descricao" : $('input[name=\'cor.descricao\']').val()
 			}
 		}),
-	    success : function(json) {
-	    	toastSuccess();
-	    	$('select[name=\'produto.cor.codigo\']').append('<option value="'+ json.codigo +'">'+ json.descricao +'</option>');
-	    },
-	    error : function(txt) {
-	    	toastDanger();
-	    }
+		success : function(json) {
+			toastSuccess();
+			$('select[name=\'produto.cor.codigo\']').append('<option value="'+ json.codigo +'">'+ json.descricao +'</option>');
+		},
+		error : function(txt) {
+			toastDanger();
+		}
 	});
 	$("#modalCadCor").modal('toggle');
 	$('input[name=\'cor.descricao\']').val("");
+});
+</script>
+
+<script type="text/javascript">
+$('#submit-fabricante').on('click', function(e) {
+	$.ajax({
+		type : 'POST',
+		contentType : 'application/json',
+		url : '${pageContext.request.contextPath}/fabricante/gravar',
+		dataType: 'json',
+		data: JSON.stringify({
+			"cor" : {
+				"codigo" : ( $('input[name=\'fabricante.codigo\']').val() != "" ? $('input[name=\'fabricante.codigo\']').val() : null ),
+				"descricao" : $('input[name=\'fabricante.descricao\']').val()
+			}
+		}),
+		success : function(json) {
+			toastSuccess();
+			$('select[name=\'produto.fabricante.codigo\']').append('<option value="'+ json.codigo +'">'+ json.descricao +'</option>');
+		},
+		error : function(txt) {
+			toastDanger();
+		}
+	});
+	$("#modalCadFabricante").modal('toggle');
+	$('input[name=\'fabricante.descricao\']').val("");
 });
 </script>
 

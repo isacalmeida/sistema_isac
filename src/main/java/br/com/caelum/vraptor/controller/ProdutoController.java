@@ -15,12 +15,14 @@ import br.edu.unoesc.beans.LicencaBean;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.CorDAO;
 import br.edu.unoesc.dao.DepartamentoDAO;
+import br.edu.unoesc.dao.FabricanteDAO;
 import br.edu.unoesc.dao.PessoaDAO;
 import br.edu.unoesc.dao.ProdutoDAO;
 import br.edu.unoesc.exception.DAOException;
 import br.edu.unoesc.model.pessoa.Pessoa;
 import br.edu.unoesc.model.produto.Cor;
 import br.edu.unoesc.model.produto.Departamento;
+import br.edu.unoesc.model.produto.Fabricante;
 import br.edu.unoesc.model.produto.Produto;
 
 @Path("/produto")
@@ -38,6 +40,9 @@ public class ProdutoController {
 	
 	@Inject
 	private DepartamentoDAO dpdao;
+	
+	@Inject
+	private FabricanteDAO fdao;
 	
 	@Inject
 	private PessoaDAO pedao;
@@ -98,6 +103,7 @@ public class ProdutoController {
 			
 			List<Cor> cores = crdao.listar(Cor.class, "TODAS_CORES");
 			List<Departamento> departamentos = dpdao.listar(Departamento.class, "TODOS_DEPARTAMENTOS");
+			List<Fabricante> fabricantes = fdao.listar(Fabricante.class, "TODOS_FABRICANTES");
 			List<Pessoa> fornecedores = pedao.listar(Pessoa.class, "PESSOA_FORNECEDOR");
 			
 			if(prod != null) {
@@ -105,6 +111,7 @@ public class ProdutoController {
 			}
 			result.include("cores", cores);
 			result.include("departamentos", departamentos);
+			result.include("fabricantes", fabricantes);
 			result.include("fornecedores", fornecedores);
 		}
 	}

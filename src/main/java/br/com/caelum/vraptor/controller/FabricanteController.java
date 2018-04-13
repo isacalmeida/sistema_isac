@@ -15,21 +15,21 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.view.Results;
 import br.edu.unoesc.beans.LicencaBean;
 import br.edu.unoesc.beans.UsuarioBean;
-import br.edu.unoesc.dao.CorDAO;
+import br.edu.unoesc.dao.FabricanteDAO;
 import br.edu.unoesc.dao.ProdutoDAO;
 import br.edu.unoesc.exception.DAOException;
-import br.edu.unoesc.model.produto.Cor;
+import br.edu.unoesc.model.produto.Fabricante;
 import br.edu.unoesc.model.produto.Produto;
 
-@Path("/cor")
+@Path("/fabricante")
 @Controller
-public class CorController {
+public class FabricanteController {
 	
 	@Inject
 	private Result result;
 	
 	@Inject
-	private CorDAO crdao;
+	private FabricanteDAO fdao;
 	
 	@Inject
 	private ProdutoDAO prdao;
@@ -54,16 +54,16 @@ public class CorController {
 			result.include("versao_sistema", licencaSessao.getLicenca().getVersao());
 			result.include("licenciamento", licencaSessao.getLicenca().getLicenciamento());
 			
-			if(usuarioSessao.getPermissao("Cor", 1) == false) {
+			if(usuarioSessao.getPermissao("Fabricante", 1) == false) {
 				result.include("permissao", 1);
 			}
 			else {
-				if(usuarioSessao.getPermissao("Cor", 2) == false) {
+				if(usuarioSessao.getPermissao("Fabricante", 2) == false) {
 					result.include("permissao", 2);
 				}
-				List<Cor> cores = crdao.listar(Cor.class, "TODAS_CORES");
+				List<Fabricante> fabricantes = fdao.listar(Fabricante.class, "TODOS_FABRICANTES");
 				
-				result.include("cores", cores);
+				result.include("fabricantes", fabricantes);
 				result.include("var", var);
 				result.include("acao", acao);
 			}
@@ -84,14 +84,14 @@ public class CorController {
 			result.include("versao_sistema", licencaSessao.getLicenca().getVersao());
 			result.include("licenciamento", licencaSessao.getLicenca().getLicenciamento());
 			
-			if(usuarioSessao.getPermissao("Cor", 2) == false) {
+			if(usuarioSessao.getPermissao("Fabricante", 2) == false) {
 				result.include("permissao", 1);
 			}
 		}
 	}
 	
 	@Post("/salvar")
-	public void salvar(Cor cor, Integer submit) throws DAOException {
+	public void salvar(Fabricante fabricante, Integer submit) throws DAOException {
 		if(usuarioSessao.equals(null))
 			result.redirectTo(LoginController.class).index(null);
 		if(usuarioSessao.isLogado() == false)
@@ -99,30 +99,30 @@ public class CorController {
 		else {
 			result.include("usuario_nome", usuarioSessao.getNome());
 			
-			if(cor.getCodigo() == null) {
-				cor.setCriacao(new DateTime());
-				cor.setAlteracao(new DateTime());
+			if(fabricante.getCodigo() == null) {
+				fabricante.setCriacao(new DateTime());
+				fabricante.setAlteracao(new DateTime());
 				
-				result.redirectTo(this).index(crdao.salvar(cor),0);
+				result.redirectTo(this).index(fdao.salvar(fabricante),0);
 			}
 			else {
-				List<Cor> cores = crdao.buscar(Cor.class, cor.getCodigo(), "COR_POR_CODIGO");
-				Cor cor1 = cores.get(0);
+				List<Fabricante> fabricantes = fdao.buscar(Fabricante.class, fabricante.getCodigo(), "FABRICANTE_POR_CODIGO");
+				Fabricante fabri = fabricantes.get(0);
 				
-				cor.setCriacao(cor1.getCriacao());
-				cor.setAlteracao(new DateTime());
+				fabricante.setCriacao(fabri.getCriacao());
+				fabricante.setAlteracao(new DateTime());
 				
 				if(submit == 1)
-					result.redirectTo(this).index(crdao.salvar(cor),1);
+					result.redirectTo(this).index(fdao.salvar(fabricante),1);
 				else if(submit == 2) 
-					result.redirectTo(this).editar(cor.getCodigo(),crdao.salvar(cor));
+					result.redirectTo(this).editar(fabricante.getCodigo(),fdao.salvar(fabricante));
 			}
 		}
 	}
 	
 	@Consumes(value="application/json")
 	@Post("/gravar")
-	public void gravar(Cor cor) throws DAOException {
+	public void gravar(Fabricante fabricante) throws DAOException {
 		if(usuarioSessao.equals(null))
 			result.redirectTo(LoginController.class).index(null);
 		if(usuarioSessao.isLogado() == false)
@@ -130,18 +130,18 @@ public class CorController {
 		else {
 			result.include("usuario_nome", usuarioSessao.getNome());
 			
-			if(cor.getCodigo() == null) {
-				cor.setCriacao(new DateTime());
-				cor.setAlteracao(new DateTime());
+			if(fabricante.getCodigo() == null) {
+				fabricante.setCriacao(new DateTime());
+				fabricante.setAlteracao(new DateTime());
 				
-				Integer var = crdao.salvar(cor);
+				Integer var = fdao.salvar(fabricante);
 				if(var == 0) {
 					result.use(Results.nothing());
 				}
 				else {
-					Long corResult = crdao.buscar(Cor.class, "ULTIMA_COR_INCLUIDA");
-					cor.setCodigo(corResult);
-					result.use(Results.json()).withoutRoot().from(cor).serialize();
+					Long fabResult = fdao.buscar(Fabricante.class, "ULTIMO_FABRICANTE_INCLUIDO");
+					fabricante.setCodigo(fabResult);
+					result.use(Results.json()).withoutRoot().from(fabricante).serialize();
 				}
 			}
 		}
@@ -161,17 +161,17 @@ public class CorController {
 			result.include("versao_sistema", licencaSessao.getLicenca().getVersao());
 			result.include("licenciamento", licencaSessao.getLicenca().getLicenciamento());
 			
-			if(usuarioSessao.getPermissao("Cor", 3) == false) {
+			if(usuarioSessao.getPermissao("Fabricante", 3) == false) {
 				result.include("editar", 1);
 			}
-			if(usuarioSessao.getPermissao("Cor", 4) == false) {
+			if(usuarioSessao.getPermissao("Fabricante", 4) == false) {
 				result.include("excluir", 1);
 			}
 			
-			List<Cor> cor = crdao.buscar(Cor.class,cod,"COR_POR_CODIGO");
+			List<Fabricante> fabricante = fdao.buscar(Fabricante.class,cod,"FABRICANTE_POR_CODIGO");
 			
 			result.include("var", var);
-			result.include("cor", cor.get(0));
+			result.include("fabricante", fabricante.get(0));
 		}
 	}
 	
@@ -184,24 +184,22 @@ public class CorController {
 		else {
 			result.include("usuario_nome", usuarioSessao.getNome());
 			
-			if(usuarioSessao.getPermissao("Cor", 4) == false) {
+			if(usuarioSessao.getPermissao("Fabricante", 4) == false) {
 				result.redirectTo(this).index(1,2);
 			}
 			else {
 				List<Produto> produtos = prdao.listar(Produto.class, "TODOS_PRODUTOS");
-				Cor cor = null;
+				Fabricante fabricante = null;
 				
 				for (Produto produto : produtos) {
-					for(Cor coraux : produto.getCor()) {
-						if(coraux.getCodigo() == cod) {
-							cor = coraux;
-						}
+					if(produto.getFabricante().getCodigo() == cod) {
+						fabricante = produto.getFabricante();
 					}
 				}
 				
-				if(cor == null){
-					cor = crdao.buscar(Cor.class, cod);
-					result.redirectTo(this).index(crdao.excluir(cor),2);
+				if(fabricante == null){
+					fabricante = fdao.buscar(Fabricante.class, cod);
+					result.redirectTo(this).index(fdao.excluir(fabricante),2);
 				}
 				else {
 					result.redirectTo(this).index(0,2);

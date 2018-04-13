@@ -38,6 +38,10 @@ public class Produto implements MinhaEntidade{
 	
 	private String imagem;
 	
+	@OneToOne(targetEntity = Fabricante.class)
+	@JoinColumn(name="codigo_fabricante", foreignKey=@ForeignKey(name="FK_produto_fabricante"))
+	private Fabricante fabricante;
+	
 	@OneToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name="codigo_pessoa", foreignKey=@ForeignKey(name="FK_produto_pessoa"))
 	private Pessoa fornecedor;
@@ -85,6 +89,14 @@ public class Produto implements MinhaEntidade{
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	
+	public Fabricante getFabricante() {
+		return fabricante;
+	}
+
+	public void setFabricante(Fabricante fabricante) {
+		this.fabricante = fabricante;
 	}
 
 	public Pessoa getFornecedor() {
@@ -145,8 +157,9 @@ public class Produto implements MinhaEntidade{
 
 	@Override
 	public String toString() {
-		return "Produto [codigo=" + codigo + ", descricao=" + descricao + ", imagem=" + imagem + ", fornecedor="
-				+ fornecedor + ", departamento=" + departamento + ", cor=" + cor + ", codigo_barras=" + codigo_barras
-				+ ", ativo=" + ativo + ", criacao=" + criacao + ", alteracao=" + alteracao + "]";
+		return "Produto [codigo=" + codigo + ", descricao=" + descricao + ", imagem=" + imagem + ", fabricante="
+				+ fabricante + ", fornecedor=" + fornecedor + ", departamento=" + departamento + ", cor=" + cor
+				+ ", codigo_barras=" + codigo_barras + ", ativo=" + ativo + ", criacao=" + criacao + ", alteracao="
+				+ alteracao + "]";
 	}
 }

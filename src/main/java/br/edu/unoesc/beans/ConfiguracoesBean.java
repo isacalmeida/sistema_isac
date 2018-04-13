@@ -148,6 +148,15 @@ public class ConfiguracoesBean implements Serializable {
 		prog9.setAtivo(true);
 		programas.add(prog9);
 		
+		Programas prog10 = new Programas();
+		prog10.setDescricao("Fabricante");
+		prog10.setEndereco("/fabricante");
+		prog10.setGrupo(1L);
+		prog10.setCriacao(new DateTime());
+		prog10.setAlteracao(new DateTime());
+		prog10.setAtivo(true);
+		programas.add(prog10);
+		
 		PerfilAcesso perfil = new PerfilAcesso();
 		perfil.setCodigo(1L);
 		perfil.setDescricao("Administrador");
@@ -236,6 +245,15 @@ public class ConfiguracoesBean implements Serializable {
 		acesso9.setRemover(true);
 		acesso9.setPerfilacesso(perfil);
 		acessos.add(acesso9);
+		
+		Acessos acesso10 = new Acessos();
+		acesso10.setPrograma(prog10);
+		acesso10.setVisualizar(true);
+		acesso10.setIncluir(true);
+		acesso10.setAlterar(true);
+		acesso10.setRemover(true);
+		acesso10.setPerfilacesso(perfil);
+		acessos.add(acesso10);
 		
 		perfil.setAcessos(acessos);
 		

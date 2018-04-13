@@ -103,6 +103,12 @@
 									Departamento
 								</a>
 							</li>
+							<li>
+								<a href="<c:url value='/fabricante' />">
+									<i class="fa fa-industry"></i>
+									Fabricante
+								</a>
+							</li>
 						</ul>
 					</li>
 					<li class="treeview">

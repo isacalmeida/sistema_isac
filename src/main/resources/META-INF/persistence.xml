@@ -21,7 +21,7 @@
 		<class>br.edu.unoesc.model.produto.Produto</class>
 		<class>br.edu.unoesc.model.produto.Departamento</class>
 		<class>br.edu.unoesc.model.produto.Cor</class>
-		
+		<class>br.edu.unoesc.model.produto.Fabricante</class>
 		
 		
 		<properties>

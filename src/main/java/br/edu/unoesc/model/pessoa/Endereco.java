@@ -7,6 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 
 import br.edu.unoesc.model.MinhaEntidade;
 
@@ -27,15 +28,9 @@ public class Endereco implements MinhaEntidade{
 	
 	private Character tipo_moradia;
 	
-	private String cep;
-	
-	private String cidade;
-	
-	private String bairro;
-	
-	private String uf;
-	
-	private String logradouro;
+	@OneToOne(targetEntity = Cep.class)
+	@JoinColumn(name="codigo_cep", foreignKey=@ForeignKey(name="FK_endereco_cep"))
+	private Cep cep;
 	
 	private String numero;
 	
@@ -79,44 +74,12 @@ public class Endereco implements MinhaEntidade{
 		this.tipo_moradia = tipo_moradia;
 	}
 
-	public String getCep() {
+	public Cep getCep() {
 		return cep;
 	}
 
-	public void setCep(String cep) {
+	public void setCep(Cep cep) {
 		this.cep = cep;
-	}
-
-	public String getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
-
-	public String getBairro() {
-		return bairro;
-	}
-
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
-	}
-
-	public String getUf() {
-		return uf;
-	}
-
-	public void setUf(String uf) {
-		this.uf = uf;
-	}
-
-	public String getLogradouro() {
-		return logradouro;
-	}
-
-	public void setLogradouro(String logradouro) {
-		this.logradouro = logradouro;
 	}
 
 	public String getNumero() {
@@ -145,8 +108,8 @@ public class Endereco implements MinhaEntidade{
 
 	@Override
 	public String toString() {
-		return "Endereco [codigo=" + codigo + ", tipo_endereco=" + tipo_endereco + ", tipo_moradia=" + tipo_moradia
-				+ ", cep=" + cep + ", cidade=" + cidade + ", bairro=" + bairro + ", uf=" + uf + ", logradouro="
-				+ logradouro + ", numero=" + numero + ", complemento=" + complemento + ", principal=" + principal + "]";
+		return "Endereco [codigo=" + codigo + ", pessoa=" + pessoa + ", tipo_endereco=" + tipo_endereco
+				+ ", tipo_moradia=" + tipo_moradia + ", cep=" + cep + ", numero=" + numero + ", complemento="
+				+ complemento + ", principal=" + principal + "]";
 	}
 }

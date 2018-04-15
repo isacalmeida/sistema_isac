@@ -129,7 +129,7 @@ public class FabricanteController {
 			result.redirectTo(LoginController.class).index(null);
 		else {
 			result.include("usuario_nome", usuarioSessao.getNome());
-			
+			System.out.println("TEste Fabricante: "+fabricante);
 			if(fabricante.getCodigo() == null) {
 				fabricante.setCriacao(new DateTime());
 				fabricante.setAlteracao(new DateTime());

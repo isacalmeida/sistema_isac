@@ -17,9 +17,11 @@ import br.edu.unoesc.beans.LicencaBean;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.CepDAO;
 import br.edu.unoesc.dao.CidadeDAO;
+import br.edu.unoesc.dao.EstadoDAO;
 import br.edu.unoesc.exception.DAOException;
 import br.edu.unoesc.model.pessoa.Cep;
 import br.edu.unoesc.model.pessoa.Cidade;
+import br.edu.unoesc.model.pessoa.Estado;
 
 @Path("/cidade")
 @Controller
@@ -33,6 +35,9 @@ public class CidadeController {
 	
 	@Inject
 	private CidadeDAO cidao;
+	
+	@Inject 
+	private EstadoDAO esdao;
 	
 	@Inject
 	private LicencaBean licencaSessao;
@@ -87,8 +92,13 @@ public class CidadeController {
 			if(usuarioSessao.getPermissao("Cidade", 2) == false) {
 				result.include("permissao", 1);
 			}
+			
+			List<Estado> estados = esdao.listar(Estado.class, "TODOS_ESTADOS");
+			
+			result.include("estados", estados);
 		}
 	}
+	
 	
 	@Post("/salvar")
 	public void salvar(Cidade cidade, Integer submit) throws DAOException {
@@ -169,9 +179,11 @@ public class CidadeController {
 			}
 			
 			List<Cidade> cidade = cidao.buscar(Cidade.class,cod,"CIDADE_POR_CODIGO");
+			List<Estado> estados = esdao.listar(Estado.class,  "TODOS_ESTADOS");
 			
 			result.include("var", var);
 			result.include("cidade", cidade.get(0));
+			result.include("estados", estados);
 		}
 	}
 	

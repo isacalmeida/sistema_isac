@@ -82,6 +82,24 @@
 									Usuário
 								</a>
 							</li>
+							<li>
+								<a href="<c:url value='/estado' />">
+									<i class="fa fa-users"></i>
+									Estado
+								</a>
+							</li>
+							<li>
+								<a href="<c:url value='/cidade' />">
+									<i class="fa fa-users"></i>
+									Cidade
+								</a>
+							</li>
+							<li>
+								<a href="<c:url value='/cep' />">
+									<i class="fa fa-users"></i>
+									Cep
+								</a>
+							</li>
 						</ul>
 					</li>
 					<li class="treeview">

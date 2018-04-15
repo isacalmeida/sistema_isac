@@ -12,17 +12,20 @@
 <body class="hold-transition skin-blue sidebar-mini">
 
 <div class="wrapper">
+	<jsp:include page="../defaults/main.jsp"></jsp:include>
+	
+	<jsp:include page="../defaults/menu.jsp"></jsp:include>
 
-	<div class="content-wrapper" style="margin: 0;">
+	<div class="content-wrapper">
 		<section class="content-header">
 			<h1>
-				Cor
-				<small>Cadastro de cores dos produtos</small>
+				Cep
+				<small>Cadastro de cep dos endereços</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="<c:url value='/menu' />" ><i class="fa fa-dashboard"></i> Início</a></li>
 				<li><a href="<c:url value='/menu/configuracoes' />" >Configurações</a></li>
-				<li class="active">Cor</li>
+				<li class="active">Cep</li>
 			</ol>
 		</section>
 		<section class="content">
@@ -55,7 +58,7 @@
 									<c:when test="${acao == 2 }">
 										<div class="callout callout-danger">
 											<h4><i class="icon fa fa-ban"></i> Ops!</h4>
-											<p>Cor com relacionamentos ativos.</p>
+											<p>Cep com relacionamentos ativos.</p>
 										</div>
 									</c:when>
 								</c:choose>
@@ -97,7 +100,7 @@
 					<div class="box-header with-border">
 						<div class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
 							<c:if test="${permissao != 2 }">
-								<a href="<c:url value='/modal/cor/novo'/>" ><button type="button" class="btn btn-primary btn-flat">Novo</button></a>
+								<a href="<c:url value='/cep/novo'/>" ><button type="button" class="btn btn-primary btn-flat">Novo</button></a>
 							</c:if>
 							<a href="<c:url value='/menu/configuracoes' />"><button type="button" class="btn btn-info btn-flat">Voltar</button></a>
 						</div>
@@ -106,17 +109,21 @@
 						<table id="tabela_principal" class="table table-bordered table-hover">
 							<thead>
 								<tr>
-									<th>#</th>
-									<th>Descrição</th>
+									<th>Cep</th>
+									<th>Logradouro</th>
+									<th>Bairro</th>
+									<th>Cidade</th>
 									<th>Data de Cadastro</th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="c" items="${cores }">
+								<c:forEach var="c" items="${ceps }">
 									<c:if test="${!empty(c)}" >
 										<tr>
 											<td>${c.codigo }</td>
-											<td><a href="<c:url value='/cor/${c.codigo }/editar' />" >${c.descricao }</a></td>
+											<td><a href="<c:url value='/cep/${c.codigo }/editar' />" >${c.logradouro }</a></td>
+											<td>${c.bairro }</td>
+											<td><c:if test="${c.cidade.codigo != null }" >${c.cidade.descricao }</c:if></td>
 											<td>${c.criacao }</td>
 										</tr>
 									</c:if>
@@ -129,6 +136,7 @@
 		</section>
 	</div>
 
+	<jsp:include page="../defaults/copyright.jsp"></jsp:include>
 </div>
  
 <jsp:include page="../defaults/footer.jsp"></jsp:include>

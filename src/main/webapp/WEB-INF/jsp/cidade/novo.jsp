@@ -12,17 +12,20 @@
 <body class="hold-transition skin-blue sidebar-mini">
 
 <div class="wrapper">
+	<jsp:include page="../defaults/main.jsp"></jsp:include>
+	
+	<jsp:include page="../defaults/menu.jsp"></jsp:include>
 
-	<div class="content-wrapper" style="margin: 0;">
+	<div class="content-wrapper">
 		<section class="content-header">
 			<h1>
-				Cor
-				<small>Cadastro de cores dos produtos</small>
+				Cidade
+				<small>Cadastro de cidade dos endereços</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="<c:url value='/menu' />" ><i class="fa fa-dashboard"></i> Início</a></li>
 				<li><a href="<c:url value='/menu/configuracoes' />" >Configurações</a></li>
-				<li><a href="<c:url value='/cor' />" >Cor</a></li>
+				<li><a href="<c:url value='/cidade' />" >Cidade</a></li>
 				<li class="active">Novo</li>
 			</ol>
 		</section>
@@ -47,7 +50,7 @@
 			</c:if>
 			<c:if test="${permissao != 1 }">
 				<div class="box">
-					<form role="form" method="post" action='<c:url value="/modal/cor/salvar"/>'>
+					<form role="form" method="post" action='<c:url value="/cidade/salvar"/>'>
 						<div class="box-header with-border">
 							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<label for="campoCodigo">Codigo</label>
@@ -56,14 +59,30 @@
 						</div>
 						<div class="box-body">
 							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<label for="campoDescricao">Descricao</label>
-								<input type="text" class="form-control" id="campoDescricao" name="cor.descricao">
+								<label for="campoDescricao">Descrição</label>
+								<input type="text" class="form-control" id="campoDescricao" name="cidade.descricao">
+							</div>
+							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<label for="campoEstado">Estado</label>
+								<div class="input-group">
+									<span class="input-group-btn">
+										<button class="btn btn-default btn-flat" type="button" data-select2-open="campoEstado">
+											<span class="glyphicon glyphicon-search"></span>
+										</button>
+									</span>
+									<select id="campoEstado" class="form-control select2" name="cidade.estado.codigo">
+										<option value="" selected>Selecione</option>
+										<c:forEach var="e" items="${estados }" >
+											<option value="${e.codigo }">${e.descricao } - ${e.sigla }</option>
+										</c:forEach>
+									</select>
+								</div>
 							</div>
 						</div>
 						<div class="box-footer">
 							<div class="col-xs-12 col-sm-10 col-md-8 col-lg-8">
 								<button name="submit" value="1" type="submit" class="btn btn-success btn-flat">Salvar</button>
-								<a href="<c:url value='/modal/cor' />"><button type="button" class="btn btn-default btn-flat">Voltar</button></a>
+								<a href="<c:url value='/cidade' />"><button type="button" class="btn btn-default btn-flat">Voltar</button></a>
 							</div>
 						</div>
 					</form>
@@ -71,11 +90,11 @@
 			</c:if>
 		</section>
 	</div>
-	
+
+	<jsp:include page="../defaults/copyright.jsp"></jsp:include>
 </div>
 
 <jsp:include page="../defaults/footer.jsp"></jsp:include>
 
 </body>
-
 </html>

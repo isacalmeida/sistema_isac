@@ -472,7 +472,7 @@ $('#submit-fabricante').on('click', function(e) {
 		url : '${pageContext.request.contextPath}/fabricante/gravar',
 		dataType: 'json',
 		data: JSON.stringify({
-			"cor" : {
+			"fabricante" : {
 				"codigo" : ( $('input[name=\'fabricante.codigo\']').val() != "" ? $('input[name=\'fabricante.codigo\']').val() : null ),
 				"descricao" : $('input[name=\'fabricante.descricao\']').val()
 			}

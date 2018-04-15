@@ -12,6 +12,9 @@
 		<class>br.edu.unoesc.model.pessoa.Pessoa</class>
 		<class>br.edu.unoesc.model.pessoa.Contato</class>
 		<class>br.edu.unoesc.model.pessoa.Endereco</class>
+		<class>br.edu.unoesc.model.pessoa.Estado</class>
+		<class>br.edu.unoesc.model.pessoa.Cidade</class>
+		<class>br.edu.unoesc.model.pessoa.Cep</class>
 		<class>br.edu.unoesc.model.usuario.Usuario</class>
 		<class>br.edu.unoesc.model.usuario.PerfilAcesso</class>
 		<class>br.edu.unoesc.model.usuario.Acessos</class>

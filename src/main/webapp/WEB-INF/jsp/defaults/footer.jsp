@@ -37,6 +37,40 @@
 <script src="<c:url value='/assets/fastclick/fastclick.js'/>"></script>
 <script src="<c:url value='/assets/defaults/js/adminlte.min.js'/>"></script>
 <script src="<c:url value='/assets/defaults/js/demo.js'/>"></script>
+<script src="<c:url value='/assets/jquery-mask/jquery.mask.min.js'/>"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	var options = {
+		clearIfNotMatch: true,
+		onComplete: function(cep){
+			//alert("TESTE"+ cep);
+			$.ajax({
+				url: 'https://viacep.com.br/ws/'+ cep +'/json',
+				dataType: 'json',
+				success: function(json) {
+					alert("Teste"+ JSON.stringify(json));
+					if(json.erro){
+						$('div[id=\'divCampoCep\']').addClass("has-error");
+					}
+					else{
+						$('div[id=\'divCampoCep\']').removeClass("has-error").addClass("has-success");
+						
+						if(json.complemento != "")
+							$('input[name=\'cep.logradouro\']').val(json.logradouro +" - "+ json.complemento);
+						else
+							$('input[name=\'cep.logradouro\']').val(json.logradouro);
+						
+						$('input[name=\'cep.bairro\']').val(json.bairro);
+						$('input[name=\'cep.ibge\']').val(json.ibge);
+					}
+				}
+			});
+		}
+	};
+	$('input[name=\'cep.codigo\']').mask('00000-000', options);
+});
+</script>
 
 <script>
   $(function () {
@@ -487,6 +521,34 @@ $('#submit-fabricante').on('click', function(e) {
 	});
 	$("#modalCadFabricante").modal('toggle');
 	$('input[name=\'fabricante.descricao\']').val("");
+});
+</script>
+
+<script type="text/javascript">
+$('#submit-cidade').on('click', function(e) {
+	$.ajax({
+		type : 'POST',
+		contentType : 'application/json',
+		url : '${pageContext.request.contextPath}/cidade/gravar',
+		dataType: 'json',
+		data: JSON.stringify({
+			"cidade" : {
+				"codigo" : ( $('input[name=\'cidade.codigo\']').val() != "" ? $('input[name=\'cidade.codigo\']').val() : null ),
+				"descricao" : $('input[name=\'cidade.descricao\']').val(),
+				"estado" : $('select[name=\'cidade.estado.codigo\']').val()
+			}
+		}),
+		success : function(json) {
+			toastSuccess();
+			$('select[name=\'cep.cidade.codigo\']').append('<option value="'+ json.codigo +'">'+ json.descricao +'</option>');
+		},
+		error : function(txt) {
+			toastDanger();
+		}
+	});
+	alert("ESTADO: "+ $('select[name=\'cidade.estado.codigo\']').val());
+	$("#modalCadCidade").modal('toggle');
+	$('input[name=\'cidade.descricao\']').val("");
 });
 </script>
 

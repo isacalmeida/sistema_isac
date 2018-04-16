@@ -62,6 +62,10 @@
 								<label for="campoDescricao">Descrição</label>
 								<input type="text" class="form-control" id="campoDescricao" name="estado.descricao">
 							</div>
+							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<label for="campoSigla">Sigla</label>
+								<input type="text" class="form-control" id="campoDescricao" name="estado.sigla">
+							</div>
 						</div>
 						<div class="box-footer">
 							<div class="col-xs-12 col-sm-10 col-md-8 col-lg-8">

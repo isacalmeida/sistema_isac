@@ -19,8 +19,8 @@
 	<div class="content-wrapper">
 		<section class="content-header">
 			<h1>
-				Cidade
-				<small>Cadastro de cidade dos endereços</small>
+				Cep
+				<small>Cadastro de cep dos endereços</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="<c:url value='/menu' />" ><i class="fa fa-dashboard"></i> Início</a></li>
@@ -52,7 +52,7 @@
 				<div class="box">
 					<form role="form" method="post" action='<c:url value="/cep/salvar"/>'>
 						<div class="box-header with-border">
-							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div id="divCampoCep" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<label for="campoCep">Cep</label>
 								<input type="text" class="form-control" id="campoCep" name="cep.codigo">
 							</div>
@@ -70,23 +70,27 @@
 								<label for="campoCidade">Cidade</label>
 								<div class="input-group">
 									<span class="input-group-btn">
-										<button class="btn btn-default btn-flat" type="button" data-select2-open="campoEstado">
+										<button id="btnPesqCidade" class="btn btn-default btn-flat" type="button" data-toggle="modal" data-target="#modalPesqCidade">
 											<span class="glyphicon glyphicon-search"></span>
 										</button>
 									</span>
-									<select id="campoEstado" class="form-control select2" name="cidade.estado.codigo">
-										<option value="" selected>Selecione</option>
-										<c:forEach var="e" items="${estados }" >
-											<option value="${e.codigo }">${e.descricao } - ${e.sigla }</option>
-										</c:forEach>
-									</select>
+									<input id="campoCidade" class="form-control" name="cep.cidade.codigo" autocomplete="no">
+									<span class="input-group-btn">
+										<button id="btnCadCidade" class="btn btn-default btn-flat" type="button" data-toggle="modal" data-target="#modalCadCidade">
+											<span class="glyphicon glyphicon-plus"></span>
+										</button>
+									</span>
 								</div>
+							</div>
+							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<label for="campoIbge">IBGE</label>
+								<input type="text" class="form-control" id="campoIbge" name="cep.ibge">
 							</div>
 						</div>
 						<div class="box-footer">
 							<div class="col-xs-12 col-sm-10 col-md-8 col-lg-8">
 								<button name="submit" value="1" type="submit" class="btn btn-success btn-flat">Salvar</button>
-								<a href="<c:url value='/cidade' />"><button type="button" class="btn btn-default btn-flat">Voltar</button></a>
+								<a href="<c:url value='/cep' />"><button type="button" class="btn btn-default btn-flat">Voltar</button></a>
 							</div>
 						</div>
 					</form>
@@ -97,6 +101,8 @@
 
 	<jsp:include page="../defaults/copyright.jsp"></jsp:include>
 </div>
+
+<jsp:include page="../modal/cidade.jsp"></jsp:include>
 
 <jsp:include page="../defaults/footer.jsp"></jsp:include>
 

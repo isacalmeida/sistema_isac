@@ -45,13 +45,13 @@
 										<div class="box-header with-border">
 											<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 												<label for="campoCodigo">Codigo</label>
-												<input type="text" class="form-control" id="campoCodigo" name="fabricante.codigo" disabled>
+												<input type="text" class="form-control" id="campoCodigo" name="fabricante.codigo" autocomplete="no" disabled>
 											</div>
 										</div>
 										<div class="box-body">
 											<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 												<label for="campoDescricao">Descricao*</label>
-												<input type="text" class="form-control" id="campoDescricao" name="fabricante.descricao" required>
+												<input type="text" class="form-control" id="campoDescricao" name="fabricante.descricao" autocomplete="no" required>
 											</div>
 										</div>
 										<div class="box-footer">

@@ -19,12 +19,6 @@
 								Cidade
 								<small>Cadastro de cidade dos endereços</small>
 							</h1>
-							<ol class="breadcrumb">
-								<li><a href="<c:url value='/menu' />" ><i class="fa fa-dashboard"></i> Início</a></li>
-								<li><a href="<c:url value='/menu/configuracoes' />" >Configurações</a></li>
-								<li><a href="<c:url value='/cidade' />" >Cidade</a></li>
-								<li class="active">Novo</li>
-							</ol>
 						</section>
 						<section class="content">
 							<c:if test="${permissao == 1 }">
@@ -51,35 +45,36 @@
 										<div class="box-header with-border">
 											<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 												<label for="campoCodigo">Codigo</label>
-												<input type="text" class="form-control" id="campoCodigo" name="cidade.codigo" disabled>
+												<input type="text" class="form-control" id="campoCodigo" name="cidade.codigo" autocomplete="no" disabled>
 											</div>
 										</div>
 										<div class="box-body">
 											<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 												<label for="campoDescricao">Descrição</label>
-												<input type="text" class="form-control" id="campoDescricao" name="cidade.descricao">
+												<input type="text" class="form-control" id="campoDescricao" name="cidade.descricao" autocomplete="no" required>
 											</div>
 											<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 												<label for="campoEstado">Estado</label>
 												<div class="input-group">
 													<span class="input-group-btn">
-														<button class="btn btn-default btn-flat" type="button" data-select2-open="campoEstado">
+														<button id="btnPesqEstado" class="btn btn-default btn-flat" type="button" data-toggle="modal" data-target="#modalPesqEstado">
 															<span class="glyphicon glyphicon-search"></span>
 														</button>
 													</span>
-													<select id="campoEstado" class="form-control select2" name="cidade.estado.codigo">
-														<option value="" selected>Selecione</option>
-														<c:forEach var="e" items="${estados }" >
-															<option value="${e.codigo }">${e.descricao } - ${e.sigla }</option>
-														</c:forEach>
-													</select>
+													<input id="campoEstado" class="form-control" name="cidade.estado.codigo" autocomplete="no" type="hidden">
+													<input type="text" class="form-control" name="cidade.estado.descricao" autocomplete="no" disabled>
+													<span class="input-group-btn">
+														<button id="btnCadEstado" class="btn btn-default btn-flat" type="button" data-toggle="modal" data-target="#modalCadEstado">
+															<span class="glyphicon glyphicon-plus"></span>
+														</button>
+													</span>
 												</div>
 											</div>
 										</div>
 										<div class="box-footer">
 											<div class="col-xs-12 col-sm-10 col-md-8 col-lg-8">
-												<button name="submit" value="1" type="submit" class="btn btn-success btn-flat">Salvar</button>
-												<a href="<c:url value='/cidade' />"><button type="button" class="btn btn-default btn-flat">Voltar</button></a>
+												<button id="submit-cidade" type="button" class="btn btn-success btn-flat" data-dimiss="modal">Salvar</button>
+												<button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Voltar</button>
 											</div>
 										</div>
 									</form>
@@ -92,6 +87,41 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+$('#submit-cidade').on('click', function(e) {
+	$.ajax({
+		type : 'POST',
+		contentType : 'application/json',
+		url : '${pageContext.request.contextPath}/cidade/gravar',
+		dataType: 'json',
+		data: JSON.stringify({
+			"cidade" : {
+				"codigo" : ( $('input[name=\'cidade.codigo\']').val() != "" ? $('input[name=\'cidade.codigo\']').val() : null ),
+				"descricao" : $('input[name=\'cidade.descricao\']').val(),
+				"estado" : {
+					"codigo" : $('input[name=\'cidade.estado.codigo\']').val()
+				}
+			}
+		}),
+		success : function(json) {
+			toastSuccess();
+			$('input[name*=\'cidade.codigo\']').val(json.codigo);
+			$('input[name*=\'cidade.descricao\']').val(json.descricao + " - " + json.estado.sigla);
+			$('input[name=\'cidade.codigo\']').val("");
+			$('input[name=\'cidade.descricao\']').val("");
+			$("#modalCadCidade").modal('toggle');
+		},
+		error : function(txt) {
+			toastDanger();
+		}
+	});
+});
+</script>
+
+
+
+<jsp:include page="../modal/estado.jsp"></jsp:include>
 
 </body>
 </html>

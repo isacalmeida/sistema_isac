@@ -16,10 +16,14 @@ import br.com.caelum.vraptor.view.Results;
 import br.edu.unoesc.beans.LicencaBean;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.CepDAO;
+import br.edu.unoesc.dao.CidadeDAO;
 import br.edu.unoesc.dao.EnderecoDAO;
+import br.edu.unoesc.dao.EstadoDAO;
 import br.edu.unoesc.exception.DAOException;
 import br.edu.unoesc.model.pessoa.Cep;
+import br.edu.unoesc.model.pessoa.Cidade;
 import br.edu.unoesc.model.pessoa.Endereco;
+import br.edu.unoesc.model.pessoa.Estado;
 
 @Path("/cep")
 @Controller
@@ -30,6 +34,12 @@ public class CepController {
 	
 	@Inject
 	private CepDAO cedao;
+	
+	@Inject
+	private CidadeDAO cidao;
+	
+	@Inject
+	private EstadoDAO esdao;
 	
 	@Inject
 	private EnderecoDAO endao;
@@ -87,6 +97,12 @@ public class CepController {
 			if(usuarioSessao.getPermissao("Cep", 2) == false) {
 				result.include("permissao", 1);
 			}
+			
+			List<Cidade> cidades = cidao.listar(Cidade.class, "TODAS_CIDADES");
+			List<Estado> estados = esdao.listar(Estado.class, "TODOS_ESTADOS");
+			
+			result.include("cidades", cidades);
+			result.include("estados", estados);
 		}
 	}
 	

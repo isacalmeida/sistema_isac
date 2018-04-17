@@ -525,34 +525,6 @@ $('#submit-fabricante').on('click', function(e) {
 </script>
 
 <script type="text/javascript">
-$('#submit-cidade').on('click', function(e) {
-	$.ajax({
-		type : 'POST',
-		contentType : 'application/json',
-		url : '${pageContext.request.contextPath}/cidade/gravar',
-		dataType: 'json',
-		data: JSON.stringify({
-			"cidade" : {
-				"codigo" : ( $('input[name=\'cidade.codigo\']').val() != "" ? $('input[name=\'cidade.codigo\']').val() : null ),
-				"descricao" : $('input[name=\'cidade.descricao\']').val(),
-				"estado" : $('select[name=\'cidade.estado.codigo\']').val()
-			}
-		}),
-		success : function(json) {
-			toastSuccess();
-			$('select[name=\'cep.cidade.codigo\']').append('<option value="'+ json.codigo +'">'+ json.descricao +'</option>');
-		},
-		error : function(txt) {
-			toastDanger();
-		}
-	});
-	alert("ESTADO: "+ $('select[name=\'cidade.estado.codigo\']').val());
-	$("#modalCadCidade").modal('toggle');
-	$('input[name=\'cidade.descricao\']').val("");
-});
-</script>
-
-<script type="text/javascript">
 $('#seleciona-cor').on('click', function(e) {
 	alert($('#seleciona-cor').val());
 	$("#modalPesqCor").modal('toggle');

@@ -60,22 +60,23 @@
 						<div class="box-body">
 							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<label for="campoDescricao">Descrição</label>
-								<input type="text" class="form-control" id="campoDescricao" name="cidade.descricao">
+								<input type="text" class="form-control" id="campoDescricao" name="cidade.descricao" autocomplete="no" required>
 							</div>
 							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<label for="campoEstado">Estado</label>
 								<div class="input-group">
 									<span class="input-group-btn">
-										<button class="btn btn-default btn-flat" type="button" data-select2-open="campoEstado">
+										<button id="btnPesqEstado" class="btn btn-default btn-flat" type="button" data-toggle="modal" data-target="#modalPesqEstado">
 											<span class="glyphicon glyphicon-search"></span>
 										</button>
 									</span>
-									<select id="campoEstado" class="form-control select2" name="cidade.estado.codigo">
-										<option value="" selected>Selecione</option>
-										<c:forEach var="e" items="${estados }" >
-											<option value="${e.codigo }">${e.descricao } - ${e.sigla }</option>
-										</c:forEach>
-									</select>
+									<input id="campoEstado" class="form-control" name="cidade.estado.codigo" autocomplete="no" type="hidden">
+									<input type="text" class="form-control" name="cidade.estado.descricao" autocomplete="no" disabled>
+									<span class="input-group-btn">
+										<button id="btnCadEstado" class="btn btn-default btn-flat" type="button" data-toggle="modal" data-target="#modalCadEstado">
+											<span class="glyphicon glyphicon-plus"></span>
+										</button>
+									</span>
 								</div>
 							</div>
 						</div>
@@ -95,6 +96,8 @@
 </div>
 
 <jsp:include page="../defaults/footer.jsp"></jsp:include>
+
+<jsp:include page="../modal/estado.jsp"></jsp:include>
 
 </body>
 </html>

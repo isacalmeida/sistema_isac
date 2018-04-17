@@ -60,11 +60,11 @@
 						<div class="box-body">
 							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<label for="campoDescricao">Descrição</label>
-								<input type="text" class="form-control" id="campoDescricao" name="estado.descricao">
+								<input type="text" class="form-control" id="campoDescricao" name="estado.descricao" required>
 							</div>
 							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<label for="campoSigla">Sigla</label>
-								<input type="text" class="form-control" id="campoDescricao" name="estado.sigla">
+								<input type="text" class="form-control" id="campoDescricao" name="estado.sigla" required>
 							</div>
 						</div>
 						<div class="box-footer">

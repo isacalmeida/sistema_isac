@@ -50,11 +50,11 @@
 					<div class="box-body">
 						<div class="form-group col-lg-12">
 							<label for="campoDescricao">Descrição</label>
-							<input value="${estado.descricao }" type="text" class="form-control" id="campoDescricao" name="estado.descricao">
+							<input value="${estado.descricao }" type="text" class="form-control" id="campoDescricao" name="estado.descricao" autocomplete="no" required>
 						</div>
 						<div class="form-group col-lg-12">
 							<label for="campoSigla">Sigla</label>
-							<input value="${estado.sigla }" type="text" class="form-control" id="campoSigla" name="estado.sigla">
+							<input value="${estado.sigla }" type="text" class="form-control" id="campoSigla" name="estado.sigla" autocomplete="no" required>
 						</div>
 					</div>
 					<div class="box-footer">

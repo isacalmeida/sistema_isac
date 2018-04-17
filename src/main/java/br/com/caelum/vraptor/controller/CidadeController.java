@@ -151,10 +151,19 @@ public class CidadeController {
 				else {
 					Long cidadeResult = cidao.buscar(Cidade.class, "ULTIMA_CIDADE_INCLUIDA");
 					cidade.setCodigo(cidadeResult);
-					result.use(Results.json()).withoutRoot().from(cidade).serialize();
+					List<Estado> estado = esdao.buscar(Estado.class, cidade.getEstado().getCodigo(), "ESTADO_POR_CODIGO");
+					cidade.setEstado(estado.get(0));
+					
+					result.use(Results.json()).withoutRoot().from(cidade).exclude("criacao","alteracao","estado.criacao", "estado.alteracao").recursive().serialize();
 				}
 			}
 		}
+	}
+	
+	@Consumes(value="application/json")
+	@Post("/recuperar")
+	public void recuperar(String term) throws DAOException {
+		
 	}
 	
 	@Get("/{cod}/editar")

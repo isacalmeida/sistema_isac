@@ -121,7 +121,7 @@
 										<tr>
 											<td>${c.codigo }</td>
 											<td><a href="<c:url value='/cidade/${c.codigo }/editar' />" >${c.descricao }</a></td>
-											<td>${c.estado.descricao }</td>
+											<td>${c.estado.descricao } - ${c.estado.sigla }</td>
 											<td>${c.criacao }</td>
 										</tr>
 									</c:if>

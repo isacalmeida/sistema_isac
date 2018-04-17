@@ -74,7 +74,8 @@
 											<span class="glyphicon glyphicon-search"></span>
 										</button>
 									</span>
-									<input id="campoCidade" class="form-control" name="cep.cidade.codigo" autocomplete="no">
+									<input id="campoCidade" class="form-control" name="cep.cidade.codigo" autocomplete="no" type="hidden">
+									<input type="text" class="form-control" name="cep.cidade.descricao" autocomplete="no" disabled>
 									<span class="input-group-btn">
 										<button id="btnCadCidade" class="btn btn-default btn-flat" type="button" data-toggle="modal" data-target="#modalCadCidade">
 											<span class="glyphicon glyphicon-plus"></span>
@@ -102,9 +103,9 @@
 	<jsp:include page="../defaults/copyright.jsp"></jsp:include>
 </div>
 
-<jsp:include page="../modal/cidade.jsp"></jsp:include>
-
 <jsp:include page="../defaults/footer.jsp"></jsp:include>
+
+<jsp:include page="../modal/cidade.jsp"></jsp:include>
 
 </body>
 </html>

@@ -23,7 +23,9 @@ import br.edu.unoesc.model.MinhaEntidade;
 	@NamedQuery(name="CIDADE_POR_CODIGO",
 				query="select c from Cidade c where c.codigo = :codigo"),
 	@NamedQuery(name="ULTIMA_CIDADE_INCLUIDA",
-				query="select max(c.codigo) from Cidade c")
+				query="select max(c.codigo) from Cidade c"),
+	@NamedQuery(name="CIDADE_POR_DESCRICAO",
+				query="select c from Cidade c where lower(c.descricao) like :descricao order by c.descricao")
 })
 public class Cidade implements MinhaEntidade{
 	

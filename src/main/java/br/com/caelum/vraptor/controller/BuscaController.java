@@ -1,5 +1,6 @@
 package br.com.caelum.vraptor.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -8,13 +9,16 @@ import br.com.caelum.vraptor.Consumes;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.serialization.gson.WithoutRoot;
 import br.com.caelum.vraptor.view.Results;
 import br.edu.unoesc.beans.LicencaBean;
 import br.edu.unoesc.beans.UsuarioBean;
+import br.edu.unoesc.dao.CidadeDAO;
 import br.edu.unoesc.dao.ProgramasDAO;
 import br.edu.unoesc.model.outros.Programas;
+import br.edu.unoesc.model.pessoa.Cidade;
 
 @Path("/busca")
 @Controller
@@ -22,6 +26,9 @@ public class BuscaController {
 	
 	@Inject
 	private Result result;
+	
+	@Inject
+	private CidadeDAO cidao;
 	
 	@Inject
 	private ProgramasDAO podao;
@@ -82,4 +89,43 @@ public class BuscaController {
 			result.use(Results.json()).withoutRoot().from(programas).serialize();
 		}
 	}
+	
+	@SuppressWarnings("unused")
+	@Consumes(value="application/json")
+	@Post("/cidade")
+	public void cidade(Cidade cidade) {
+		String term = cidade.getDescricao();
+		if(term != null) {
+			List<Cidade> cidadesAux = cidao.buscar(Cidade.class, term, "CIDADE_POR_DESCRICAO");
+			List<Cidade> cidades = new ArrayList<Cidade>();
+			
+			for(Cidade cidadeAux : cidadesAux) {
+				//System.out.println("CIDADE: "+ cidade.getEstado().getSigla() +" CIDADE AUX: "+ cidadeAux.getEstado().getSigla());
+				if(cidade.getEstado().getSigla().equals(cidadeAux.getEstado().getSigla())) {
+					cidades.add(cidadeAux);
+				}
+			}
+			
+			cidadesAux = cidades;
+			cidades = new ArrayList<Cidade>();
+			
+			for(Cidade cidadeAux : cidadesAux) {
+				if(cidade.getDescricao().equals(cidadeAux.getDescricao())) {
+					cidades.add(cidadeAux);
+				}
+			}
+			
+			if(cidades != null) {
+				result.use(Results.json()).withoutRoot().from(cidades).exclude("criacao","alteracao", "estado.criacao", "estado.alteracao").recursive().serialize();
+			}
+			else {
+				result.use(Results.json()).withoutRoot().from(cidadesAux).exclude("criacao","alteracao", "estado.criacao", "estado.alteracao").recursive().serialize();
+			}
+		}
+		else {
+			List<Cidade> cidades = cidao.buscar(Cidade.class, "zzzzzzzzzzzzzzzzzzzzz", "CIDADE_POR_DESCRICAO");
+			result.use(Results.json()).withoutRoot().from(cidades).serialize();
+		}
+	}
+	
 }

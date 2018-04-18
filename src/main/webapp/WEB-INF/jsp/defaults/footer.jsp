@@ -44,12 +44,10 @@ $(document).ready(function(){
 	var options = {
 		clearIfNotMatch: true,
 		onComplete: function(cep){
-			//alert("TESTE"+ cep);
 			$.ajax({
 				url: 'https://viacep.com.br/ws/'+ cep +'/json',
 				dataType: 'json',
 				success: function(json) {
-					alert("Teste"+ JSON.stringify(json));
 					if(json.erro){
 						$('div[id=\'divCampoCep\']').addClass("has-error");
 					}
@@ -61,6 +59,26 @@ $(document).ready(function(){
 						else
 							$('input[name=\'cep.logradouro\']').val(json.logradouro);
 						
+						alert(json.localidade);
+						
+						$.ajax({
+							type: 'POST',
+							contentType: 'application/json',
+							url: '${pageContext.request.contextPath}/busca/cidade',
+							dataType: 'json',
+							data:  JSON.stringify({
+								"cidade" : {
+									"descricao" : json.localidade,
+									"estado" : {
+										"sigla" : json.uf
+									}
+								}
+							}),
+							success: function(json2) {
+								alert("DEU CERTO!");
+							}
+						});
+						
 						$('input[name=\'cep.bairro\']').val(json.bairro);
 						$('input[name=\'cep.ibge\']').val(json.ibge);
 					}
@@ -68,7 +86,7 @@ $(document).ready(function(){
 			});
 		}
 	};
-	$('input[name=\'cep.codigo\']').mask('00000-000', options);
+	$('input[name=\'cep.codigo\']').mask('00000000', options);
 });
 </script>
 
@@ -364,111 +382,6 @@ $('input[name=\'q\']').autocomplete({
 		$('input[name=\'q\']').val(item['label']);
 	}
 });
-
-</script>
-
-<script type="text/javascript">
-//$(document).ready(function(){	
-	
-	//var procura = document.getElementById('busca');
-	//function retonoObjeto(){
-	//    var xhr = new XMLHttpRequest();
-	//    xhr.open('GET', '${pageContext.request.contextPath}/busca/buscar?term=a');
-	//    xhr.send();
-	//    xhr.onreadystatechange=function(){
-	//        if (xhr.readyState==4 && xhr.status==200){
-	//            mensagens = JSON.parse(xhr.responseText);
-	//        }
-	//    }
-	//}
-
-	//var mensagens = retonoObjeto();
-	//alert(mensagens);
-	//$("#busca").autocomplete({
-	//	//dataType: "json",
-    //    source: "${pageContext.request.contextPath}/busca/buscar",
-    //    select: function( event, ui ) { 
-    //        alert("TESTE")
-    //        //alert(ui.item.value);
-    //        //window.location.href = ui.item.value;
-    //    }
-    //});
-//});
-	
-//$("#busca").autocomplete('${pageContext.request.contextPath}/busca/buscar', {
-//	dataType: "json",
-//	parse: function(programas){
-//		return $.map(programas, function(programa) {
-//			return  {
-//				select: function(event, page) {
-//					window.open(page.item.url)
-//				}
-//			};
-//		});
-//	}
-	//parse: function(programas){
-	//	return $.map(programas, function(programa) {
-	//		return  {
-	//			data: programa,
-	//			value: programa.descricao,
-	//			result: programa.descricao 
-	//			
-	//		};
-	//	});
-	//},
-	//formatItem: function(programa) {
-	//	return programa.descricao + "(" + programa.endereco + ")";
-	//}
-//});
-
-//function buscar(){
-//	var procura = document.getElementById('busca');
-	
-	
-	
-	//$.getJSON("${pageContext.request.contextPath}/busca/buscar", {desc: procura.value}, function(source){
-	//	$(function() {
-//			alert("TESTE 1");
-			//$("#busca").hide();
-		    //$("#busca").autocomplete({
-		     //   source: source,
-		    //    select: function( event, ui ) { 
-		    //        window.location.href = ui.item.value;
-		    //        alert("TESTE 2");
-		    //    }
-		    //});
-	//	});
-	//});
-		
-	//	var lista = new Array(2);
-	//	var i = 0;
-	//	$.each(programas, function() {
-	//	    lista[i][0] = this.descricao;
-	//	    lista[i][1] = this.endereco;
-	//	    
-	//	});
-	//	alert(lista);
-	//})
-
-
-	//var options = {
-	//    url: "${pageContext.request.contextPath}/busca/buscar?desc=procura.value",
-		
-	//    getValue: "descricao",
-	
-	//    template: {
-	//        type: "links",
-	//        fields: {
-	//            link: "endereco"
-	//        }
-	//    },
-	
-	//    theme: "square"
-	//};
-	//alert(options);
-
-	//$("#busca").easyAutocomplete(options);
-//}
 
 </script>
 

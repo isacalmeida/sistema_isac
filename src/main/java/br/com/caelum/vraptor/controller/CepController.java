@@ -115,14 +115,15 @@ public class CepController {
 		else {
 			result.include("usuario_nome", usuarioSessao.getNome());
 			
-			if(cep.getCodigo() == null) {
+			List<Cep> ceps = cedao.buscar(Cep.class, cep.getCodigo(), "CEP_POR_CODIGO");
+			
+			if(ceps.size() == 0) {
 				cep.setCriacao(new DateTime());
 				cep.setAlteracao(new DateTime());
 				
 				result.redirectTo(this).index(cedao.salvar(cep),0);
 			}
 			else {
-				List<Cep> ceps = cedao.buscar(Cep.class, cep.getCodigo(), "CEP_POR_CODIGO");
 				Cep cep1 = ceps.get(0);
 				
 				cep.setCriacao(cep1.getCriacao());

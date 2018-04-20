@@ -38,6 +38,29 @@
 <script src="<c:url value='/assets/defaults/js/adminlte.min.js'/>"></script>
 <script src="<c:url value='/assets/defaults/js/demo.js'/>"></script>
 <script src="<c:url value='/assets/jquery-mask/jquery.mask.min.js'/>"></script>
+<script src="<c:url value='/assets/scripts/autocomplete.js'/>"></script>
+
+<script type="text/javascript">
+$('input[name=\'q\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: '${pageContext.request.contextPath}/busca/buscar?term='+  $('input[name=\'q\']').val(),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['descricao'],
+						value: '${pageContext.request.contextPath}'+ item['endereco']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'q\']').val(item['label']);
+	}
+});
+</script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -74,8 +97,24 @@ $(document).ready(function(){
 									}
 								}
 							}),
-							success: function(json2) {
-								alert("DEU CERTO!");
+							success: function(json) {
+								if(json.length >= 1){
+									if(json.length > 1){
+										$('input[name=\'cep.cidade.codigo\']').hide().prop('disabled', true);
+										$('input[name=\'cep.cidade.descricao\']').hide().prop('disabled', true);
+										$('select[name=\'cep.cidade.codigo\']').prop('disabled', false).prop('required', 'required').addClass("select2").css("display", "block").select2({ placeholder: "", language: "pt-BR", width: '100%'});
+										$('select[name=\'cep.cidade.codigo\']').append('<option value="" selected="selected">Selecione</option>');
+										
+										for(var i = 0; i < json.length; i++){
+											$('select[name=\'cep.cidade.codigo\']').append('<option value="'+ json[i].codigo +'">'+ json[i].descricao +" - "+ json[i].estado.sigla +'</option>');
+										}
+										//$('select[name=\'cep.cidade.codigo\']').select2();
+									}
+									else{
+										$('input[name=\'cep.cidade.codigo\']').val(json["0"].codigo);
+										$('input[name=\'cep.cidade.descricao\']').val(json["0"].descricao + " - " + json["0"].estado.sigla);
+									}
+								}
 							}
 						});
 						
@@ -358,31 +397,6 @@ $(function () {
 		localStorage.setItem("varcontato", i);
 	});
 });
-</script>
-
-<script src="<c:url value='/assets/scripts/autocomplete.js'/>"></script>
-<script type="text/javascript">
-
-$('input[name=\'q\']').autocomplete({
-	'source': function(request, response) {
-		$.ajax({
-			url: '${pageContext.request.contextPath}/busca/buscar?term='+  $('input[name=\'q\']').val(),
-			dataType: 'json',
-			success: function(json) {
-				response($.map(json, function(item) {
-					return {
-						label: item['descricao'],
-						value: '${pageContext.request.contextPath}'+ item['endereco']
-					}
-				}));
-			}
-		});
-	},
-	'select': function(item) {
-		$('input[name=\'q\']').val(item['label']);
-	}
-});
-
 </script>
 
 <script type="text/javascript">

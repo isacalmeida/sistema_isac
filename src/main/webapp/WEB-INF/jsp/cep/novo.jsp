@@ -74,6 +74,7 @@
 											<span class="glyphicon glyphicon-search"></span>
 										</button>
 									</span>
+									<select id="campoCidade" class="form-control" name="cep.cidade.codigo" style="display:none;" disabled></select>
 									<input id="campoCidade" class="form-control" name="cep.cidade.codigo" autocomplete="no" type="hidden">
 									<input type="text" class="form-control" name="cep.cidade.descricao" autocomplete="no" disabled>
 									<span class="input-group-btn">

@@ -90,7 +90,6 @@ public class BuscaController {
 		}
 	}
 	
-	@SuppressWarnings("unused")
 	@Consumes(value="application/json")
 	@Post("/cidade")
 	public void cidade(Cidade cidade) {
@@ -106,21 +105,7 @@ public class BuscaController {
 				}
 			}
 			
-			cidadesAux = cidades;
-			cidades = new ArrayList<Cidade>();
-			
-			for(Cidade cidadeAux : cidadesAux) {
-				if(cidade.getDescricao().equals(cidadeAux.getDescricao())) {
-					cidades.add(cidadeAux);
-				}
-			}
-			
-			if(cidades != null) {
-				result.use(Results.json()).withoutRoot().from(cidades).exclude("criacao","alteracao", "estado.criacao", "estado.alteracao").recursive().serialize();
-			}
-			else {
-				result.use(Results.json()).withoutRoot().from(cidadesAux).exclude("criacao","alteracao", "estado.criacao", "estado.alteracao").recursive().serialize();
-			}
+			result.use(Results.json()).withoutRoot().from(cidades).exclude("criacao","alteracao", "estado.criacao", "estado.alteracao").recursive().serialize();
 		}
 		else {
 			List<Cidade> cidades = cidao.buscar(Cidade.class, "zzzzzzzzzzzzzzzzzzzzz", "CIDADE_POR_DESCRICAO");

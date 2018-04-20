@@ -119,7 +119,69 @@ $('#submit-cidade').on('click', function(e) {
 });
 </script>
 
+<div class="modal fade in" id="modalPesqCidade" tabindex="-1" role="dialog" aria-labelledby="PesquisaDeCidade" aria-hidden="true"> 
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="wrapper">
+					<div class="content-wrapper" style="margin: 0;">
+						<section class="content-header">
+							<h1>
+								Cidade
+								<small>Cadastro de cidade dos endereços</small>
+							</h1>
+						</section>
+						<section class="content">
+							<div class="box">
+								<div class="box-header with-border">
+									<div class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+										<button type="button" class="btn btn-info btn-flat" data-dismiss="modal">Voltar</button>
+									</div>
+								</div>
+								<div class="box-body">
+									<table id="tabela_principal" class="table table-bordered table-hover">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>Descrição</th>
+												<th>Estado</th>
+												<th>Data de Cadastro</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="c" items="${cidades }">
+												<c:if test="${!empty(c)}" >
+													<tr>
+														<td>${c.codigo }</td>
+														<td><a href="#" data-toggle="tab" onclick="selecionaCidade('${c.codigo }', '${c.descricao }', '${c.estado.sigla }');" >${c.descricao }</a></td>
+														<td>${c.estado.descricao } - ${c.estado.sigla }</td>
+														<td>${c.criacao }</td>
+													</tr>
+												</c:if>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
+<script type="text/javascript">
+
+function selecionaCidade(codigo, descricao, sigla){
+	$('input[name*=\'cidade.codigo\']').val(codigo);
+	$('input[name*=\'cidade.descricao\']').val(descricao + " - " + sigla);
+	$('input[name=\'cidade.codigo\']').val("");
+	$('input[name=\'cidade.descricao\']').val("");
+	$("#modalPesqCidade").modal('toggle');
+}
+
+</script>
 
 <jsp:include page="../modal/estado.jsp"></jsp:include>
 

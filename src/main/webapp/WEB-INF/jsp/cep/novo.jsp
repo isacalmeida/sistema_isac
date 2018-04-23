@@ -91,7 +91,7 @@
 						</div>
 						<div class="box-footer">
 							<div class="col-xs-12 col-sm-10 col-md-8 col-lg-8">
-								<button name="submit" value="1" type="submit" class="btn btn-success btn-flat">Salvar</button>
+								<button name="submit" value="0" type="submit" class="btn btn-success btn-flat">Salvar</button>
 								<a href="<c:url value='/cep' />"><button type="button" class="btn btn-default btn-flat">Voltar</button></a>
 							</div>
 						</div>

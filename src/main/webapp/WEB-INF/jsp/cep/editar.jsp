@@ -25,41 +25,57 @@
 			<ol class="breadcrumb">
 				<li><a href="<c:url value='/menu' />" ><i class="fa fa-dashboard"></i> Início</a></li>
 				<li><a href="<c:url value='/menu/configuracoes' />" >Configurações</a></li>
-				<li><a href="<c:url value='/cidade' />" >Cidade</a></li>
+				<li><a href="<c:url value='/cep' />" >Cep</a></li>
 				<li class="active">Editar</li>
 			</ol>
 		</section>
 		<section class="content">
 			<div class="box">
-				<form role="form" method="post" action='<c:url value="/cidade/salvar"/>'>
+				<form role="form" method="post" action='<c:url value="/cep/salvar"/>'>
 					<div class="box-header with-border">
 						<div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
 							<label for="campoCriacao">Criado em:</label>
-							<input type="datetime" id="campoCriacao" class="form-control" value="${cidade.criacao }" disabled>
+							<input type="datetime" id="campoCriacao" class="form-control" value="${cep.criacao }" disabled>
 						</div>
 						<div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
 							<label for="campoAlteracao">Última alteração em:</label>
-							<input type="datetime" id="campoAlteracao" class="form-control" value="${cidade.alteracao }" disabled>
+							<input type="datetime" id="campoAlteracao" class="form-control" value="${cep.alteracao }" disabled>
 						</div>
 						<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<label for="campoCodigo">Codigo</label>
-							<input value="${cidade.codigo }" type="text" class="form-control" id="campoCodigo" disabled>
-							<input value="${cidade.codigo }" name="cidade.codigo" type="hidden">
+							<label for="campoCep">Cep</label>
+							<input value="${cep.codigo }" type="text" class="form-control" id="campoCep" disabled>
+							<input value="${cep.codigo }" name="cep.codigo" type="hidden">
 						</div>
 					</div>
 					<div class="box-body">
 						<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<label for="campoDescricao">Descrição</label>
-							<input value="${cidade.descricao }" type="text" class="form-control" id="campoDescricao" name="cidade.descricao">
+							<label for="campoLogradouro">Logradouro</label>
+							<input type="text" class="form-control" id="campoLogradouro" value="${cep.logradouro }" name="cep.logradouro" autocomplete="no">
 						</div>
 						<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<label for="campoEstado">Estado*</label>
-							<select id="campoEstado" class="form-control select2" name="cidade.estado.codigo" required>
-								<option value="" selected>Selecione</option>
-								<c:forEach var="e" items="${estados }">
-									<option value="${e.codigo }" <c:if test="${cidade.estado.codigo == e.codigo }">selected="selected"</c:if>>${e.descricao } - ${e.sigla }</option>
-								</c:forEach>
-							</select>
+							<label for="campoBairro">Bairro</label>
+							<input type="text" class="form-control" id="campoBairro" value="${cep.bairro }" name="cep.bairro" autocomplete="no">
+						</div>
+						<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<label for="campoCidade">Cidade</label>
+							<div class="input-group">
+								<span class="input-group-btn">
+									<button id="btnPesqCidade" class="btn btn-default btn-flat" type="button" data-toggle="modal" data-target="#modalPesqCidade">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								</span>
+								<input id="campoCidade" class="form-control" value="${cep.cidade.codigo }" name="cep.cidade.codigo" autocomplete="no" type="hidden">
+								<input type="text" class="form-control" value="${cep.cidade.descricao } - ${cep.cidade.estado.sigla }" name="cep.cidade.descricao" autocomplete="no" disabled>
+								<span class="input-group-btn">
+									<button id="btnCadCidade" class="btn btn-default btn-flat" type="button" data-toggle="modal" data-target="#modalCadCidade">
+										<span class="glyphicon glyphicon-plus"></span>
+									</button>
+								</span>
+							</div>
+						</div>
+						<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<label for="campoIbge">IBGE</label>
+							<input type="text" class="form-control" id="campoIbge" value="${cep.ibge }" name="cep.ibge" autocomplete="no">
 						</div>
 					</div>
 					<div class="box-footer">
@@ -68,7 +84,7 @@
 								<button name="submit" value="1" type="submit" class="btn btn-success btn-flat">Salvar</button>
 								<button name="submit" value="2" type="submit" class="btn btn-success btn-flat">Salvar e Continuar</button>
 							</c:if>
-							<a href="<c:url value='/cidade' />"><button type="button" class="btn btn-default btn-flat">Voltar</button></a>
+							<a href="<c:url value='/cep' />"><button type="button" class="btn btn-default btn-flat">Voltar</button></a>
 							<c:if test="${excluir != 1 }">
 								<button type="button" class="btn btn-danger btn-flat" data-toggle="modal" data-target="#confirm">Excluir</button>
 							</c:if>
@@ -87,7 +103,7 @@
 								</div>
 								<div class="modal-footer">
 									<button type="button" data-dismiss="modal" class="btn btn-default pull-left">Voltar</button>
-									<a href="<c:url value='/cidade/${cidade.codigo }/excluir'/>" ><button type="button" class="btn btn-primary" id="delete">Confirmar</button></a>
+									<a href="<c:url value='/cep/${cep.codigo }/excluir'/>" ><button type="button" class="btn btn-primary" id="delete">Confirmar</button></a>
 								</div>
 							</div>
 						</div>
@@ -101,6 +117,8 @@
 </div>
 
 <jsp:include page="../defaults/footer.jsp"></jsp:include>
+
+<jsp:include page="../modal/cidade.jsp"></jsp:include>
 
 </body>
 </html>

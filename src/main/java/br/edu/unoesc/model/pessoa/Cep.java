@@ -31,6 +31,8 @@ public class Cep implements MinhaEntidade{
 	
 	private String bairro;
 	
+	private String ibge;
+	
 	@OneToOne(targetEntity = Cidade.class)
 	@JoinColumn(name="codigo_cidade", foreignKey=@ForeignKey(name="FK_cep_cidade"))
 	private Cidade cidade;
@@ -67,6 +69,14 @@ public class Cep implements MinhaEntidade{
 
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
+	}
+	
+	public String getIbge() {
+		return ibge;
+	}
+
+	public void setIbge(String ibge) {
+		this.ibge = ibge;
 	}
 
 	public Cidade getCidade() {

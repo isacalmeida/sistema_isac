@@ -82,8 +82,6 @@ $(document).ready(function(){
 						else
 							$('input[name=\'cep.logradouro\']').val(json.logradouro);
 						
-						alert(json.localidade);
-						
 						$.ajax({
 							type: 'POST',
 							contentType: 'application/json',
@@ -108,7 +106,6 @@ $(document).ready(function(){
 										for(var i = 0; i < json.length; i++){
 											$('select[name=\'cep.cidade.codigo\']').append('<option value="'+ json[i].codigo +'">'+ json[i].descricao +" - "+ json[i].estado.sigla +'</option>');
 										}
-										//$('select[name=\'cep.cidade.codigo\']').select2();
 									}
 									else{
 										$('input[name=\'cep.cidade.codigo\']').val(json["0"].codigo);

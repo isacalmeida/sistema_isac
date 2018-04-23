@@ -124,15 +124,20 @@ public class CepController {
 				result.redirectTo(this).index(cedao.salvar(cep),0);
 			}
 			else {
-				Cep cep1 = ceps.get(0);
-				
-				cep.setCriacao(cep1.getCriacao());
-				cep.setAlteracao(new DateTime());
-				
-				if(submit == 1)
-					result.redirectTo(this).index(cedao.salvar(cep),1);
-				else if(submit == 2) 
-					result.redirectTo(this).editar(cep.getCodigo(),cedao.salvar(cep));
+				if(submit == 0) {
+					result.redirectTo(this).index(0,0);
+				}
+				else {
+					Cep cep1 = ceps.get(0);
+					
+					cep.setCriacao(cep1.getCriacao());
+					cep.setAlteracao(new DateTime());
+					
+					if(submit == 1)
+						result.redirectTo(this).index(cedao.salvar(cep),1);
+					else if(submit == 2) 
+						result.redirectTo(this).editar(cep.getCodigo(),cedao.salvar(cep));
+				}
 			}
 		}
 	}
@@ -186,6 +191,12 @@ public class CepController {
 			}
 			
 			List<Cep> cep = cedao.buscar(Cep.class,cod,"CEP_POR_CODIGO");
+			
+			List<Cidade> cidades = cidao.listar(Cidade.class, "TODAS_CIDADES");
+			List<Estado> estados = esdao.listar(Estado.class, "TODOS_ESTADOS");
+			
+			result.include("cidades", cidades);
+			result.include("estados", estados);
 			
 			result.include("var", var);
 			result.include("cep", cep.get(0));

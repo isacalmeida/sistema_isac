@@ -185,7 +185,15 @@
 											<div id="fisica1" <c:choose><c:when test="${pessoa.tipo.toString() eq 'J'}"> style="display: none" </c:when><c:when test="${pessoa.tipo.toString() eq 'F'}"> style="display: block" </c:when><c:otherwise> style="display: block" </c:otherwise></c:choose>>
 												<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 													<label for="campoDataNascimento">Data de Nascimento</label>
-													<input type="text" id="campoDataNascimento" class="form-control" name="pessoa.data_nascimento" value="${pessoa.data_nascimento }">
+													<%-- <input type="text" id="campoDataNascimento" class="form-control" name="pessoa.data_nascimento" value="${pessoa.data_nascimento }"> --%>
+													<div class="input-group date datepicker" data-provide="datepicker">
+														<span class="input-group-btn">
+															<button class="btn btn-default btn-flat" type="button">
+																<span class="glyphicon glyphicon-th"></span>
+															</button>
+														</span>
+														<input type="text" id="campoDataNascimento" class="form-control" name="pessoa.data_nascimento" value="${pessoa.data_nascimento }">
+													</div>
 												</div>
 												<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 													<label for="campoSexo">Sexo</label>

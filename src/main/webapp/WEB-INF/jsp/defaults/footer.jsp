@@ -32,6 +32,7 @@
 <script src="<c:url value='/assets/plugins/jvectormap/jquery-jvectormap-brazil.js'/>"></script>
 <script src="<c:url value='/assets/moment/min/moment.min.js'/>"></script>
 <script src="<c:url value='/assets/bootstrap-datepicker/js/bootstrap-datepicker.min.js'/>"></script>
+<script src="<c:url value='/assets/bootstrap-datepicker/locales/bootstrap-datepicker.pt-BR.min.js'/>" charset="UTF-8"></script>
 <script src="<c:url value='/assets/bootstrap-daterangepicker/daterangepicker.js'/>"></script>
 <script src="<c:url value='/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js'/>"></script>
 <script src="<c:url value='/assets/fastclick/fastclick.js'/>"></script>
@@ -64,7 +65,7 @@ $('input[name=\'q\']').autocomplete({
 
 <script type="text/javascript">
 $(document).ready(function(){
-	var options = {
+	var optionsCep = {
 		clearIfNotMatch: true,
 		onComplete: function(cep){
 			$.ajax({
@@ -102,6 +103,8 @@ $(document).ready(function(){
 										$('input[name=\'cep.cidade.descricao\']').hide().prop('disabled', true);
 										$('select[name=\'cep.cidade.codigo\']').prop('disabled', false).prop('required', 'required').addClass("select2").css("display", "block").select2({ placeholder: "", language: "pt-BR", width: '100%'});
 										$('select[name=\'cep.cidade.codigo\']').append('<option value="" selected="selected">Selecione</option>');
+										$('button[id=\'btnPesqCidade\']').prop('disabled', true);
+										$('button[id=\'btnCadCidade\']').prop('disabled', true);
 										
 										for(var i = 0; i < json.length; i++){
 											$('select[name=\'cep.cidade.codigo\']').append('<option value="'+ json[i].codigo +'">'+ json[i].descricao +" - "+ json[i].estado.sigla +'</option>');
@@ -122,7 +125,23 @@ $(document).ready(function(){
 			});
 		}
 	};
-	$('input[name=\'cep.codigo\']').mask('00000000', options);
+	$('input[name=\'cep.codigo\']').mask('00000000', optionsCep);
+	var optionsData = {
+			clearIfNotMatch: true
+	};
+	$('input[name=\'pessoa.data_nascimento\']').mask('00/00/0000', optionsData);
+});
+</script>
+
+<script>
+$('.datepicker').datepicker({
+	autoclose: true,
+	calendarWeeks: true,
+	format: 'dd/mm/yyyy',
+	language: 'pt-BR',
+	showOnFocus: false,
+	todayBtn: 'linked',
+	todayHighlight: true
 });
 </script>
 

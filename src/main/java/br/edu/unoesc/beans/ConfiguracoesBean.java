@@ -157,6 +157,51 @@ public class ConfiguracoesBean implements Serializable {
 		prog10.setAtivo(true);
 		programas.add(prog10);
 		
+		Programas prog11 = new Programas();
+		prog11.setDescricao("Cep");
+		prog11.setEndereco("/cep");
+		prog11.setGrupo(2L);
+		prog11.setCriacao(new DateTime());
+		prog11.setAlteracao(new DateTime());
+		prog11.setAtivo(true);
+		programas.add(prog11);
+		
+		Programas prog12 = new Programas();
+		prog12.setDescricao("Cidade");
+		prog12.setEndereco("/cidade");
+		prog12.setGrupo(2L);
+		prog12.setCriacao(new DateTime());
+		prog12.setAlteracao(new DateTime());
+		prog12.setAtivo(true);
+		programas.add(prog12);
+		
+		Programas prog13 = new Programas();
+		prog13.setDescricao("Estado");
+		prog13.setEndereco("/estado");
+		prog13.setGrupo(2L);
+		prog13.setCriacao(new DateTime());
+		prog13.setAlteracao(new DateTime());
+		prog13.setAtivo(true);
+		programas.add(prog13);
+		
+		Programas prog14 = new Programas();
+		prog14.setDescricao("Frete");
+		prog14.setEndereco("/frete");
+		prog14.setGrupo(3L);
+		prog14.setCriacao(new DateTime());
+		prog14.setAlteracao(new DateTime());
+		prog14.setAtivo(true);
+		programas.add(prog14);
+		
+		Programas prog15 = new Programas();
+		prog15.setDescricao("Entrega");
+		prog15.setEndereco("/entrega");
+		prog15.setGrupo(3L);
+		prog15.setCriacao(new DateTime());
+		prog15.setAlteracao(new DateTime());
+		prog15.setAtivo(true);
+		programas.add(prog15);
+		
 		PerfilAcesso perfil = new PerfilAcesso();
 		perfil.setCodigo(1L);
 		perfil.setDescricao("Administrador");
@@ -254,6 +299,51 @@ public class ConfiguracoesBean implements Serializable {
 		acesso10.setRemover(true);
 		acesso10.setPerfilacesso(perfil);
 		acessos.add(acesso10);
+		
+		Acessos acesso11 = new Acessos();
+		acesso11.setPrograma(prog11);
+		acesso11.setVisualizar(true);
+		acesso11.setIncluir(true);
+		acesso11.setAlterar(true);
+		acesso11.setRemover(true);
+		acesso11.setPerfilacesso(perfil);
+		acessos.add(acesso11);
+		
+		Acessos acesso12 = new Acessos();
+		acesso12.setPrograma(prog12);
+		acesso12.setVisualizar(true);
+		acesso12.setIncluir(true);
+		acesso12.setAlterar(true);
+		acesso12.setRemover(true);
+		acesso12.setPerfilacesso(perfil);
+		acessos.add(acesso12);
+		
+		Acessos acesso13 = new Acessos();
+		acesso13.setPrograma(prog13);
+		acesso13.setVisualizar(true);
+		acesso13.setIncluir(true);
+		acesso13.setAlterar(true);
+		acesso13.setRemover(true);
+		acesso13.setPerfilacesso(perfil);
+		acessos.add(acesso13);
+		
+		Acessos acesso14 = new Acessos();
+		acesso14.setPrograma(prog14);
+		acesso14.setVisualizar(true);
+		acesso14.setIncluir(true);
+		acesso14.setAlterar(true);
+		acesso14.setRemover(true);
+		acesso14.setPerfilacesso(perfil);
+		acessos.add(acesso14);
+		
+		Acessos acesso15 = new Acessos();
+		acesso15.setPrograma(prog15);
+		acesso15.setVisualizar(true);
+		acesso15.setIncluir(true);
+		acesso15.setAlterar(true);
+		acesso15.setRemover(true);
+		acesso15.setPerfilacesso(perfil);
+		acessos.add(acesso15);
 		
 		perfil.setAcessos(acessos);
 		

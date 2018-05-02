@@ -25,11 +25,13 @@
 		<class>br.edu.unoesc.model.produto.Departamento</class>
 		<class>br.edu.unoesc.model.produto.Cor</class>
 		<class>br.edu.unoesc.model.produto.Fabricante</class>
+		<class>br.edu.unoesc.model.produto.Entrega</class>
+		<class>br.edu.unoesc.model.produto.Frete </class>
 		
 		
 		<properties>
 		
-			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/sistema"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5432/sistema"/>
 			<property name="javax.persistence.jdbc.user" value="postgres"/>
 			<property name="javax.persistence.jdbc.password" value="1i2s3a4c"/>
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>

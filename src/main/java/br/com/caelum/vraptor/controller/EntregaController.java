@@ -10,18 +10,18 @@ import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
 import br.edu.unoesc.beans.LicencaBean;
 import br.edu.unoesc.beans.UsuarioBean;
-import br.edu.unoesc.dao.AcessosDAO;
-import br.edu.unoesc.model.usuario.Acessos;
+import br.edu.unoesc.dao.EntregaDAO;
+import br.edu.unoesc.model.produto.Entrega;
 
-@Path("/acessos")
+@Path("/entrega")
 @Controller
-public class AcessosController {
+public class EntregaController {
 	
 	@Inject
 	private Result result;
 	
 	@Inject
-	private AcessosDAO acdao;
+	private EntregaDAO etdao;
 	
 	@Inject 
 	private LicencaBean licencaSessao;
@@ -52,8 +52,8 @@ public class AcessosController {
 					result.include("permissao", 2);
 				}		
 	
-				List<Acessos> acessos = acdao.listar(Acessos.class,"TODOS_ACESSOS");
-				result.include("acessos", acessos);
+				List<Entrega> entregas = etdao.listar(Entrega.class,"TODAS_ENTREGAS");
+				result.include("entregas", entregas);
 			}
 		}
 	}

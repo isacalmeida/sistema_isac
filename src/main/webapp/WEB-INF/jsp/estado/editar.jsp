@@ -36,7 +36,16 @@
 						<div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
 							<label for="campoCriacao">Criado em:</label>
 							<input type="datetime" id="campoCriacao" class="form-control" value="${estado.criacao }" disabled>
-						</div>
+						</div> 
+						<%-- <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
+							<label for="campoCriacao">Criado em:</label>
+							<div class='input-group datetimepicker'>
+			                    <input type='text' class="form-control">
+			                    <span class="input-group-addon">
+			                        <span class="glyphicon glyphicon-calendar"></span>
+			                    </span>
+		               		</div>
+		               	</div> --%>
 						<div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
 							<label for="campoAlteracao">Última alteração em:</label>
 							<input type="datetime" id="campoAlteracao" class="form-control" value="${estado.alteracao }" disabled>

@@ -127,6 +127,18 @@
 									Fabricante
 								</a>
 							</li>
+							<li>
+								<a href="<c:url value='/frete' />">
+									<i class="fa fa-industry"></i>
+									Frete
+								</a>
+							</li>
+							<li>
+								<a href="<c:url value='/entrega' />">
+									<i class="fa fa-industry"></i>
+									Entrega
+								</a>
+							</li>
 						</ul>
 					</li>
 					<li class="treeview">

@@ -31,6 +31,8 @@
 <script src="<c:url value='/assets/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'/>"></script>
 <script src="<c:url value='/assets/plugins/jvectormap/jquery-jvectormap-brazil.js'/>"></script>
 <script src="<c:url value='/assets/moment/min/moment.min.js'/>"></script>
+<script src="<c:url value='/assets/moment/locale/pt-br.js'/>" charset="UTF-8"></script>
+<script src="<c:url value='/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'/>"></script>
 <script src="<c:url value='/assets/bootstrap-datepicker/js/bootstrap-datepicker.min.js'/>"></script>
 <script src="<c:url value='/assets/bootstrap-datepicker/locales/bootstrap-datepicker.pt-BR.min.js'/>" charset="UTF-8"></script>
 <script src="<c:url value='/assets/bootstrap-daterangepicker/daterangepicker.js'/>"></script>
@@ -142,6 +144,12 @@ $('.datepicker').datepicker({
 	showOnFocus: false,
 	todayBtn: 'linked',
 	todayHighlight: true
+});
+</script>
+
+<script>
+$('.datetimepicker').datetimepicker({
+	locale: 'pt-br'
 });
 </script>
 

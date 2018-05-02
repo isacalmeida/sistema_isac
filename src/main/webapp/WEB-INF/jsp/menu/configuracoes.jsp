@@ -46,6 +46,21 @@
 								<a href="<c:url value='/usuario' />" ><button class="btn btn-success btn-block btn-lg"> <br>Usuário<br><br> </button></a><br>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
+	     						<a href="<c:url value='/cep' />" ><button class="btn btn-success btn-block btn-lg"> <br>Cep<br><br> </button></a><br>
+							</div>
+							<div class="col-sm-2 col-md-2 col-lg-2"></div>
+							<div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
+								<a href="<c:url value='/cidade' />" ><button class="btn btn-success btn-block btn-lg"> <br>Cidade<br><br> </button></a><br>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
+		     					<a href="<c:url value='/estado' />" ><button class="btn btn-success btn-block btn-lg"> <br>Estado<br><br> </button></a><br>
+							</div>
+							<div class="col-sm-2 col-md-2 col-lg-2"></div>
+						</div>
 					</div>
 					<div class="tab-pane" id="produto">
 						<div class="row">
@@ -56,6 +71,21 @@
 							<div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
 								<a href="<c:url value='/departamento' />" ><button class="btn btn-success btn-block btn-lg"> <br>Departamento<br><br> </button></a><br>
 							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
+		     					<a href="<c:url value='/fabricante' />" ><button class="btn btn-success btn-block btn-lg"> <br>Fabricante<br><br> </button></a><br>
+							</div>
+							<div class="col-sm-2 col-md-2 col-lg-2"></div>
+							<div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
+								<a href="<c:url value='/frete' />" ><button class="btn btn-success btn-block btn-lg"> <br>Frete<br><br> </button></a><br>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
+		     					<a href="<c:url value='/entrega' />" ><button class="btn btn-success btn-block btn-lg"> <br>Entrega<br><br> </button></a><br>
+							</div>
+							<div class="col-sm-2 col-md-2 col-lg-2"></div>
 						</div>
 					</div>
 					<div class="tab-pane" id="outros">

@@ -16,9 +16,11 @@ import br.com.caelum.vraptor.view.Results;
 import br.edu.unoesc.beans.LicencaBean;
 import br.edu.unoesc.beans.UsuarioBean;
 import br.edu.unoesc.dao.CidadeDAO;
+import br.edu.unoesc.dao.EstadoDAO;
 import br.edu.unoesc.dao.ProgramasDAO;
 import br.edu.unoesc.model.outros.Programas;
 import br.edu.unoesc.model.pessoa.Cidade;
+import br.edu.unoesc.model.pessoa.Estado;
 
 @Path("/busca")
 @Controller
@@ -29,6 +31,9 @@ public class BuscaController {
 	
 	@Inject
 	private CidadeDAO cidao;
+	
+	@Inject
+	private EstadoDAO etdao;
 	
 	@Inject
 	private ProgramasDAO podao;
@@ -110,6 +115,19 @@ public class BuscaController {
 		else {
 			List<Cidade> cidades = cidao.buscar(Cidade.class, "zzzzzzzzzzzzzzzzzzzzz", "CIDADE_POR_DESCRICAO");
 			result.use(Results.json()).withoutRoot().from(cidades).serialize();
+		}
+	}
+	
+	@Consumes(value="application/json", options=WithoutRoot.class)
+	@Get("/estado")
+	public void estado(String term) {
+		if(term != null) {
+			List<Estado> estados = etdao.buscar(Estado.class, term, "ESTADO_POR_DESCRICAO");
+			result.use(Results.json()).withoutRoot().from(estados).exclude("codigo","grupo","ativo","criacao","alteracao").serialize();
+		}
+		else {
+			List<Programas> programas = podao.buscar(Programas.class, "zzzzzzzzzzzzzzzzzzzzz", "PROGRAMA_POR_DESCRICAO");
+			result.use(Results.json()).withoutRoot().from(programas).serialize();
 		}
 	}
 	

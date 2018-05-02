@@ -22,6 +22,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/assets/defaults/css/AdminLTE.min.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/assets/defaults/css/skins/_all-skins.min.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/assets/defaults/css/skins/skin-black-light.min.css' />" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/assets/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/assets/bootstrap-datepicker/css/bootstrap-datepicker3.min.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/assets/bootstrap-daterangepicker/daterangepicker.css' />" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/assets/bootstrap-switch/css/bootstrap3/bootstrap-switch.css' />" />

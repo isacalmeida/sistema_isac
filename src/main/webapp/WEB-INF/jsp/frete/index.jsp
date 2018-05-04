@@ -103,6 +103,7 @@
 								<a href="<c:url value='/frete/novo'/>" ><button type="button" class="btn btn-primary btn-flat">Novo</button></a>
 							</c:if>
 							<a href="<c:url value='/menu/configuracoes' />"><button type="button" class="btn btn-info btn-flat">Voltar</button></a>
+							<button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modalCalcFrete">Calcular Frete</button>
 						</div>
 					</div>
 					<div class="box-body">
@@ -122,9 +123,9 @@
 									<c:if test="${!empty(f)}" >
 										<tr>
 											<td>${f.codigo }</td>
-											<td><a href="<c:url value='/frete/${f.codigo }/editar' />" >${f.uf_origem }</a></td>
-											<td>${f.uf_destino }</td>
-											<td>${f.valor_aquilo }</td>
+											<td><a href="<c:url value='/frete/${f.codigo }/editar' />" >${f.uf_origem.descricao }</a></td>
+											<td>${f.uf_destino.descricao }</td>
+											<td>${f.valor_quilo }</td>
 											<td>${f.quilo_de } - ${f.quilo_ate }</td>
 											<td>${f.previsao }</td>
 										</tr>
@@ -142,6 +143,8 @@
 </div>
 
 <jsp:include page="../defaults/footer.jsp"></jsp:include>
+
+<jsp:include page="../modal/frete.jsp"></jsp:include>
 
 </body>
 </html>

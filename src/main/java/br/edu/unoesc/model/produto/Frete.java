@@ -1,5 +1,6 @@
 package br.edu.unoesc.model.produto;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -9,7 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
@@ -40,16 +40,16 @@ public class Frete implements MinhaEntidade{
 	@JoinColumn(name="codigo_uf_destino", foreignKey=@ForeignKey(name="FK_frete_uf_destino"))
 	private Estado uf_destino;
 	
-	@NotNull
+	@Column(nullable=false)
 	private Double valor_quilo;
 	
-	@NotNull
+	@Column(nullable=false)
 	private Double quilo_de;
 	
-	@NotNull
+	@Column(nullable=false)
 	private Double quilo_ate;
 	
-	@NotNull
+	@Column(nullable=false)
 	private Long previsao;
 	
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")

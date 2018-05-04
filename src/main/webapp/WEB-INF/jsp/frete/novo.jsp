@@ -50,7 +50,7 @@
 			</c:if>
 			<c:if test="${permissao != 1 }">
 				<div class="box">
-					<form role="form" method="post" action='<c:url value="/cor/salvar"/>'>
+					<form role="form" method="post" action='<c:url value="/frete/salvar"/>'>
 						<div class="box-header with-border">
 							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<label for="campoCodigo">Codigo</label>
@@ -59,14 +59,56 @@
 						</div>
 						<div class="box-body">
 							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<label for="campoDescricao">Descrição</label>
-								<input type="text" class="form-control" id="campoDescricao" name="cor.descricao">
+								<label for="campoUFOrigem">UF Origem</label>
+								<input type="text" class="form-control" id="campoUFOrigem" autocomplete="off">
+								<input type="hidden" id="valorUFOrigem" name="frete.uf_origem.codigo">
+							</div>
+							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<label for="campoUFDestino">UF Destino</label>
+								<input type="text" class="form-control" id="campoUFDestino" autocomplete="off">
+								<input type="hidden" id="valorUFDestino" name="frete.uf_destino.codigo">
+							</div>
+							<div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
+								<label for="campoQuiloDe">Quilo: de</label>
+								<div class="input-group">
+									<input type="text" class="form-control mask_numero" id="campoQuiloDe" name="frete.quilo_de" autocomplete="off">
+									<span class="input-group-addon">
+										Kg
+									</span>
+								</div>
+							</div>
+							<div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
+								<label for="campoQuiloAte">Quilo: até</label>
+								<div class="input-group">
+									<input type="text" class="form-control mask_numero" id="campoQuiloAte" name="frete.quilo_ate" autocomplete="off">
+									<span class="input-group-addon">
+										Kg
+									</span>
+								</div>
+							</div>
+							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<label for="campoValorQuilo">Valor do Quilo</label>
+								<div class="input-group">
+									<span class="input-group-addon">
+										R$
+									</span>
+									<input type="text" class="form-control mask_dinheiro" id="campoValorQuilo" name="frete.valor_quilo" autocomplete="off">
+								</div>
+							</div>
+							<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<label for="campoPrevisaoEntrega">Previsão de Entrega</label>
+								<div class="input-group">
+									<input type="text" class="form-control" id="campoPrevisaoEntrega" name="frete.previsao" autocomplete="off">
+									<span class="input-group-addon">
+										dias
+									</span>
+								</div>
 							</div>
 						</div>
 						<div class="box-footer">
 							<div class="col-xs-12 col-sm-10 col-md-8 col-lg-8">
 								<button name="submit" value="1" type="submit" class="btn btn-success btn-flat">Salvar</button>
-								<a href="<c:url value='/cor' />"><button type="button" class="btn btn-default btn-flat">Voltar</button></a>
+								<a href="<c:url value='/frete' />"><button type="button" class="btn btn-default btn-flat">Voltar</button></a>
 							</div>
 						</div>
 					</form>

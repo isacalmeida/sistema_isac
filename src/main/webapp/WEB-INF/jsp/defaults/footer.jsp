@@ -41,10 +41,11 @@
 <script src="<c:url value='/assets/defaults/js/adminlte.min.js'/>"></script>
 <script src="<c:url value='/assets/defaults/js/demo.js'/>"></script>
 <script src="<c:url value='/assets/jquery-mask/jquery.mask.min.js'/>"></script>
+<script src="<c:url value='/assets/scripts/buscacomplete.js'/>"></script>
 <script src="<c:url value='/assets/scripts/autocomplete.js'/>"></script>
 
 <script type="text/javascript">
-$('input[name=\'q\']').autocomplete({
+$('input[name=\'q\']').buscacomplete({
 	'source': function(request, response) {
 		$.ajax({
 			url: '${pageContext.request.contextPath}/busca/buscar?term='+  $('input[name=\'q\']').val(),
@@ -61,6 +62,50 @@ $('input[name=\'q\']').autocomplete({
 	},
 	'select': function(item) {
 		$('input[name=\'q\']').val(item['label']);
+	}
+});
+</script>
+
+<script type="text/javascript">
+$('input[id=\'campoUFOrigem\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: '${pageContext.request.contextPath}/busca/estado?term='+  $('input[id=\'campoUFOrigem\']').val(),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['descricao'] +" - "+ item['sigla'],
+						value: item['codigo']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[id=\'campoUFOrigem\']').val(item['label']);
+		$('input[id=\'valorUFOrigem\']').val(item['value']);		
+	}
+});
+
+$('input[id=\'campoUFDestino\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: '${pageContext.request.contextPath}/busca/estado?term='+  $('input[id=\'campoUFDestino\']').val(),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['descricao'] +" - "+ item['sigla'],
+						value: item['codigo']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[id=\'campoUFDestino\']').val(item['label']);
+		$('input[id=\'valorUFDestino\']').val(item['value']);
 	}
 });
 </script>
@@ -132,6 +177,31 @@ $(document).ready(function(){
 			clearIfNotMatch: true
 	};
 	$('input[name=\'pessoa.data_nascimento\']').mask('00/00/0000', optionsData);
+	$('input[name=\'frete.previsao\']').mask('XZZ', {
+		translation: {
+			'X': {
+				pattern: /[1-9]/, optional: false
+			},
+			'Z': {
+				pattern: /[0-9]/, optional: true
+			}
+		}
+	});
+	var optionsDinheiro = {
+			clearIfNotMatch: true,
+			reverse: true
+	};
+	$('.mask_dinheiro').mask("#.##0,00", optionsDinheiro);
+	$('.mask_numero').mask('XZZZZZZ', {
+		translation: {
+			'X': {
+				pattern: /[1-9]/, optional: false
+			},
+			'Z': {
+				pattern: /[0-9]/, optional: true
+			}
+		}
+	});
 });
 </script>
 

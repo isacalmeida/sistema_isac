@@ -20,7 +20,9 @@ import br.edu.unoesc.model.MinhaEntidade;
 	@NamedQuery(name="ESTADO_POR_CODIGO",
 				query="select e from Estado e where e.codigo = :codigo"),
 	@NamedQuery(name="ULTIMO_ESTADO_INCLUIDO",
-				query="select max(e.codigo) from Estado e")
+				query="select max(e.codigo) from Estado e"),
+	@NamedQuery(name="ESTADO_POR_DESCRICAO",
+				query="select e from Estado e where lower(e.descricao) like :descricao order by e.descricao")
 })
 public class Estado implements MinhaEntidade{
 	

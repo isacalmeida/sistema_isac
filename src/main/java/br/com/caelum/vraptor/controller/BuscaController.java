@@ -123,11 +123,11 @@ public class BuscaController {
 	public void estado(String term) {
 		if(term != null) {
 			List<Estado> estados = etdao.buscar(Estado.class, term, "ESTADO_POR_DESCRICAO");
-			result.use(Results.json()).withoutRoot().from(estados).exclude("codigo","grupo","ativo","criacao","alteracao").serialize();
+			result.use(Results.json()).withoutRoot().from(estados).exclude("criacao","alteracao").serialize();
 		}
 		else {
-			List<Programas> programas = podao.buscar(Programas.class, "zzzzzzzzzzzzzzzzzzzzz", "PROGRAMA_POR_DESCRICAO");
-			result.use(Results.json()).withoutRoot().from(programas).serialize();
+			List<Estado> estados = etdao.buscar(Estado.class, "zzzzzzzzzzzzzzzzzzzzz", "ESTADO_POR_DESCRICAO");
+			result.use(Results.json()).withoutRoot().from(estados).serialize();
 		}
 	}
 	
